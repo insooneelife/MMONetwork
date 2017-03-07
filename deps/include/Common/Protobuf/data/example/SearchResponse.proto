@@ -1,0 +1,8 @@
+syntax = "proto2";
+
+
+package MyData;
+
+message SearchResponse {
+  repeated string result = 1;
+}

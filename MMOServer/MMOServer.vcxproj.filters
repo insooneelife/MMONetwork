@@ -1,0 +1,331 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Entity">
+      <UniqueIdentifier>{d41600d2-9c3c-42a4-b5d6-1751538da297}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header">
+      <UniqueIdentifier>{2151fb5d-994f-4a79-bf67-2a1865899a0b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source">
+      <UniqueIdentifier>{3b3dd940-b21b-4f2d-a52e-7bda5adce2bb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Server">
+      <UniqueIdentifier>{e35b6040-4432-40ed-959b-e8930081baba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common">
+      <UniqueIdentifier>{bd018422-ad38-415a-9ac2-18ff488cf96c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\Network">
+      <UniqueIdentifier>{5b2fe08d-5d8e-4b68-8965-2eeea7cf5b89}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\Math">
+      <UniqueIdentifier>{8843de60-2559-408f-98c3-14f6e3051c17}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\Protobuf">
+      <UniqueIdentifier>{ce75d320-bf42-43d5-bfc6-06dc73de27b0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\Protobuf\data">
+      <UniqueIdentifier>{f27b0011-499b-4934-b6cc-c7aae05df18f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\Protobuf\generated">
+      <UniqueIdentifier>{0e96b9ef-2d8e-4f27-a1a6-589994633300}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Entity\Entity.cpp">
+      <Filter>Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity\Prey.cpp">
+      <Filter>Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity\Projectile.cpp">
+      <Filter>Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity\RigidBody.cpp">
+      <Filter>Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity\Snake.cpp">
+      <Filter>Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity\Wall.cpp">
+      <Filter>Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera2D.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="EntityManager.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphicsDriver.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="WindowManager.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="World.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Server\PacketFactory.cpp">
+      <Filter>Server</Filter>
+    </ClCompile>
+    <ClCompile Include="Server\Room.cpp">
+      <Filter>Server</Filter>
+    </ClCompile>
+    <ClCompile Include="Server\Server.cpp">
+      <Filter>Server</Filter>
+    </ClCompile>
+    <ClCompile Include="Server\Session.cpp">
+      <Filter>Server</Filter>
+    </ClCompile>
+    <ClCompile Include="Server\NetworkManager.cpp">
+      <Filter>Server</Filter>
+    </ClCompile>
+    <ClCompile Include="..\deps\include\Common\Math\Vec2.cpp">
+      <Filter>Common\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="..\deps\include\Common\Protobuf\generated\Base.pb.cc">
+      <Filter>Common\Protobuf\generated</Filter>
+    </ClCompile>
+    <ClCompile Include="..\deps\include\Common\Protobuf\generated\CommandData.pb.cc">
+      <Filter>Common\Protobuf\generated</Filter>
+    </ClCompile>
+    <ClCompile Include="..\deps\include\Common\Protobuf\generated\CreateData.pb.cc">
+      <Filter>Common\Protobuf\generated</Filter>
+    </ClCompile>
+    <ClCompile Include="..\deps\include\Common\Protobuf\generated\EntityCreateData.pb.cc">
+      <Filter>Common\Protobuf\generated</Filter>
+    </ClCompile>
+    <ClCompile Include="..\deps\include\Common\Protobuf\generated\EntityModifyData.pb.cc">
+      <Filter>Common\Protobuf\generated</Filter>
+    </ClCompile>
+    <ClCompile Include="..\deps\include\Common\Protobuf\generated\EntityUpdateData.pb.cc">
+      <Filter>Common\Protobuf\generated</Filter>
+    </ClCompile>
+    <ClCompile Include="..\deps\include\Common\Protobuf\generated\HeaderData.pb.cc">
+      <Filter>Common\Protobuf\generated</Filter>
+    </ClCompile>
+    <ClCompile Include="..\deps\include\Common\Protobuf\generated\InitGameData.pb.cc">
+      <Filter>Common\Protobuf\generated</Filter>
+    </ClCompile>
+    <ClCompile Include="..\deps\include\Common\Protobuf\generated\JoinedData.pb.cc">
+      <Filter>Common\Protobuf\generated</Filter>
+    </ClCompile>
+    <ClCompile Include="..\deps\include\Common\Protobuf\generated\ModifyData.pb.cc">
+      <Filter>Common\Protobuf\generated</Filter>
+    </ClCompile>
+    <ClCompile Include="..\deps\include\Common\Protobuf\generated\ReplicateData.pb.cc">
+      <Filter>Common\Protobuf\generated</Filter>
+    </ClCompile>
+    <ClCompile Include="..\deps\include\Common\Protobuf\generated\SnakeAdditionalCreateData.pb.cc">
+      <Filter>Common\Protobuf\generated</Filter>
+    </ClCompile>
+    <ClCompile Include="..\deps\include\Common\Protobuf\generated\SnakeAdditionalUpdateData.pb.cc">
+      <Filter>Common\Protobuf\generated</Filter>
+    </ClCompile>
+    <ClCompile Include="..\deps\include\Common\Protobuf\generated\UpdateData.pb.cc">
+      <Filter>Common\Protobuf\generated</Filter>
+    </ClCompile>
+    <ClCompile Include="..\deps\include\Common\Protobuf\generated\UserData.pb.cc">
+      <Filter>Common\Protobuf\generated</Filter>
+    </ClCompile>
+    <ClCompile Include="..\deps\include\Common\Protobuf\generated\WallAdditionalCreateData.pb.cc">
+      <Filter>Common\Protobuf\generated</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Entity\Entity.h">
+      <Filter>Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity\Prey.h">
+      <Filter>Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity\Projectile.h">
+      <Filter>Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity\RigidBody.h">
+      <Filter>Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity\Snake.h">
+      <Filter>Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity\Wall.h">
+      <Filter>Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="AABBox2D.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera2D.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="CellSpacePartition.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="EntityManager.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicsDriver.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="WindowManager.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="World.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Server\PacketFactory.h">
+      <Filter>Server</Filter>
+    </ClInclude>
+    <ClInclude Include="Server\Participant.h">
+      <Filter>Server</Filter>
+    </ClInclude>
+    <ClInclude Include="Server\Room.h">
+      <Filter>Server</Filter>
+    </ClInclude>
+    <ClInclude Include="Server\Server.h">
+      <Filter>Server</Filter>
+    </ClInclude>
+    <ClInclude Include="Server\Session.h">
+      <Filter>Server</Filter>
+    </ClInclude>
+    <ClInclude Include="Server\NetworkManager.h">
+      <Filter>Server</Filter>
+    </ClInclude>
+    <ClInclude Include="..\deps\include\Common\Network\GamePacket.hpp">
+      <Filter>Common\Network</Filter>
+    </ClInclude>
+    <ClInclude Include="..\deps\include\Common\Math\C2DMatrix.h">
+      <Filter>Common\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\deps\include\Common\Math\MathBase.h">
+      <Filter>Common\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\deps\include\Common\Math\Transformations.h">
+      <Filter>Common\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\deps\include\Common\Math\Vec2.h">
+      <Filter>Common\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\deps\include\Common\Protobuf\ProtobufStrategy.h">
+      <Filter>Common\Protobuf</Filter>
+    </ClInclude>
+    <ClInclude Include="..\deps\include\Common\Protobuf\generated\Base.pb.h">
+      <Filter>Common\Protobuf\generated</Filter>
+    </ClInclude>
+    <ClInclude Include="..\deps\include\Common\Protobuf\generated\CommandData.pb.h">
+      <Filter>Common\Protobuf\generated</Filter>
+    </ClInclude>
+    <ClInclude Include="..\deps\include\Common\Protobuf\generated\CreateData.pb.h">
+      <Filter>Common\Protobuf\generated</Filter>
+    </ClInclude>
+    <ClInclude Include="..\deps\include\Common\Protobuf\generated\EntityCreateData.pb.h">
+      <Filter>Common\Protobuf\generated</Filter>
+    </ClInclude>
+    <ClInclude Include="..\deps\include\Common\Protobuf\generated\EntityModifyData.pb.h">
+      <Filter>Common\Protobuf\generated</Filter>
+    </ClInclude>
+    <ClInclude Include="..\deps\include\Common\Protobuf\generated\EntityUpdateData.pb.h">
+      <Filter>Common\Protobuf\generated</Filter>
+    </ClInclude>
+    <ClInclude Include="..\deps\include\Common\Protobuf\generated\HeaderData.pb.h">
+      <Filter>Common\Protobuf\generated</Filter>
+    </ClInclude>
+    <ClInclude Include="..\deps\include\Common\Protobuf\generated\InitGameData.pb.h">
+      <Filter>Common\Protobuf\generated</Filter>
+    </ClInclude>
+    <ClInclude Include="..\deps\include\Common\Protobuf\generated\JoinedData.pb.h">
+      <Filter>Common\Protobuf\generated</Filter>
+    </ClInclude>
+    <ClInclude Include="..\deps\include\Common\Protobuf\generated\ModifyData.pb.h">
+      <Filter>Common\Protobuf\generated</Filter>
+    </ClInclude>
+    <ClInclude Include="..\deps\include\Common\Protobuf\generated\ReplicateData.pb.h">
+      <Filter>Common\Protobuf\generated</Filter>
+    </ClInclude>
+    <ClInclude Include="..\deps\include\Common\Protobuf\generated\SnakeAdditionalCreateData.pb.h">
+      <Filter>Common\Protobuf\generated</Filter>
+    </ClInclude>
+    <ClInclude Include="..\deps\include\Common\Protobuf\generated\SnakeAdditionalUpdateData.pb.h">
+      <Filter>Common\Protobuf\generated</Filter>
+    </ClInclude>
+    <ClInclude Include="..\deps\include\Common\Protobuf\generated\UpdateData.pb.h">
+      <Filter>Common\Protobuf\generated</Filter>
+    </ClInclude>
+    <ClInclude Include="..\deps\include\Common\Protobuf\generated\UserData.pb.h">
+      <Filter>Common\Protobuf\generated</Filter>
+    </ClInclude>
+    <ClInclude Include="..\deps\include\Common\Protobuf\generated\WallAdditionalCreateData.pb.h">
+      <Filter>Common\Protobuf\generated</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\deps\include\Common\Math\Vec2.inl">
+      <Filter>Common\Math</Filter>
+    </None>
+    <None Include="..\deps\include\Common\Protobuf\data\Base.proto">
+      <Filter>Common\Protobuf\data</Filter>
+    </None>
+    <None Include="..\deps\include\Common\Protobuf\data\CommandData.proto">
+      <Filter>Common\Protobuf\data</Filter>
+    </None>
+    <None Include="..\deps\include\Common\Protobuf\data\CreateData.proto">
+      <Filter>Common\Protobuf\data</Filter>
+    </None>
+    <None Include="..\deps\include\Common\Protobuf\data\EntityCreateData.proto">
+      <Filter>Common\Protobuf\data</Filter>
+    </None>
+    <None Include="..\deps\include\Common\Protobuf\data\EntityModifyData.proto">
+      <Filter>Common\Protobuf\data</Filter>
+    </None>
+    <None Include="..\deps\include\Common\Protobuf\data\EntityUpdateData.proto">
+      <Filter>Common\Protobuf\data</Filter>
+    </None>
+    <None Include="..\deps\include\Common\Protobuf\data\HeaderData.proto">
+      <Filter>Common\Protobuf\data</Filter>
+    </None>
+    <None Include="..\deps\include\Common\Protobuf\data\InitGameData.proto">
+      <Filter>Common\Protobuf\data</Filter>
+    </None>
+    <None Include="..\deps\include\Common\Protobuf\data\JoinedData.proto">
+      <Filter>Common\Protobuf\data</Filter>
+    </None>
+    <None Include="..\deps\include\Common\Protobuf\data\ModifyData.proto">
+      <Filter>Common\Protobuf\data</Filter>
+    </None>
+    <None Include="..\deps\include\Common\Protobuf\data\ReplicateData.proto">
+      <Filter>Common\Protobuf\data</Filter>
+    </None>
+    <None Include="..\deps\include\Common\Protobuf\data\SnakeAdditionalCreateData.proto">
+      <Filter>Common\Protobuf\data</Filter>
+    </None>
+    <None Include="..\deps\include\Common\Protobuf\data\SnakeAdditionalUpdateData.proto">
+      <Filter>Common\Protobuf\data</Filter>
+    </None>
+    <None Include="..\deps\include\Common\Protobuf\data\UpdateData.proto">
+      <Filter>Common\Protobuf\data</Filter>
+    </None>
+    <None Include="..\deps\include\Common\Protobuf\data\UserData.proto">
+      <Filter>Common\Protobuf\data</Filter>
+    </None>
+    <None Include="..\deps\include\Common\Protobuf\data\WallAdditionalCreateData.proto">
+      <Filter>Common\Protobuf\data</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\deps\include\Common\Protobuf\설계.txt">
+      <Filter>Common\Protobuf</Filter>
+    </Text>
+  </ItemGroup>
+</Project>

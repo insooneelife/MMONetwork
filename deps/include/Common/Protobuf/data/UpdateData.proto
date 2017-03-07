@@ -1,0 +1,12 @@
+syntax = "proto2";
+
+import "EntityUpdateData.proto";
+import "UserData.proto";
+
+package Data;
+
+message UpdateData 
+{
+	repeated EntityUpdateData updated_entities = 1;
+	repeated UserData updated_users = 2;
+}

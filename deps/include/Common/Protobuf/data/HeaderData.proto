@@ -1,0 +1,9 @@
+syntax = "proto2";
+
+package Data;
+
+message HeaderData 
+{
+  required fixed32 size = 1;
+  required fixed32 type = 2;
+}

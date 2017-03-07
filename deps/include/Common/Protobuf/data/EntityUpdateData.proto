@@ -1,0 +1,13 @@
+syntax = "proto2";
+
+import "Base.proto";
+import "SnakeAdditionalUpdateData.proto";
+
+package Data;
+
+message EntityUpdateData 
+{
+	required uint32 eid = 1;
+	optional Vec2 pos = 2;
+	optional SnakeAdditionalUpdateData sdata = 3;
+}

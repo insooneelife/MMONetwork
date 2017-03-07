@@ -1,0 +1,11 @@
+syntax = "proto2";
+
+import "Base.proto";
+
+package Data;
+
+message CommandData 
+{
+	required uint32 pid = 1;
+	required CommandType cmd = 2;
+}

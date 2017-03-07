@@ -1,0 +1,11 @@
+syntax = "proto2";
+
+import "Base.proto";
+
+package Data;
+
+message SnakeAdditionalCreateData 
+{
+  repeated Vec2 bodies = 1;
+  required ControlType control_type = 2;
+}

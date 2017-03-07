@@ -1,0 +1,12 @@
+syntax = "proto2";
+
+import "Base.proto";
+
+package Data;
+
+message WallCreateData 
+{
+	required int32 entity_id = 1;
+	required Vec2 start = 2;
+	required Vec2 finish = 3;
+}

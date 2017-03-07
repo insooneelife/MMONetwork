@@ -1,0 +1,13 @@
+syntax = "proto2";
+
+import "CreateData.proto";
+package Data;
+
+message WorldInitData 
+{
+	required int32 level_number = 1;
+	required CreateData init_entities_data = 2;
+}
+
+
+	

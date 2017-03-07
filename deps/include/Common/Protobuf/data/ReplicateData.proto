@@ -1,0 +1,13 @@
+syntax = "proto2";
+
+import "ModifyData.proto";
+import "UpdateData.proto";
+
+package Data;
+
+message ReplicateData 
+{
+	optional ModifyData modified = 1;
+	optional UpdateData updated = 2;
+}
+

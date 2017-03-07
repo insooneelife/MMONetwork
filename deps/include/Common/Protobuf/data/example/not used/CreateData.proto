@@ -1,0 +1,16 @@
+syntax = "proto2";
+
+import "SnakeCreateData.proto";
+import "ProjectileCreateData.proto";
+import "PreyCreateData.proto";
+import "WallCreateData.proto";
+
+package Data;
+
+message CreateData 
+{
+	repeated SnakeCreateData created_snakes = 1;
+	repeated ProjectileCreateData created_projectiles = 2;
+	repeated PreyCreateData created_preies = 3;
+	repeated WallCreateData created_walls = 4;
+}

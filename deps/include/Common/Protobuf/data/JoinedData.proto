@@ -1,0 +1,10 @@
+syntax = "proto2";
+
+import "UserData.proto";
+
+package Data;
+
+message JoinedData 
+{
+	repeated UserData users = 1;
+}

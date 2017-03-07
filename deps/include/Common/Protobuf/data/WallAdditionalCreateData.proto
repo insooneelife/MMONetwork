@@ -1,0 +1,11 @@
+syntax = "proto2";
+
+import "Base.proto";
+
+package Data;
+
+message WallAdditionalCreateData 
+{
+  required Vec2 begin = 1;
+  required Vec2 end = 2;
+}

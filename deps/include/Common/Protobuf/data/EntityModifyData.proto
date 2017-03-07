@@ -1,0 +1,11 @@
+syntax = "proto2";
+
+import "EntityCreateData.proto";
+
+package Data;
+
+message EntityModifyData 
+{
+	optional EntityCreateData created = 1;
+	optional uint32 destroyed = 2;
+}

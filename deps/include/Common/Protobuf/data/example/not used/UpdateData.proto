@@ -1,0 +1,12 @@
+syntax = "proto2";
+
+import "SnakeUpdateData.proto";
+import "ProjectileUpdateData.proto";
+
+package Data;
+
+message UpdateData 
+{
+	repeated SnakeUpdateData updated_snakes = 1;
+	repeated ProjectileUpdateData updated_projectiles = 2;
+}

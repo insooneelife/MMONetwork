@@ -1,0 +1,253 @@
+--- Data ---
+
+enum PacketType 
+{
+    RequestConnect = 0;
+    Full = 1;
+    InitGame = 2;
+    ReadyToJoin = 3;
+    Intro = 4;
+    Disconnected = 5;
+    NotifyDisconnected = 6;
+	ChangeLevel = 7;
+	ReadyToChange = 8;
+	EnterPlaying = 9;
+	ReplicateWorld = 10;
+}
+
+enum ControlType
+{
+	NPC = 0;
+	AI = 1;
+	Player = 2;
+}
+
+enum Command
+{
+	MoveLeft,
+	MoveRight
+}
+
+Vec2
+	float x;
+	float y;
+
+UserData
+	int32 pid;
+	string name;
+	int32 eid;
+	int32 character;
+	
+CommandData
+	int32 pid;
+	Command command;
+
+SnakeAdditionalUpdateData
+	Vec2[] body;
+
+EntityUpdateData
+	int32 eid;
+	Vec2 pos;
+	SnakeAdditionalUpdateData sdata;
+
+PlayerUpdateData
+	int32 pid;
+	int32 point;
+
+UpdateData
+	EntityUpdateData[] updated_entities;
+	PlayerUpdateData[] updated_players;
+
+
+WallAdditionalCreateData
+	Vec2 begin;
+	Vec2 end;
+
+SnakeAdditionalCreateData
+	Vec2[] body;
+	ControlType control_type;
+
+EntityCreateData
+	int32 eid;
+	int32 etype;
+	Vec2 pos;
+	WallAdditionalCreateData wdata;
+	SnakeAdditionalCreateData sdata;
+	
+	
+CreateData
+	EntityCreateData[] created_entities;
+
+DestroyData
+	int32[] destroyed_entities;
+
+ReplicateData
+	CreateData creates;
+	UpdateData updates;
+	DestroyData destroies;
+
+InitGameData
+	CreateData creates;
+	int32 level;
+	int32 pid;
+	int32 eid;
+
+JoinedData
+	UserData[] users;
+		
+	
+	
+--- Packet ---
+
+InitGame Packet
+	InitGameData init_game;
+	
+ReadyToJoin Packet
+	UserData joined;
+
+
+Joined Packet
+	UserData[] others;
+
+
+Intro Packet
+	UserData joined;
+
+Replicate Packet
+	ReplicateData relicate;
+
+ClientCommand Packet
+	CommandData cmd;
+
+NotifyDisconnected Packet
+	UserData disconnected;
+
+ChangeLevel Packet
+	InitGameData world_data;
+
+
+
+
+--- Game Server ---
+
+Scenario 1. (Request Connect Protocol)
+Game Server (Playing 상태) 										Client (Default 상태)						
+
+RequestConnect Packet			<-----------------------					
+								 client가 방에 입장 요청 시
+		x
+	
+	pid, eid 생성
+								 
+								 
+								----------------------->		Full Packet	
+								 방이 가득찬 경우 								
+																	x
+	
+										   ||
+											
+											
+								----------------------->		InitGame Packet
+								 방에 입장한 client 에게								
+																	pid (player id)
+																	eid (entity id)
+																	CreateData (world 초기화 정보)
+																	
+																	world 초기화 후,
+																	
+																	name, character 등의 정보 세팅 후,
+ReadyToJoin Packet				<-----------------------									
+								 Server에 Ready를 알림
+								 
+	UserData (입장한 user 정보)											 
+								
+	clients map에 저장 후		
+							
+								----------------------->		Joined Packet
+								 입장한 client 에게					
+																	UserData[] (방에 있던 모든 user 정보)
+								 
+					
+								--------- 0..n -------->		Intro Packet
+								 방에 있던 모든 client 에게									
+																	UserData (입장한 user 정보)
+																	
+																
+								 
+										   
+Scenario 2.	(Disconnection Protocol)														
+Game Server (Playing 상태) 										Client (Playing 상태)
+
+Disconnected Packet				<-----------------------					
+								 client의 연결이 끊겼을 때							
+	x		
+	
+	clients map에서 제거,
+	snake의 조종을 ai로 설정
+								--------- 0..n -------->		NotifyDisconnected Packet
+								 방의 모든 client 에게									
+																	UserData (끊긴 user)
+
+
+																	
+																	
+Scenario 3. (Level Change Protocol)
+Game Server (Playing 상태) 										Client (Playing 상태)
+
+	Level을 바꿀 시점이 되면,
+	"LevelChanging" 으로 상태 전이 후														
+								--------- 0..n -------->		ChangeLevel Packet 
+								 방의 모든 client 에게					
+																	int32 (조종할 entity id)
+																	WorldInitData
+																	
+																	"LevelChanging" 으로 상태 전이 후,
+																	World 초기화 후,
+																	대기
+															
+ReadyToChange Packet			<-----------------------									
+								 Server에 Ready를 알림
+	x
+	
+	모든 client가 ready이면,																
+	"Playing" 으로 상태 전이					
+								--------- 0..n -------->		EnterPlaying Packet					
+															
+																	x
+															
+																	"Playing" 으로 상태 전이
+															
+															
+															
+															
+															
+															
+															
+Scenario 4. (Game Playing Protocol)		
+Game Server (Playing 상태) 										Client (Playing 상태)
+
+								--------- 0..n -------->		Replicate Packet
+								 방의 모든 client 에게									
+																	ReplicateData
+																	
+																	World 갱신
+
+																	
+																	
+																	
+Scenario 5. (Client Input Protocol)
+Game Server (Playing 상태) 										Client (Playing 상태)						
+
+ClientCommand Packet			<-----------------------					
+								 client가 입력 수행 시
+	UserData
+	CommandData
+	
+	UserData의 player id에 맞는 entity id를 찾음,
+	해당 entity로 적절한 command 수행
+	
+	
+	
+	
+	
+	

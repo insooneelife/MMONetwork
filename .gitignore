@@ -1,0 +1,16 @@
+/.vs
+*.exe
+*.dll
+*.lib
+*.opendb
+*.db
+*.suo
+*.tlog
+*.obj
+*.iobj
+*.pdb
+*.ipdb
+*.idb
+*.ilk
+*.lastbuildstate
+*.log

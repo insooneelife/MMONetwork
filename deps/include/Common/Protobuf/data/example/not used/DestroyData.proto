@@ -1,0 +1,8 @@
+syntax = "proto2";
+
+package Data;
+
+message DestroyData 
+{
+	repeated int32 destroy_id_list = 1;
+}

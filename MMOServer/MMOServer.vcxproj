@@ -1,0 +1,258 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\deps\include\Common\Math\Vec2.cpp" />
+    <ClCompile Include="..\deps\include\Common\Protobuf\generated\Base.pb.cc" />
+    <ClCompile Include="..\deps\include\Common\Protobuf\generated\CommandData.pb.cc" />
+    <ClCompile Include="..\deps\include\Common\Protobuf\generated\CreateData.pb.cc" />
+    <ClCompile Include="..\deps\include\Common\Protobuf\generated\EntityCreateData.pb.cc" />
+    <ClCompile Include="..\deps\include\Common\Protobuf\generated\EntityModifyData.pb.cc" />
+    <ClCompile Include="..\deps\include\Common\Protobuf\generated\EntityUpdateData.pb.cc" />
+    <ClCompile Include="..\deps\include\Common\Protobuf\generated\HeaderData.pb.cc" />
+    <ClCompile Include="..\deps\include\Common\Protobuf\generated\InitGameData.pb.cc" />
+    <ClCompile Include="..\deps\include\Common\Protobuf\generated\JoinedData.pb.cc" />
+    <ClCompile Include="..\deps\include\Common\Protobuf\generated\ModifyData.pb.cc" />
+    <ClCompile Include="..\deps\include\Common\Protobuf\generated\ReplicateData.pb.cc" />
+    <ClCompile Include="..\deps\include\Common\Protobuf\generated\SnakeAdditionalCreateData.pb.cc" />
+    <ClCompile Include="..\deps\include\Common\Protobuf\generated\SnakeAdditionalUpdateData.pb.cc" />
+    <ClCompile Include="..\deps\include\Common\Protobuf\generated\UpdateData.pb.cc" />
+    <ClCompile Include="..\deps\include\Common\Protobuf\generated\UserData.pb.cc" />
+    <ClCompile Include="..\deps\include\Common\Protobuf\generated\WallAdditionalCreateData.pb.cc" />
+    <ClCompile Include="Camera2D.cpp" />
+    <ClCompile Include="Engine.cpp" />
+    <ClCompile Include="EntityManager.cpp" />
+    <ClCompile Include="Entity\Entity.cpp" />
+    <ClCompile Include="Entity\Prey.cpp" />
+    <ClCompile Include="Entity\Projectile.cpp" />
+    <ClCompile Include="Entity\RigidBody.cpp" />
+    <ClCompile Include="Entity\Snake.cpp" />
+    <ClCompile Include="Entity\Wall.cpp" />
+    <ClCompile Include="GraphicsDriver.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Server\NetworkManager.cpp" />
+    <ClCompile Include="Server\PacketFactory.cpp" />
+    <ClCompile Include="Server\Room.cpp" />
+    <ClCompile Include="Server\Server.cpp" />
+    <ClCompile Include="Server\Session.cpp" />
+    <ClCompile Include="WindowManager.cpp" />
+    <ClCompile Include="World.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\deps\include\Common\Math\C2DMatrix.h" />
+    <ClInclude Include="..\deps\include\Common\Math\MathBase.h" />
+    <ClInclude Include="..\deps\include\Common\Math\Transformations.h" />
+    <ClInclude Include="..\deps\include\Common\Math\Vec2.h" />
+    <ClInclude Include="..\deps\include\Common\Network\GamePacket.hpp" />
+    <ClInclude Include="..\deps\include\Common\Protobuf\generated\Base.pb.h" />
+    <ClInclude Include="..\deps\include\Common\Protobuf\generated\CommandData.pb.h" />
+    <ClInclude Include="..\deps\include\Common\Protobuf\generated\CreateData.pb.h" />
+    <ClInclude Include="..\deps\include\Common\Protobuf\generated\EntityCreateData.pb.h" />
+    <ClInclude Include="..\deps\include\Common\Protobuf\generated\EntityModifyData.pb.h" />
+    <ClInclude Include="..\deps\include\Common\Protobuf\generated\EntityUpdateData.pb.h" />
+    <ClInclude Include="..\deps\include\Common\Protobuf\generated\HeaderData.pb.h" />
+    <ClInclude Include="..\deps\include\Common\Protobuf\generated\InitGameData.pb.h" />
+    <ClInclude Include="..\deps\include\Common\Protobuf\generated\JoinedData.pb.h" />
+    <ClInclude Include="..\deps\include\Common\Protobuf\generated\ModifyData.pb.h" />
+    <ClInclude Include="..\deps\include\Common\Protobuf\generated\ReplicateData.pb.h" />
+    <ClInclude Include="..\deps\include\Common\Protobuf\generated\SnakeAdditionalCreateData.pb.h" />
+    <ClInclude Include="..\deps\include\Common\Protobuf\generated\SnakeAdditionalUpdateData.pb.h" />
+    <ClInclude Include="..\deps\include\Common\Protobuf\generated\UpdateData.pb.h" />
+    <ClInclude Include="..\deps\include\Common\Protobuf\generated\UserData.pb.h" />
+    <ClInclude Include="..\deps\include\Common\Protobuf\generated\WallAdditionalCreateData.pb.h" />
+    <ClInclude Include="..\deps\include\Common\Protobuf\ProtobufStrategy.h" />
+    <ClInclude Include="AABBox2D.h" />
+    <ClInclude Include="Camera2D.h" />
+    <ClInclude Include="CellSpacePartition.h" />
+    <ClInclude Include="Engine.h" />
+    <ClInclude Include="EntityManager.h" />
+    <ClInclude Include="Entity\Entity.h" />
+    <ClInclude Include="Entity\Prey.h" />
+    <ClInclude Include="Entity\Projectile.h" />
+    <ClInclude Include="Entity\RigidBody.h" />
+    <ClInclude Include="Entity\Snake.h" />
+    <ClInclude Include="Entity\Wall.h" />
+    <ClInclude Include="GraphicsDriver.h" />
+    <ClInclude Include="Server\NetworkManager.h" />
+    <ClInclude Include="Server\PacketFactory.h" />
+    <ClInclude Include="Server\Participant.h" />
+    <ClInclude Include="Server\Room.h" />
+    <ClInclude Include="Server\Server.h" />
+    <ClInclude Include="Server\Session.h" />
+    <ClInclude Include="Utils.h" />
+    <ClInclude Include="WindowManager.h" />
+    <ClInclude Include="World.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\deps\include\Common\Math\Vec2.inl" />
+    <None Include="..\deps\include\Common\Protobuf\data\Base.proto" />
+    <None Include="..\deps\include\Common\Protobuf\data\CommandData.proto" />
+    <None Include="..\deps\include\Common\Protobuf\data\CreateData.proto" />
+    <None Include="..\deps\include\Common\Protobuf\data\EntityCreateData.proto" />
+    <None Include="..\deps\include\Common\Protobuf\data\EntityModifyData.proto" />
+    <None Include="..\deps\include\Common\Protobuf\data\EntityUpdateData.proto" />
+    <None Include="..\deps\include\Common\Protobuf\data\HeaderData.proto" />
+    <None Include="..\deps\include\Common\Protobuf\data\InitGameData.proto" />
+    <None Include="..\deps\include\Common\Protobuf\data\JoinedData.proto" />
+    <None Include="..\deps\include\Common\Protobuf\data\ModifyData.proto" />
+    <None Include="..\deps\include\Common\Protobuf\data\ReplicateData.proto" />
+    <None Include="..\deps\include\Common\Protobuf\data\SnakeAdditionalCreateData.proto" />
+    <None Include="..\deps\include\Common\Protobuf\data\SnakeAdditionalUpdateData.proto" />
+    <None Include="..\deps\include\Common\Protobuf\data\UpdateData.proto" />
+    <None Include="..\deps\include\Common\Protobuf\data\UserData.proto" />
+    <None Include="..\deps\include\Common\Protobuf\data\WallAdditionalCreateData.proto" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\deps\include\Common\Protobuf\설계.txt" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{18A7A067-871C-4F02-9633-B1421803F544}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>MMOServer</RootNamespace>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+    <IncludePath>C:\boost_1_63_0\boost_1_63_0;$(SolutionDir)deps/include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\boost_1_63_0\boost_1_63_0\stage\lib;$(SolutionDir)deps/lib/x64;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+    <IncludePath>C:\boost_1_63_0\boost_1_63_0;$(SolutionDir)deps/include;$(IncludePath)</IncludePath>
+    <LibraryWPath>$(WindowsSDK_MetadataPath);</LibraryWPath>
+    <LibraryPath>C:\boost_1_63_0\boost_1_63_0\stage\lib;$(SolutionDir)deps/lib/x64;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>SDL2.lib;SDL2_image.lib;SDL2_ttf.lib;SDL2main.lib;SDL2test.lib;zdll.lib;libprotobufd.lib;libprotobuf-lited.lib;libprotocd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>SDL2.lib;SDL2_image.lib;SDL2_ttf.lib;SDL2main.lib;SDL2test.lib;zdll.lib;libprotobuf.lib;libprotobuf-lite.lib;libprotoc.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

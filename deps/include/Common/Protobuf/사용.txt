@@ -1,0 +1,3 @@
+protoc -I=$SRC_DIR --cpp_out=$DST_DIR $SRC_DIR/addressbook.proto
+
+protoc -I=data --cpp_out=generated data/addressbook.proto

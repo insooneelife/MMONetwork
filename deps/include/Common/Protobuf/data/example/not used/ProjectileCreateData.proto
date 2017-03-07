@@ -1,0 +1,11 @@
+syntax = "proto2";
+
+import "Base.proto";
+
+package Data;
+
+message ProjectileCreateData 
+{
+	required int32 entity_id = 1;
+	required Vec2 pos = 2;
+}

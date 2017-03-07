@@ -1,0 +1,12 @@
+syntax = "proto2";
+
+import "Base.proto";
+
+package Data;
+
+message SnakeCreateData 
+{
+	required int32 entity_id = 1;
+	repeated Vec2 body = 2;
+	optional ControlType control_type = 3 [default = NPC];
+}
