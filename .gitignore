@@ -1,6 +1,5 @@
 /.vs
 *.exe
-*.dll
 *.lib
 *.opendb
 *.db
