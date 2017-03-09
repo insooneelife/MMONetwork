@@ -72,9 +72,6 @@
     <ClCompile Include="World.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="Server\PacketFactory.cpp">
-      <Filter>Server</Filter>
-    </ClCompile>
     <ClCompile Include="Server\Room.cpp">
       <Filter>Server</Filter>
     </ClCompile>
@@ -82,9 +79,6 @@
       <Filter>Server</Filter>
     </ClCompile>
     <ClCompile Include="Server\Session.cpp">
-      <Filter>Server</Filter>
-    </ClCompile>
-    <ClCompile Include="Server\NetworkManager.cpp">
       <Filter>Server</Filter>
     </ClCompile>
     <ClCompile Include="..\deps\include\Common\Math\Vec2.cpp">
@@ -138,6 +132,12 @@
     <ClCompile Include="..\deps\include\Common\Protobuf\generated\WallAdditionalCreateData.pb.cc">
       <Filter>Common\Protobuf\generated</Filter>
     </ClCompile>
+    <ClCompile Include="Server\NetworkManagerServer.cpp">
+      <Filter>Server</Filter>
+    </ClCompile>
+    <ClCompile Include="Server\ProtobufServerUtils.cpp">
+      <Filter>Server</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Entity\Entity.h">
@@ -185,9 +185,6 @@
     <ClInclude Include="World.h">
       <Filter>Header</Filter>
     </ClInclude>
-    <ClInclude Include="Server\PacketFactory.h">
-      <Filter>Server</Filter>
-    </ClInclude>
     <ClInclude Include="Server\Participant.h">
       <Filter>Server</Filter>
     </ClInclude>
@@ -198,9 +195,6 @@
       <Filter>Server</Filter>
     </ClInclude>
     <ClInclude Include="Server\Session.h">
-      <Filter>Server</Filter>
-    </ClInclude>
-    <ClInclude Include="Server\NetworkManager.h">
       <Filter>Server</Filter>
     </ClInclude>
     <ClInclude Include="..\deps\include\Common\Network\GamePacket.hpp">
@@ -268,6 +262,12 @@
     </ClInclude>
     <ClInclude Include="..\deps\include\Common\Protobuf\generated\WallAdditionalCreateData.pb.h">
       <Filter>Common\Protobuf\generated</Filter>
+    </ClInclude>
+    <ClInclude Include="Server\NetworkManagerServer.h">
+      <Filter>Server</Filter>
+    </ClInclude>
+    <ClInclude Include="Server\ProtobufServerUtils.h">
+      <Filter>Server</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

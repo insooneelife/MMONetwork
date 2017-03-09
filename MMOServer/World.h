@@ -14,7 +14,7 @@
 #include <queue>
 #include <Common/Math/Vec2.h>
 #include "CellSpacePartition.h"
-#include "Server/PacketFactory.h"
+#include "Server/ProtobufServerUtils.h"
 
 
 #include "EntityManager.h"
@@ -26,7 +26,7 @@ class Projectile;
 class Wall;
 class RigidBody;
 class Room;
-class NetworkManager;
+class NetworkManagerServer;
 
 class World
 {
@@ -104,7 +104,7 @@ private:
 	
 	EntityManager _entity_mgr;
 
-	std::unique_ptr<NetworkManager> _network_mgr;
+	std::unique_ptr<NetworkManagerServer> _network_mgr;
 
 	Snake* _player_entity;
 	unsigned int _next_validate_id;

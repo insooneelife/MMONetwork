@@ -81,7 +81,13 @@
     <ClCompile Include="..\deps\include\Common\Math\Vec2.cpp">
       <Filter>Common\Math</Filter>
     </ClCompile>
-    <ClCompile Include="Client.cpp">
+    <ClCompile Include="Client\Client.cpp">
+      <Filter>Client</Filter>
+    </ClCompile>
+    <ClCompile Include="Client\ProtobufClientUtils.cpp">
+      <Filter>Client</Filter>
+    </ClCompile>
+    <ClCompile Include="Client\NetworkManagerClient.cpp">
       <Filter>Client</Filter>
     </ClCompile>
   </ItemGroup>
@@ -152,7 +158,13 @@
     <ClInclude Include="..\deps\include\Common\Network\GamePacket.hpp">
       <Filter>Common\Network</Filter>
     </ClInclude>
-    <ClInclude Include="Client.h">
+    <ClInclude Include="Client\Client.h">
+      <Filter>Client</Filter>
+    </ClInclude>
+    <ClInclude Include="Client\ProtobufClientUtils.h">
+      <Filter>Client</Filter>
+    </ClInclude>
+    <ClInclude Include="Client\NetworkManagerClient.h">
       <Filter>Client</Filter>
     </ClInclude>
   </ItemGroup>

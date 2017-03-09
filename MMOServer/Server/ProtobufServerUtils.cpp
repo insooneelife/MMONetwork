@@ -1,4 +1,4 @@
-#include "PacketFactory.h"
+#include "ProtobufServerUtils.h"
 #include "../Entity/Entity.h"
 #include "../Entity/Prey.h"
 #include "../Entity/Projectile.h"
@@ -8,30 +8,30 @@
 #include "../EntityManager.h"
 #include "../World.h"
 
-void PacketFactory::serializeVec2(float x, float y, Data::Vec2& out)
+void ProtobufServerUtils::serializeVec2(float x, float y, Data::Vec2& out)
 {
 	out.set_x(x);
 	out.set_y(y);
 }
 
-void PacketFactory::serializeCommandData(unsigned int pid, Data::CommandType cmd, Data::CommandData& out)
+void ProtobufServerUtils::serializeCommandData(unsigned int pid, Data::CommandType cmd, Data::CommandData& out)
 {
 	out.set_pid(pid);
 	out.set_cmd(cmd);
 }
 
-void PacketFactory::serializeUserData(unsigned int pid, Data::UserData& out)
+void ProtobufServerUtils::serializeUserData(unsigned int pid, Data::UserData& out)
 {
 	out.set_pid(pid);
 }
 
-void PacketFactory::serializeUserData(unsigned int pid, int point, Data::UserData& out)
+void ProtobufServerUtils::serializeUserData(unsigned int pid, int point, Data::UserData& out)
 {
 	out.set_pid(pid);
 	out.set_point(point);
 }
 
-void PacketFactory::serializeUserData(
+void ProtobufServerUtils::serializeUserData(
 	unsigned int pid,
 	const std::string& name,
 	unsigned int eid,
@@ -46,7 +46,7 @@ void PacketFactory::serializeUserData(
 	out.set_point(point);
 }
 
-void PacketFactory::serializeSnakeAdditionalUpdateData(
+void ProtobufServerUtils::serializeSnakeAdditionalUpdateData(
 	Snake* snake,
 	Data::SnakeAdditionalUpdateData& out)
 {
@@ -58,7 +58,7 @@ void PacketFactory::serializeSnakeAdditionalUpdateData(
 	}
 }
 
-void PacketFactory::serializeEntityUpdateData(
+void ProtobufServerUtils::serializeEntityUpdateData(
 	unsigned int eid,
 	Vec2 pos,
 	Data::EntityUpdateData& out)
@@ -69,7 +69,7 @@ void PacketFactory::serializeEntityUpdateData(
 	p->set_y(pos.y);
 }
 
-void PacketFactory::serializeEntityUpdateData(
+void ProtobufServerUtils::serializeEntityUpdateData(
 	unsigned int eid,
 	const Data::SnakeAdditionalUpdateData& sdata,
 	Data::EntityUpdateData& out)
@@ -87,7 +87,7 @@ void PacketFactory::serializeEntityUpdateData(
 	}
 }
 
-void PacketFactory::serializeUpdateData(
+void ProtobufServerUtils::serializeUpdateData(
 	const std::map <unsigned int, Entity*>& entities,
 	const std::map<unsigned int, Data::UserData>& users,
 	Data::UpdateData& out)
@@ -129,7 +129,7 @@ void PacketFactory::serializeUpdateData(
 	}
 }
 
-void PacketFactory::serializeWallAdditionalCreateData(
+void ProtobufServerUtils::serializeWallAdditionalCreateData(
 	Vec2 begin,
 	Vec2 end,
 	Data::WallAdditionalCreateData& out)
@@ -142,7 +142,7 @@ void PacketFactory::serializeWallAdditionalCreateData(
 	e->set_y(end.y);
 }
 
-void PacketFactory::serializeSnakeAdditionalCreateData(
+void ProtobufServerUtils::serializeSnakeAdditionalCreateData(
 	Snake* snake,
 	Data::SnakeAdditionalCreateData& out)
 {
@@ -157,7 +157,7 @@ void PacketFactory::serializeSnakeAdditionalCreateData(
 }
 
 
-void PacketFactory::serializeEntityCreateData(Entity* ent, Data::EntityCreateData& out)
+void ProtobufServerUtils::serializeEntityCreateData(Entity* ent, Data::EntityCreateData& out)
 {
 	out.set_eid(ent->getID());
 	out.set_etype(ent->getType());
@@ -193,7 +193,7 @@ void PacketFactory::serializeEntityCreateData(Entity* ent, Data::EntityCreateDat
 	}
 }
 
-void PacketFactory::serializeCreateData(
+void ProtobufServerUtils::serializeCreateData(
 	World* world,
 	Data::CreateData& out)
 {
@@ -204,7 +204,7 @@ void PacketFactory::serializeCreateData(
 	}
 }
 
-void PacketFactory::serializeModifyData(
+void ProtobufServerUtils::serializeModifyData(
 	World* world,
 	Data::ModifyData& out)
 {
@@ -228,7 +228,7 @@ void PacketFactory::serializeModifyData(
 	}
 }
 
-void PacketFactory::serializeReplicateData(
+void ProtobufServerUtils::serializeReplicateData(
 	World* world,
 	Data::ReplicateData& out)
 {
@@ -239,7 +239,7 @@ void PacketFactory::serializeReplicateData(
 	serializeModifyData(world, *mdata);
 }
 
-void PacketFactory::serializeInitGameData(
+void ProtobufServerUtils::serializeInitGameData(
 	World* world,
 	unsigned int pid,
 	unsigned int eid,
@@ -253,7 +253,7 @@ void PacketFactory::serializeInitGameData(
 	serializeCreateData(world, *cdata);
 }
 
-void PacketFactory::serializeJoinedData(
+void ProtobufServerUtils::serializeJoinedData(
 	const std::map<unsigned int, Data::UserData>& users,
 	Data::JoinedData& out)
 {

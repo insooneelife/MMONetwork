@@ -1,7 +1,7 @@
 #pragma once
 //------------------------------------------------------------------------
 //
-//  Name:		PacketFactory.h
+//  Name:		ProtobufServerUtils.h
 //
 //  Desc:		For create game packet.
 //			
@@ -37,7 +37,7 @@ struct ModifyInfo
 class Entity;
 class Snake;
 class World;
-class PacketFactory
+class ProtobufServerUtils
 {
 public:
 	
@@ -110,22 +110,4 @@ public:
 		const std::map<unsigned int, Data::UserData>& users,
 		Data::JoinedData& joined);
 
-
-	
-
-	/*
-	RequestConnect = 0;
-	Full = 1;
-	InitGame = 2;
-	ReadyToJoin = 3;
-	Intro = 4;
-	Joined = 5;
-	Disconnected = 6;
-	NotifyDisconnected = 7;
-	ChangeLevel = 8;
-	ReadyToChange = 9;
-	EnterPlaying = 10;
-	Replicate = 11;
-	ClientCommand = 12;
-	*/
 };

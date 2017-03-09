@@ -4,7 +4,7 @@
 #include "Participant.h"
 #include <Common/Network/GamePacket.hpp>
 #include <boost/asio.hpp>
-#include "PacketFactory.h"
+#include "ProtobufServerUtils.h"
 
 class Session
 	:

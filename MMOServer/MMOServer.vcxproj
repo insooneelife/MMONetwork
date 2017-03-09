@@ -47,8 +47,8 @@
     <ClCompile Include="Entity\Wall.cpp" />
     <ClCompile Include="GraphicsDriver.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Server\NetworkManager.cpp" />
-    <ClCompile Include="Server\PacketFactory.cpp" />
+    <ClCompile Include="Server\NetworkManagerServer.cpp" />
+    <ClCompile Include="Server\ProtobufServerUtils.cpp" />
     <ClCompile Include="Server\Room.cpp" />
     <ClCompile Include="Server\Server.cpp" />
     <ClCompile Include="Server\Session.cpp" />
@@ -90,8 +90,8 @@
     <ClInclude Include="Entity\Snake.h" />
     <ClInclude Include="Entity\Wall.h" />
     <ClInclude Include="GraphicsDriver.h" />
-    <ClInclude Include="Server\NetworkManager.h" />
-    <ClInclude Include="Server\PacketFactory.h" />
+    <ClInclude Include="Server\NetworkManagerServer.h" />
+    <ClInclude Include="Server\ProtobufServerUtils.h" />
     <ClInclude Include="Server\Participant.h" />
     <ClInclude Include="Server\Room.h" />
     <ClInclude Include="Server\Server.h" />

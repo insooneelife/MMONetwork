@@ -165,7 +165,9 @@
     <ClCompile Include="..\deps\include\Common\Protobuf\generated\UpdateData.pb.cc" />
     <ClCompile Include="..\deps\include\Common\Protobuf\generated\UserData.pb.cc" />
     <ClCompile Include="..\deps\include\Common\Protobuf\generated\WallAdditionalCreateData.pb.cc" />
-    <ClCompile Include="Client.cpp" />
+    <ClCompile Include="Client\Client.cpp" />
+    <ClCompile Include="Client\NetworkManagerClient.cpp" />
+    <ClCompile Include="Client\ProtobufClientUtils.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -191,7 +193,9 @@
     <ClInclude Include="..\deps\include\Common\Protobuf\generated\UserData.pb.h" />
     <ClInclude Include="..\deps\include\Common\Protobuf\generated\WallAdditionalCreateData.pb.h" />
     <ClInclude Include="..\deps\include\Common\Protobuf\ProtobufStrategy.h" />
-    <ClInclude Include="Client.h" />
+    <ClInclude Include="Client\Client.h" />
+    <ClInclude Include="Client\NetworkManagerClient.h" />
+    <ClInclude Include="Client\ProtobufClientUtils.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\deps\include\Common\Protobuf\설계.txt" />

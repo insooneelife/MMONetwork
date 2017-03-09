@@ -5,6 +5,7 @@
 #include <map>
 #include <queue>
 #include <Common/Protobuf/ProtobufStrategy.h>
+#include <Common/Network/GamePacket.hpp>
 #include "Participant.h"
 
 

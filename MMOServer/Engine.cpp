@@ -10,7 +10,7 @@
 #include "Entity/Snake.h"
 
 #include <Common/Network/GamePacket.hpp>
-#include "Server/PacketFactory.h"
+#include "Server/ProtobufServerUtils.h"
 #include "Server/Server.h"
 
 
@@ -109,10 +109,6 @@ bool Engine::init()
 	
 	Camera2D::staticInit(1280, 720);
 
-	//EntityManager::staticInit();
-	
-	
-
 	server_.reset(new Server(8000));
 
 	_world.reset(new World(server_->getRoom(), 30000));
@@ -123,8 +119,8 @@ bool Engine::init()
 	/*
 	Data::ReplicateData rdata;
 
-	PacketFactory::serializeReplicateData(_world.get(), rdata);
-	auto packet = PacketFactory::createReplicatePacket(rdata);
+	ProtobufServerUtils::serializeReplicateData(_world.get(), rdata);
+	auto packet = ProtobufServerUtils::createReplicatePacket(rdata);
 	uint8_t buffer[100000];
 	packet.serialize(buffer);
 	//send

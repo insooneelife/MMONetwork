@@ -13,7 +13,7 @@
 #include "Entity/Wall.h"
 #include "Entity/RigidBody.h"
 
-#include "Server/NetworkManager.h"
+#include "Server/NetworkManagerServer.h"
 
 using namespace std;
 
@@ -115,7 +115,7 @@ World::World(Room& room, float width)
 	_next_validate_id(1),
 	_width(width),
 	_cell_space(width, width, 50, 50, 1000000),
-	_network_mgr(new NetworkManager(*this, room)),
+	_network_mgr(new NetworkManagerServer(*this, room)),
 	level_(0)
 {
 	// Create player with hunter
