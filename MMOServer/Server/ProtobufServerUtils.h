@@ -102,8 +102,7 @@ public:
 
 	static void serializeInitGameData(
 		World* world,
-		unsigned int pid,
-		unsigned int eid,
+		Data::UserData joined,
 		Data::InitGameData& out);
 
 	static void serializeJoinedData(

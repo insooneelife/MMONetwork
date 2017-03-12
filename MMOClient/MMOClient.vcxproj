@@ -176,6 +176,7 @@
     <ClInclude Include="..\deps\include\Common\Math\Transformations.h" />
     <ClInclude Include="..\deps\include\Common\Math\Vec2.h" />
     <ClInclude Include="..\deps\include\Common\Network\GamePacket.hpp" />
+    <ClInclude Include="..\deps\include\Common\Network\NetworkManagerBase.hpp" />
     <ClInclude Include="..\deps\include\Common\Protobuf\generated\Base.pb.h" />
     <ClInclude Include="..\deps\include\Common\Protobuf\generated\CommandData.pb.h" />
     <ClInclude Include="..\deps\include\Common\Protobuf\generated\CreateData.pb.h" />
@@ -193,6 +194,7 @@
     <ClInclude Include="..\deps\include\Common\Protobuf\generated\UserData.pb.h" />
     <ClInclude Include="..\deps\include\Common\Protobuf\generated\WallAdditionalCreateData.pb.h" />
     <ClInclude Include="..\deps\include\Common\Protobuf\ProtobufStrategy.h" />
+    <ClInclude Include="..\deps\include\Common\Utils.h" />
     <ClInclude Include="Client\Client.h" />
     <ClInclude Include="Client\NetworkManagerClient.h" />
     <ClInclude Include="Client\ProtobufClientUtils.h" />

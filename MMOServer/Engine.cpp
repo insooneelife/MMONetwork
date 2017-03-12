@@ -4,8 +4,9 @@
 #include "GraphicsDriver.h"
 #include "EntityManager.h"
 #include "World.h"
+#include "Server/NetworkManagerServer.h"
 #include "Camera2D.h"
-#include "Utils.h"
+#include <Common/Utils.h>
 
 #include "Entity/Snake.h"
 
@@ -194,5 +195,9 @@ void Engine::update()
 	GraphicsDriver::instance->present();
 
 	std::chrono::duration<double> end2 = std::chrono::system_clock::now().time_since_epoch();
+
+	server_->getRoom().copyPacketsTo(_world->getNetworkMgr());
+	_world->getNetworkMgr().processQueuedPackets();
+
 	//std::cout <<"u : "<< (end - start).count()<<"  r : "<< (end2 - end).count() << std::endl;
 }

@@ -7,6 +7,7 @@
 #include "../Entity/RigidBody.h"
 #include "../EntityManager.h"
 #include "../World.h"
+#include "../Server/NetworkManagerServer.h"
 
 void ProtobufServerUtils::serializeVec2(float x, float y, Data::Vec2& out)
 {
@@ -235,22 +236,24 @@ void ProtobufServerUtils::serializeReplicateData(
 	auto udata = out.mutable_updated();
 	auto mdata = out.mutable_modified();
 	
-	serializeUpdateData(world->getEntityMgr().getEntities(), world->getUsers(), *udata);
+	serializeUpdateData(world->getEntityMgr().getEntities(), world->getNetworkMgr().getUsers(), *udata);
 	serializeModifyData(world, *mdata);
 }
 
 void ProtobufServerUtils::serializeInitGameData(
 	World* world,
-	unsigned int pid,
-	unsigned int eid,
+	Data::UserData joined,
 	Data::InitGameData& out)
 {
-	out.set_eid(eid);
-	out.set_level(world->getLevel());
-	out.set_pid(pid);
-	auto cdata = out.mutable_creates();
+	*(out.mutable_joined()) = joined;
 
+	out.set_level(world->getLevel());
+
+	auto cdata = out.mutable_creates();
 	serializeCreateData(world, *cdata);
+	
+	auto jdata = out.mutable_others();
+	serializeJoinedData(world->getNetworkMgr().getUsers(), *jdata);
 }
 
 void ProtobufServerUtils::serializeJoinedData(

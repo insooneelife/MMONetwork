@@ -137,8 +137,7 @@ RequestConnect Packet			<-----------------------
 								 client가 방에 입장 요청 시
 		x
 	
-	pid, eid 생성
-								 
+	pid 생성 								 
 								 
 								----------------------->		Full Packet	
 								 방이 가득찬 경우 								
@@ -146,7 +145,23 @@ RequestConnect Packet			<-----------------------
 	
 										   ||
 											
+
+
+								----------------------->		Accepted Packet
+								 방에 입장한 client 에게								
+																	x
+
+
+
+Hello Packet					<-----------------------	
+
+	name,
+	character,
+
+	eid, player pawn 생성,
+	clients map에 저장
 											
+
 								----------------------->		InitGame Packet
 								 방에 입장한 client 에게								
 																	pid (player id)
@@ -161,7 +176,7 @@ ReadyToJoin Packet				<-----------------------
 								 
 	UserData (입장한 user 정보)											 
 								
-	clients map에 저장 후		
+		
 							
 								----------------------->		Joined Packet
 								 입장한 client 에게					

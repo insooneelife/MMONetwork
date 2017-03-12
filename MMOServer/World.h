@@ -45,11 +45,9 @@ public:
 	static void collide(Snake& s, Wall& w);
 	static void collide(Snake& s, Prey& p);
 
-	// 모든 entity의 update 및, garbage 수집
 	template<class Container>
 	static void updateEntity(Container& entities);
 
-	// Entity 컨테이너 getter && setter
 	inline const std::vector<Snake*>& getHunters() const			{ return _snakes; }
 	inline const std::vector<Projectile*>& getProjectiles() const	{ return _projectiles; }
 	inline const std::vector<Prey*>& getPreys() const				{ return _preys; }
@@ -57,22 +55,22 @@ public:
 
 	inline CellSpacePartition<RigidBody*>& getCellSpace()			{ return _cell_space; }
 	inline EntityManager& getEntityMgr()							{ return _entity_mgr; }
+	inline NetworkManagerServer& getNetworkMgr()					{ return *_network_mgr; }
 
-	// 플레이어의 entity를 참조하기 위한 getter
 	inline Snake* getPlayerEntity() const							{ return _player_entity; }
 	inline void setPlayerEntity(Snake* const hunter)				{ _player_entity = hunter; }
 	
-	// 유일한 id를 생성해 준다.
 	inline unsigned int genID()										{ return _next_validate_id++; }
-	inline int getLevel() const { return level_; }
+	inline int getLevel() const										{ return level_; }
+	inline float getWidth() const									{ return _width; }
 
-
-	inline std::map<unsigned int, Data::UserData>& getUsers()		{ return _users; }
+	
 	inline std::vector<ModifyInfo>& getModifies() { return _modifies; }
 
 	World(Room& room, float width);
 	~World();
 	
+	Snake* createPlayerPawn(const Vec2& pos);
 	void createHunter(const Vec2& pos);
 	void createProjectile(const Vec2& pos, const Vec2& heading, int proj_speed);
 	void createPrey(const Vec2& pos);
@@ -88,8 +86,7 @@ public:
 	void renderCellSpace();
 
 private:
-	// players
-	std::map<unsigned int, Data::UserData> _users;
+	
 	std::vector<ModifyInfo> _modifies;
 
 	// entities

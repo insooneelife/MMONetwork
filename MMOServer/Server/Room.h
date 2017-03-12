@@ -4,10 +4,10 @@
 #include <iostream>
 #include <map>
 #include <queue>
+#include <mutex>
 #include <Common/Protobuf/ProtobufStrategy.h>
 #include <Common/Network/GamePacket.hpp>
 #include "Participant.h"
-
 
 class Room
 {
@@ -16,60 +16,30 @@ public:
 
 	inline unsigned int getGenID() const { return gen_id_; }
 
-	void enqueue(const GamePacket<ProtobufStrategy>& packet)
-	{
-		recv_queue_.emplace(packet);
-	}
+	Room();
 
-	bool dequeue(GamePacket<ProtobufStrategy>& packet)
-	{
-		if (!recv_queue_.empty())
-		{
-			packet = recv_queue_.front();
-			recv_queue_.pop();
-			return true;
-		}
-		return false;
-	}
+	void insert(std::shared_ptr<Participant> participant);
+	void remove(std::shared_ptr<Participant> participant);
 
-	Room()
-	{
-		gen_id_ = IDNotSet;
-	}
+	void sendTo(unsigned int id, const unsigned char* buffer, unsigned int length);
+	void broadcast(const unsigned char* buffer, unsigned int length);
 
-	void insert(std::shared_ptr<Participant> participant)
+	template<typename NetworkManager>
+	void copyPacketsTo(NetworkManager& to)
 	{
-		++gen_id_;
-		std::cout << "new client joined   id : " << gen_id_ << std::endl;
-		participant->setID(gen_id_);
-		participants_.emplace(gen_id_, participant);
+		que_mutex_.lock();
+		to.copyPackets(recv_queue_);
+		que_mutex_.unlock();
 	}
-
-	void remove(std::shared_ptr<Participant> participant)
-	{
-		std::cout << "client leaved   id : " << participant->getID() << std::endl;
-		participants_.erase(participant->getID());
-	}
-
-	void sendTo(unsigned int id, unsigned char* buffer, unsigned int length)
-	{
-		auto it = participants_.find(id);
-		if (it != std::end(participants_))
-		{
-			it->second->send(buffer, length);
-		}
-	}
-
-	void broadcast(unsigned char* buffer, unsigned int length)
-	{
-		for (auto participant : participants_)
-			participant.second->send(buffer, length);
-	}
+	void enqueue(const GamePacket<ProtobufStrategy>& packet);
 
 private:
-
+	std::mutex map_mutex_;
 	std::map<unsigned int, std::shared_ptr<Participant> > participants_;
 	unsigned int gen_id_;
 
+	std::mutex que_mutex_;
 	std::queue<GamePacket<ProtobufStrategy> > recv_queue_;
+
+	
 };

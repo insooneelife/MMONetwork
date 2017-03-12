@@ -37,12 +37,12 @@ const ::google::protobuf::uint32 TableStruct::offsets[] = {
   ~0u,  // no _oneof_case_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(InitGameData, creates_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(InitGameData, level_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(InitGameData, pid_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(InitGameData, eid_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(InitGameData, joined_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(InitGameData, others_),
   0,
+  3,
   1,
   2,
-  3,
 };
 
 static const ::google::protobuf::internal::MigrationSchema schemas[] = {
@@ -86,9 +86,15 @@ void TableStruct::InitDefaultsImpl() {
 
   ::google::protobuf::internal::InitProtobufDefaults();
   ::Data::protobuf_CreateData_2eproto::InitDefaults();
+  ::Data::protobuf_UserData_2eproto::InitDefaults();
+  ::Data::protobuf_JoinedData_2eproto::InitDefaults();
   _InitGameData_default_instance_.DefaultConstruct();
   _InitGameData_default_instance_.get_mutable()->creates_ = const_cast< ::Data::CreateData*>(
       ::Data::CreateData::internal_default_instance());
+  _InitGameData_default_instance_.get_mutable()->joined_ = const_cast< ::Data::UserData*>(
+      ::Data::UserData::internal_default_instance());
+  _InitGameData_default_instance_.get_mutable()->others_ = const_cast< ::Data::JoinedData*>(
+      ::Data::JoinedData::internal_default_instance());
 }
 
 void InitDefaults() {
@@ -99,15 +105,19 @@ void AddDescriptorsImpl() {
   InitDefaults();
   static const char descriptor[] = {
       "\n\022InitGameData.proto\022\004Data\032\020CreateData.p"
-      "roto\"Z\n\014InitGameData\022!\n\007creates\030\001 \002(\0132\020."
-      "Data.CreateData\022\r\n\005level\030\002 \002(\r\022\013\n\003pid\030\003 "
-      "\002(\r\022\013\n\003eid\030\004 \002(\r"
+      "roto\032\016UserData.proto\032\020JoinedData.proto\"\202"
+      "\001\n\014InitGameData\022!\n\007creates\030\001 \002(\0132\020.Data."
+      "CreateData\022\r\n\005level\030\002 \002(\r\022\036\n\006joined\030\003 \002("
+      "\0132\016.Data.UserData\022 \n\006others\030\004 \002(\0132\020.Data"
+      ".JoinedData"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 136);
+      descriptor, 211);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "InitGameData.proto", &protobuf_RegisterTypes);
   ::Data::protobuf_CreateData_2eproto::AddDescriptors();
+  ::Data::protobuf_UserData_2eproto::AddDescriptors();
+  ::Data::protobuf_JoinedData_2eproto::AddDescriptors();
   ::google::protobuf::internal::OnShutdown(&TableStruct::Shutdown);
 }
 
@@ -130,8 +140,8 @@ struct StaticDescriptorInitializer {
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
 const int InitGameData::kCreatesFieldNumber;
 const int InitGameData::kLevelFieldNumber;
-const int InitGameData::kPidFieldNumber;
-const int InitGameData::kEidFieldNumber;
+const int InitGameData::kJoinedFieldNumber;
+const int InitGameData::kOthersFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 InitGameData::InitGameData()
@@ -153,16 +163,24 @@ InitGameData::InitGameData(const InitGameData& from)
   } else {
     creates_ = NULL;
   }
-  ::memcpy(&level_, &from.level_,
-    reinterpret_cast<char*>(&eid_) -
-    reinterpret_cast<char*>(&level_) + sizeof(eid_));
+  if (from.has_joined()) {
+    joined_ = new ::Data::UserData(*from.joined_);
+  } else {
+    joined_ = NULL;
+  }
+  if (from.has_others()) {
+    others_ = new ::Data::JoinedData(*from.others_);
+  } else {
+    others_ = NULL;
+  }
+  level_ = from.level_;
   // @@protoc_insertion_point(copy_constructor:Data.InitGameData)
 }
 
 void InitGameData::SharedCtor() {
   _cached_size_ = 0;
-  ::memset(&creates_, 0, reinterpret_cast<char*>(&eid_) -
-    reinterpret_cast<char*>(&creates_) + sizeof(eid_));
+  ::memset(&creates_, 0, reinterpret_cast<char*>(&level_) -
+    reinterpret_cast<char*>(&creates_) + sizeof(level_));
 }
 
 InitGameData::~InitGameData() {
@@ -173,6 +191,12 @@ InitGameData::~InitGameData() {
 void InitGameData::SharedDtor() {
   if (this != internal_default_instance()) {
     delete creates_;
+  }
+  if (this != internal_default_instance()) {
+    delete joined_;
+  }
+  if (this != internal_default_instance()) {
+    delete others_;
   }
 }
 
@@ -201,14 +225,21 @@ InitGameData* InitGameData::New(::google::protobuf::Arena* arena) const {
 
 void InitGameData::Clear() {
 // @@protoc_insertion_point(message_clear_start:Data.InitGameData)
-  if (has_creates()) {
-    GOOGLE_DCHECK(creates_ != NULL);
-    creates_->::Data::CreateData::Clear();
+  if (_has_bits_[0 / 32] & 7u) {
+    if (has_creates()) {
+      GOOGLE_DCHECK(creates_ != NULL);
+      creates_->::Data::CreateData::Clear();
+    }
+    if (has_joined()) {
+      GOOGLE_DCHECK(joined_ != NULL);
+      joined_->::Data::UserData::Clear();
+    }
+    if (has_others()) {
+      GOOGLE_DCHECK(others_ != NULL);
+      others_->::Data::JoinedData::Clear();
+    }
   }
-  if (_has_bits_[0 / 32] & 14u) {
-    ::memset(&level_, 0, reinterpret_cast<char*>(&eid_) -
-      reinterpret_cast<char*>(&level_) + sizeof(eid_));
-  }
+  level_ = 0u;
   _has_bits_.Clear();
   _internal_metadata_.Clear();
 }
@@ -247,26 +278,22 @@ bool InitGameData::MergePartialFromCodedStream(
         break;
       }
 
-      // required uint32 pid = 3;
+      // required .Data.UserData joined = 3;
       case 3: {
-        if (tag == 24u) {
-          set_has_pid();
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
-                 input, &pid_)));
+        if (tag == 26u) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
+               input, mutable_joined()));
         } else {
           goto handle_unusual;
         }
         break;
       }
 
-      // required uint32 eid = 4;
+      // required .Data.JoinedData others = 4;
       case 4: {
-        if (tag == 32u) {
-          set_has_eid();
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
-                 input, &eid_)));
+        if (tag == 34u) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
+               input, mutable_others()));
         } else {
           goto handle_unusual;
         }
@@ -309,14 +336,16 @@ void InitGameData::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteUInt32(2, this->level(), output);
   }
 
-  // required uint32 pid = 3;
-  if (has_pid()) {
-    ::google::protobuf::internal::WireFormatLite::WriteUInt32(3, this->pid(), output);
+  // required .Data.UserData joined = 3;
+  if (has_joined()) {
+    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
+      3, *this->joined_, output);
   }
 
-  // required uint32 eid = 4;
-  if (has_eid()) {
-    ::google::protobuf::internal::WireFormatLite::WriteUInt32(4, this->eid(), output);
+  // required .Data.JoinedData others = 4;
+  if (has_others()) {
+    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
+      4, *this->others_, output);
   }
 
   if (_internal_metadata_.have_unknown_fields()) {
@@ -342,14 +371,18 @@ void InitGameData::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(2, this->level(), target);
   }
 
-  // required uint32 pid = 3;
-  if (has_pid()) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(3, this->pid(), target);
+  // required .Data.UserData joined = 3;
+  if (has_joined()) {
+    target = ::google::protobuf::internal::WireFormatLite::
+      InternalWriteMessageNoVirtualToArray(
+        3, *this->joined_, false, target);
   }
 
-  // required uint32 eid = 4;
-  if (has_eid()) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(4, this->eid(), target);
+  // required .Data.JoinedData others = 4;
+  if (has_others()) {
+    target = ::google::protobuf::internal::WireFormatLite::
+      InternalWriteMessageNoVirtualToArray(
+        4, *this->others_, false, target);
   }
 
   if (_internal_metadata_.have_unknown_fields()) {
@@ -371,25 +404,25 @@ size_t InitGameData::RequiredFieldsByteSizeFallback() const {
         *this->creates_);
   }
 
+  if (has_joined()) {
+    // required .Data.UserData joined = 3;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
+        *this->joined_);
+  }
+
+  if (has_others()) {
+    // required .Data.JoinedData others = 4;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
+        *this->others_);
+  }
+
   if (has_level()) {
     // required uint32 level = 2;
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::UInt32Size(
         this->level());
-  }
-
-  if (has_pid()) {
-    // required uint32 pid = 3;
-    total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::UInt32Size(
-        this->pid());
-  }
-
-  if (has_eid()) {
-    // required uint32 eid = 4;
-    total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::UInt32Size(
-        this->eid());
   }
 
   return total_size;
@@ -409,20 +442,20 @@ size_t InitGameData::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
         *this->creates_);
 
+    // required .Data.UserData joined = 3;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
+        *this->joined_);
+
+    // required .Data.JoinedData others = 4;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
+        *this->others_);
+
     // required uint32 level = 2;
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::UInt32Size(
         this->level());
-
-    // required uint32 pid = 3;
-    total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::UInt32Size(
-        this->pid());
-
-    // required uint32 eid = 4;
-    total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::UInt32Size(
-        this->eid());
 
   } else {
     total_size += RequiredFieldsByteSizeFallback();
@@ -457,14 +490,14 @@ void InitGameData::MergeFrom(const InitGameData& from) {
     if (from.has_creates()) {
       mutable_creates()->::Data::CreateData::MergeFrom(from.creates());
     }
+    if (from.has_joined()) {
+      mutable_joined()->::Data::UserData::MergeFrom(from.joined());
+    }
+    if (from.has_others()) {
+      mutable_others()->::Data::JoinedData::MergeFrom(from.others());
+    }
     if (from.has_level()) {
       set_level(from.level());
-    }
-    if (from.has_pid()) {
-      set_pid(from.pid());
-    }
-    if (from.has_eid()) {
-      set_eid(from.eid());
     }
   }
 }
@@ -488,6 +521,12 @@ bool InitGameData::IsInitialized() const {
   if (has_creates()) {
     if (!this->creates_->IsInitialized()) return false;
   }
+  if (has_joined()) {
+    if (!this->joined_->IsInitialized()) return false;
+  }
+  if (has_others()) {
+    if (!this->others_->IsInitialized()) return false;
+  }
   return true;
 }
 
@@ -497,9 +536,9 @@ void InitGameData::Swap(InitGameData* other) {
 }
 void InitGameData::InternalSwap(InitGameData* other) {
   std::swap(creates_, other->creates_);
+  std::swap(joined_, other->joined_);
+  std::swap(others_, other->others_);
   std::swap(level_, other->level_);
-  std::swap(pid_, other->pid_);
-  std::swap(eid_, other->eid_);
   std::swap(_has_bits_[0], other->_has_bits_[0]);
   _internal_metadata_.Swap(&other->_internal_metadata_);
   std::swap(_cached_size_, other->_cached_size_);
@@ -560,13 +599,13 @@ void InitGameData::set_allocated_creates(::Data::CreateData* creates) {
 
 // required uint32 level = 2;
 bool InitGameData::has_level() const {
-  return (_has_bits_[0] & 0x00000002u) != 0;
+  return (_has_bits_[0] & 0x00000008u) != 0;
 }
 void InitGameData::set_has_level() {
-  _has_bits_[0] |= 0x00000002u;
+  _has_bits_[0] |= 0x00000008u;
 }
 void InitGameData::clear_has_level() {
-  _has_bits_[0] &= ~0x00000002u;
+  _has_bits_[0] &= ~0x00000008u;
 }
 void InitGameData::clear_level() {
   level_ = 0u;
@@ -582,52 +621,94 @@ void InitGameData::set_level(::google::protobuf::uint32 value) {
   // @@protoc_insertion_point(field_set:Data.InitGameData.level)
 }
 
-// required uint32 pid = 3;
-bool InitGameData::has_pid() const {
-  return (_has_bits_[0] & 0x00000004u) != 0;
+// required .Data.UserData joined = 3;
+bool InitGameData::has_joined() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
 }
-void InitGameData::set_has_pid() {
-  _has_bits_[0] |= 0x00000004u;
+void InitGameData::set_has_joined() {
+  _has_bits_[0] |= 0x00000002u;
 }
-void InitGameData::clear_has_pid() {
-  _has_bits_[0] &= ~0x00000004u;
+void InitGameData::clear_has_joined() {
+  _has_bits_[0] &= ~0x00000002u;
 }
-void InitGameData::clear_pid() {
-  pid_ = 0u;
-  clear_has_pid();
+void InitGameData::clear_joined() {
+  if (joined_ != NULL) joined_->::Data::UserData::Clear();
+  clear_has_joined();
 }
-::google::protobuf::uint32 InitGameData::pid() const {
-  // @@protoc_insertion_point(field_get:Data.InitGameData.pid)
-  return pid_;
+const ::Data::UserData& InitGameData::joined() const {
+  // @@protoc_insertion_point(field_get:Data.InitGameData.joined)
+  return joined_ != NULL ? *joined_
+                         : *::Data::UserData::internal_default_instance();
 }
-void InitGameData::set_pid(::google::protobuf::uint32 value) {
-  set_has_pid();
-  pid_ = value;
-  // @@protoc_insertion_point(field_set:Data.InitGameData.pid)
+::Data::UserData* InitGameData::mutable_joined() {
+  set_has_joined();
+  if (joined_ == NULL) {
+    joined_ = new ::Data::UserData;
+  }
+  // @@protoc_insertion_point(field_mutable:Data.InitGameData.joined)
+  return joined_;
+}
+::Data::UserData* InitGameData::release_joined() {
+  // @@protoc_insertion_point(field_release:Data.InitGameData.joined)
+  clear_has_joined();
+  ::Data::UserData* temp = joined_;
+  joined_ = NULL;
+  return temp;
+}
+void InitGameData::set_allocated_joined(::Data::UserData* joined) {
+  delete joined_;
+  joined_ = joined;
+  if (joined) {
+    set_has_joined();
+  } else {
+    clear_has_joined();
+  }
+  // @@protoc_insertion_point(field_set_allocated:Data.InitGameData.joined)
 }
 
-// required uint32 eid = 4;
-bool InitGameData::has_eid() const {
-  return (_has_bits_[0] & 0x00000008u) != 0;
+// required .Data.JoinedData others = 4;
+bool InitGameData::has_others() const {
+  return (_has_bits_[0] & 0x00000004u) != 0;
 }
-void InitGameData::set_has_eid() {
-  _has_bits_[0] |= 0x00000008u;
+void InitGameData::set_has_others() {
+  _has_bits_[0] |= 0x00000004u;
 }
-void InitGameData::clear_has_eid() {
-  _has_bits_[0] &= ~0x00000008u;
+void InitGameData::clear_has_others() {
+  _has_bits_[0] &= ~0x00000004u;
 }
-void InitGameData::clear_eid() {
-  eid_ = 0u;
-  clear_has_eid();
+void InitGameData::clear_others() {
+  if (others_ != NULL) others_->::Data::JoinedData::Clear();
+  clear_has_others();
 }
-::google::protobuf::uint32 InitGameData::eid() const {
-  // @@protoc_insertion_point(field_get:Data.InitGameData.eid)
-  return eid_;
+const ::Data::JoinedData& InitGameData::others() const {
+  // @@protoc_insertion_point(field_get:Data.InitGameData.others)
+  return others_ != NULL ? *others_
+                         : *::Data::JoinedData::internal_default_instance();
 }
-void InitGameData::set_eid(::google::protobuf::uint32 value) {
-  set_has_eid();
-  eid_ = value;
-  // @@protoc_insertion_point(field_set:Data.InitGameData.eid)
+::Data::JoinedData* InitGameData::mutable_others() {
+  set_has_others();
+  if (others_ == NULL) {
+    others_ = new ::Data::JoinedData;
+  }
+  // @@protoc_insertion_point(field_mutable:Data.InitGameData.others)
+  return others_;
+}
+::Data::JoinedData* InitGameData::release_others() {
+  // @@protoc_insertion_point(field_release:Data.InitGameData.others)
+  clear_has_others();
+  ::Data::JoinedData* temp = others_;
+  others_ = NULL;
+  return temp;
+}
+void InitGameData::set_allocated_others(::Data::JoinedData* others) {
+  delete others_;
+  others_ = others;
+  if (others) {
+    set_has_others();
+  } else {
+    clear_has_others();
+  }
+  // @@protoc_insertion_point(field_set_allocated:Data.InitGameData.others)
 }
 
 #endif  // PROTOBUF_INLINE_NOT_IN_HEADERS

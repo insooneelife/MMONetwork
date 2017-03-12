@@ -17,21 +17,13 @@ public:
 		boost::asio::ip::tcp::resolver::iterator endpoint_iterator);
 
 	void send(const unsigned char* buffer, std::size_t length);
-
 	void close();
-
-	void enqueue(const GamePacket<ProtobufStrategy>& packet);
-
-	bool dequeue(GamePacket<ProtobufStrategy>& packet);
-
 	void update();
 
 private:
 	void connect(boost::asio::ip::tcp::resolver::iterator endpoint_iterator);
-
 	void readHeader();
-
-	void readBody(unsigned int body_size, unsigned int body_type);
+	void readBody(unsigned int body_size);
 
 	
 	boost::asio::io_service& io_service_;
@@ -39,5 +31,5 @@ private:
 
 	GamePacket<ProtobufStrategy> recv_packet_;
 	std::queue<GamePacket<ProtobufStrategy> > recv_queue_;
-	std::unique_ptr<NetworkManagerClient> _network_mgr;
+	std::unique_ptr<NetworkManagerClient> network_mgr_;
 };

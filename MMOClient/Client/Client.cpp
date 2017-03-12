@@ -7,9 +7,8 @@ Client::Client(
 	:
 	io_service_(io_service),
 	socket_(io_service),
-	_network_mgr(new NetworkManagerClient(*this))
+	network_mgr_(new NetworkManagerClient(*this))
 {
-
 	connect(endpoint_iterator);
 }
 
@@ -22,6 +21,7 @@ void Client::send(const unsigned char* buffer, std::size_t length)
 	{
 		if (!ec)
 		{
+			//std::cout << "send length : " << len << std::endl;
 		}
 		else
 		{
@@ -35,28 +35,12 @@ void Client::close()
 	io_service_.post([this]() { socket_.close(); });
 }
 
-void Client::enqueue(const GamePacket<ProtobufStrategy>& packet)
-{
-	recv_queue_.emplace(packet);
-}
-
-bool Client::dequeue(GamePacket<ProtobufStrategy>& packet)
-{
-	if (!recv_queue_.empty())
-	{
-		packet = recv_queue_.front();
-		recv_queue_.pop();
-		return true;
-	}
-	return false;
-}
-
 void Client::update()
 {
 	std::chrono::duration<double> start = std::chrono::system_clock::now().time_since_epoch();
 
-	_network_mgr->copyPackets();
-	_network_mgr->processQueuedPackets();
+	network_mgr_->copyPackets(recv_queue_);
+	network_mgr_->processQueuedPackets();
 
 	std::chrono::duration<double> end = std::chrono::system_clock::now().time_since_epoch();
 }
@@ -82,14 +66,15 @@ void Client::readHeader()
 		boost::asio::buffer(recv_packet_.data(), GamePacket<ProtobufStrategy>::HeaderLength),
 		[this](boost::system::error_code ec, std::size_t length)
 	{
-		std::cout << "readheader" << std::endl;
-
+		
 		Data::HeaderData header;
 
 		// parse header
 		if (!ec && recv_packet_.parseHeader(header))
 		{
-			readBody(header.size(), header.type());
+			//std::cout << "readed header : " << length << std::endl;
+			recv_packet_.setSize(length);
+			readBody(header.size());
 		}
 		else
 		{
@@ -98,21 +83,18 @@ void Client::readHeader()
 	});
 }
 
-void Client::readBody(unsigned int body_size, unsigned int body_type)
+void Client::readBody(unsigned int body_size)
 {
-	std::cout << "readbody" << std::endl;
-	std::cout << "body size : " << body_size << "  " << "body type : " << body_type << std::endl;
-
 	boost::asio::async_read(
 		socket_,
 		boost::asio::buffer(recv_packet_.body(), body_size),
-		[this, body_size, body_type](boost::system::error_code ec, std::size_t len)
+		[this](boost::system::error_code ec, std::size_t len)
 	{
 		if (!ec)
 		{
-			// process..
-			recv_queue_.emplace(recv_packet_);
-
+			//std::cout << "readed body : " << len << std::endl;
+			recv_packet_.setSize(GamePacket<ProtobufStrategy>::HeaderLength + len);
+			recv_queue_.push(recv_packet_);
 			readHeader();
 		}
 		else

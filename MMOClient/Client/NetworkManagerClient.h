@@ -1,31 +1,30 @@
 #pragma once
 
 #include <array>
+#include <queue>
+#include <string>
 #include <Common/Protobuf/ProtobufStrategy.h>
 #include <Common/Network/GamePacket.hpp>
+#include <Common/Network/NetworkManagerBase.hpp>
 #include "ProtobufClientUtils.h"
 
 class Client;
-class NetworkManagerClient
+class NetworkManagerClient : public NetworkManagerBase<GamePacket<ProtobufStrategy> >
 {
 public:
 
+	static GamePacket<ProtobufStrategy> createHelloPacket(const Data::UserData& user);
 	static GamePacket<ProtobufStrategy> createReadyToJoinPacket(const Data::UserData& user);
 	static GamePacket<ProtobufStrategy> createReadyToChangePacket(const Data::UserData& user);
 	static GamePacket<ProtobufStrategy> createClientCommandPacket(const Data::CommandData& cmd);
 
 	explicit NetworkManagerClient(Client& session);
 
-	void copyPackets();
+	void showAllUsers();
 
-	void processQueuedPackets();
+	void processAccepted(const Data::HeaderData& header, const GamePacket<ProtobufStrategy>& packet);
 
-	void processByType(const GamePacket<ProtobufStrategy>& packet);
-
-	void processInitGame(
-		const Data::HeaderData& header,
-		const GamePacket<ProtobufStrategy>& packet);
-
+	void processInitGame(const Data::HeaderData& header, const GamePacket<ProtobufStrategy>& packet);
 
 	void processFull(const Data::HeaderData& header, const GamePacket<ProtobufStrategy>& packet);
 
@@ -44,9 +43,9 @@ public:
 
 private:
 
+	std::string generateRandomName();
+
 	Client& session_;
-	std::array<GamePacket<ProtobufStrategy>, 50> copied_packets_;
-	int idx_;
 	
 	Data::UserData _user_data;
 	std::map<unsigned int, Data::UserData> _all_users;

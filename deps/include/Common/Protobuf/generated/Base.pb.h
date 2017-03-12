@@ -51,18 +51,20 @@ void InitDefaults();
 
 enum PacketType {
   RequestConnect = 0,
-  Full = 1,
-  InitGame = 2,
-  ReadyToJoin = 3,
-  Intro = 4,
-  Joined = 5,
-  Disconnected = 6,
-  NotifyDisconnected = 7,
-  ChangeLevel = 8,
-  ReadyToChange = 9,
-  EnterPlaying = 10,
-  Replicate = 11,
-  ClientCommand = 12
+  Accepted = 1,
+  Hello = 2,
+  Full = 3,
+  InitGame = 4,
+  ReadyToJoin = 5,
+  Intro = 6,
+  Joined = 7,
+  Disconnected = 8,
+  NotifyDisconnected = 9,
+  ChangeLevel = 10,
+  ReadyToChange = 11,
+  EnterPlaying = 12,
+  Replicate = 13,
+  ClientCommand = 14
 };
 bool PacketType_IsValid(int value);
 const PacketType PacketType_MIN = RequestConnect;

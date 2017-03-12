@@ -1,16 +1,19 @@
 #pragma once
 
 #include <array>
+#include <queue>
 #include <Common/Protobuf/ProtobufStrategy.h>
 #include <Common/Network/GamePacket.hpp>
+#include <Common/Network/NetworkManagerBase.hpp>
 #include "ProtobufServerUtils.h"
 
 class Room;
 class World;
-class NetworkManagerServer
+class NetworkManagerServer : public NetworkManagerBase<GamePacket<ProtobufStrategy> >
 {
 public:
 
+	static GamePacket<ProtobufStrategy> createAcceptedPacket(const Data::UserData& user);
 	static GamePacket<ProtobufStrategy> createInitGamePacket(const Data::InitGameData& user);
 	static GamePacket<ProtobufStrategy> createFullPacket();
 	static GamePacket<ProtobufStrategy> createJoinedPacket(const Data::JoinedData& user);
@@ -18,18 +21,20 @@ public:
 	static GamePacket<ProtobufStrategy> createNotifyDisconnectedPacket(const Data::UserData& user);
 	static GamePacket<ProtobufStrategy> createChangeLevelPacket(const Data::InitGameData& user);
 	static GamePacket<ProtobufStrategy> createEnterPlayingPacket();
-	static GamePacket<ProtobufStrategy> createReplicatePacket(const Data::ReplicateData& user);
+	static GamePacket<ProtobufStrategy> createReplicatePacket(const Data::ReplicateData& data);
+	static GamePacket<ProtobufStrategy> createDisconnectedPacket(const Data::UserData& user);
 
-
+	inline const std::map<unsigned int, Data::UserData>& getUsers() { return all_users_; }
 
 	NetworkManagerServer(World& world, Room& room);
 
-	void copyPackets();
-	void processQueuedPackets();
-
-	void processByType(const GamePacket<ProtobufStrategy>& packet);
+	void showAllUsers();
 
 	void processRequestConnect(
+		const Data::HeaderData& header,
+		const GamePacket<ProtobufStrategy>& packet);
+
+	void processHello(
 		const Data::HeaderData& header,
 		const GamePacket<ProtobufStrategy>& packet);
 
@@ -52,6 +57,6 @@ public:
 private:
 	World& world_;
 	Room& room_;
-	std::array<GamePacket<ProtobufStrategy>, 50> copied_packets_;
-	int idx_;
+
+	std::map<unsigned int, Data::UserData> all_users_;
 };

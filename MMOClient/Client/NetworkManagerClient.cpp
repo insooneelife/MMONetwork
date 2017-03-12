@@ -1,103 +1,93 @@
 #include "NetworkManagerClient.h"
 #include "Client.h"
+#include <Common/Utils.h>
 
 NetworkManagerClient::NetworkManagerClient(Client& session)
 	:
 	session_(session)
-{}
-
-
-void NetworkManagerClient::copyPackets()
 {
-	GamePacket<ProtobufStrategy> packet;
-	while (session_.dequeue(packet) && idx_ < copied_packets_.size())
-	{
-		copied_packets_[idx_++] = packet;
-	}
+	using namespace std::placeholders;
 
-	while (session_.dequeue(packet)) {}
+	_process_map.emplace(
+		Data::PacketType::Accepted,
+		std::bind(&NetworkManagerClient::processAccepted, this, _1, _2));
+
+	_process_map.emplace(
+		Data::PacketType::InitGame,
+		std::bind(&NetworkManagerClient::processInitGame, this, _1, _2));
+
+	_process_map.emplace(
+		Data::PacketType::Full,
+		std::bind(&NetworkManagerClient::processFull, this, _1, _2));
+
+	_process_map.emplace(
+		Data::PacketType::Joined,
+		std::bind(&NetworkManagerClient::processJoined, this, _1, _2));
+
+	_process_map.emplace(
+		Data::PacketType::Intro,
+		std::bind(&NetworkManagerClient::processIntro, this, _1, _2));
+
+	_process_map.emplace(
+		Data::PacketType::NotifyDisconnected,
+		std::bind(&NetworkManagerClient::processNotifyDisconnected, this, _1, _2));
+
+	_process_map.emplace(
+		Data::PacketType::ChangeLevel,
+		std::bind(&NetworkManagerClient::processChangeLevel, this, _1, _2));
+
+	_process_map.emplace(
+		Data::PacketType::EnterPlaying,
+		std::bind(&NetworkManagerClient::processEnterPlaying, this, _1, _2));
+
+	_process_map.emplace(
+		Data::PacketType::Replicate,
+		std::bind(&NetworkManagerClient::processReplicate, this, _1, _2));
+
 }
 
-
-void NetworkManagerClient::processQueuedPackets()
+void NetworkManagerClient::processAccepted(
+	const Data::HeaderData& header,
+	const GamePacket<ProtobufStrategy>& packet)
 {
-	for (int i = 0; i < idx_; ++i)
-	{
-		processByType(copied_packets_[i]);
-	}
-	idx_ = 0;
-}
+	packet.parseBody<Data::UserData>(_user_data, header.size());
 
+	// set user data
+	_user_data.set_name(generateRandomName());
+	_user_data.set_character(1);
+	
+	_all_users.emplace(_user_data.pid(), _user_data);
 
-
-void NetworkManagerClient::processByType(const GamePacket<ProtobufStrategy>& packet)
-{
-	Data::HeaderData header;
-	packet.parseHeader(header);
-
-	if (header.type() == Data::PacketType::RequestConnect)
-	{
-		processInitGame(header, packet);
-	}
-	else if (header.type() == Data::PacketType::Full)
-	{
-		processFull(header, packet);
-	}
-	else if (header.type() == Data::PacketType::Joined)
-	{
-		processJoined(header, packet);
-	}
-	else if (header.type() == Data::PacketType::Intro)
-	{
-		processIntro(header, packet);
-	}
-	else if (header.type() == Data::PacketType::NotifyDisconnected)
-	{
-		processNotifyDisconnected(header, packet);
-	}
-	else if (header.type() == Data::PacketType::ChangeLevel)
-	{
-		processChangeLevel(header, packet);
-	}
-	else if (header.type() == Data::PacketType::EnterPlaying)
-	{
-		processEnterPlaying(header, packet);
-	}
-	else if (header.type() == Data::PacketType::Replicate)
-	{
-		processReplicate(header, packet);
-	}
+	auto send_packet = createHelloPacket(_user_data);
+	session_.send(send_packet.data(), send_packet.size());
 }
 
 void NetworkManagerClient::processInitGame(
 	const Data::HeaderData& header,
 	const GamePacket<ProtobufStrategy>& packet)
 {
-	std::cout << "processInitGame" << std::endl;
-	
 	// parse data
 	Data::InitGameData idata;
 	packet.parseBody(idata, header.size());
 
 	// init world
-	unsigned int pid = idata.pid();
-	unsigned int eid = idata.eid();
 	int level = idata.level();
 	auto cdata = idata.creates();
 
-	_user_data.set_pid(pid);
-	_user_data.set_eid(eid);
-	
-	// make name, character at client side
-	const std::string name = "insooneelife";
-	const int character = 0;
+	_user_data = idata.joined();
+	_all_users[_user_data.pid()] = _user_data;
 
-	_user_data.set_name(name);
-	_user_data.set_character(character);
+	auto jdata = idata.others();
+	for (int i = 0; i < jdata.users_size(); ++i)
+	{
+		_all_users.emplace(jdata.users(i).pid(), jdata.users(i));
+	}
 
 	// send ready packet
 	auto send_packet = createReadyToJoinPacket(_user_data);
 	session_.send(send_packet.data(), send_packet.size());
+
+	showAllUsers();
 }
 
 void NetworkManagerClient::processFull(
@@ -113,12 +103,24 @@ void NetworkManagerClient::processJoined(
 void NetworkManagerClient::processIntro(
 	const Data::HeaderData& header, 
 	const GamePacket<ProtobufStrategy>& packet)
-{}
+{
+	Data::UserData udata;
+	packet.parseBody(udata, header.size());
+	_all_users.emplace(udata.pid(), udata);
+
+	showAllUsers();
+}
 
 void NetworkManagerClient::processNotifyDisconnected(
 	const Data::HeaderData& header,
 	const GamePacket<ProtobufStrategy>& packet)
-{}
+{
+	Data::UserData udata;
+	packet.parseBody(udata, header.size());
+	_all_users.erase(udata.pid());
+
+	showAllUsers();
+}
 
 void NetworkManagerClient::processChangeLevel(
 	const Data::HeaderData& header, 
@@ -135,6 +137,37 @@ void NetworkManagerClient::processReplicate(
 	const GamePacket<ProtobufStrategy>& packet)
 {}
 
+void NetworkManagerClient::showAllUsers()
+{
+	std::cout << std::endl << "-------- show all users --------" << std::endl;
+	for (auto e : _all_users)
+	{
+		std::cout << e.second.DebugString() << std::endl;
+	}
+	std::cout << "--------------------------------" << std::endl << std::endl;
+}
+
+std::string NetworkManagerClient::generateRandomName()
+{
+	std::string name = "";
+
+	for (int i = 0; i < random(3, 20); ++i)
+	{
+		int a = random(0, 2);
+		if(a % 2 == 0)
+			name += 'a' + (char)random(0, 26);
+		else
+			name += 'A' + (char)random(0, 26);
+	}
+	return name;
+}
+
+GamePacket<ProtobufStrategy> NetworkManagerClient::createHelloPacket(const Data::UserData& user)
+{
+	GamePacket<ProtobufStrategy> packet;
+	packet.serializeFrom(user, Data::PacketType::Hello);
+	return packet;
+}
 
 GamePacket<ProtobufStrategy> NetworkManagerClient::createReadyToJoinPacket(const Data::UserData& user)
 {

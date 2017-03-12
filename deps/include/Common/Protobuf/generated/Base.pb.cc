@@ -93,18 +93,19 @@ void AddDescriptorsImpl() {
   InitDefaults();
   static const char descriptor[] = {
       "\n\nBase.proto\022\004Data\"\034\n\004Vec2\022\t\n\001x\030\001 \002(\002\022\t\n"
-      "\001y\030\002 \002(\002*\342\001\n\nPacketType\022\022\n\016RequestConnec"
-      "t\020\000\022\010\n\004Full\020\001\022\014\n\010InitGame\020\002\022\017\n\013ReadyToJo"
-      "in\020\003\022\t\n\005Intro\020\004\022\n\n\006Joined\020\005\022\020\n\014Disconnec"
-      "ted\020\006\022\026\n\022NotifyDisconnected\020\007\022\017\n\013ChangeL"
-      "evel\020\010\022\021\n\rReadyToChange\020\t\022\020\n\014EnterPlayin"
-      "g\020\n\022\r\n\tReplicate\020\013\022\021\n\rClientCommand\020\014**\n"
-      "\013ControlType\022\007\n\003NPC\020\000\022\006\n\002AI\020\001\022\n\n\006Player\020"
-      "\002*D\n\013CommandType\022\014\n\010MoveLeft\020\000\022\r\n\tMoveRi"
-      "ght\020\001\022\n\n\006MoveUp\020\002\022\014\n\010MoveDown\020\003"
+      "\001y\030\002 \002(\002*\373\001\n\nPacketType\022\022\n\016RequestConnec"
+      "t\020\000\022\014\n\010Accepted\020\001\022\t\n\005Hello\020\002\022\010\n\004Full\020\003\022\014"
+      "\n\010InitGame\020\004\022\017\n\013ReadyToJoin\020\005\022\t\n\005Intro\020\006"
+      "\022\n\n\006Joined\020\007\022\020\n\014Disconnected\020\010\022\026\n\022Notify"
+      "Disconnected\020\t\022\017\n\013ChangeLevel\020\n\022\021\n\rReady"
+      "ToChange\020\013\022\020\n\014EnterPlaying\020\014\022\r\n\tReplicat"
+      "e\020\r\022\021\n\rClientCommand\020\016**\n\013ControlType\022\007\n"
+      "\003NPC\020\000\022\006\n\002AI\020\001\022\n\n\006Player\020\002*D\n\013CommandTyp"
+      "e\022\014\n\010MoveLeft\020\000\022\r\n\tMoveRight\020\001\022\n\n\006MoveUp"
+      "\020\002\022\014\n\010MoveDown\020\003"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 391);
+      descriptor, 416);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "Base.proto", &protobuf_RegisterTypes);
   ::google::protobuf::internal::OnShutdown(&TableStruct::Shutdown);
@@ -142,6 +143,8 @@ bool PacketType_IsValid(int value) {
     case 10:
     case 11:
     case 12:
+    case 13:
+    case 14:
       return true;
     default:
       return false;

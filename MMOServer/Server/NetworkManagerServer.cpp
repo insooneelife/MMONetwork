@@ -1,67 +1,40 @@
+#include <Common/Utils.h>
 #include "NetworkManagerServer.h"
 #include "ProtobufServerUtils.h"
-#include "../World.h"
 #include "Room.h"
+#include "../World.h"
+#include "../Entity/Snake.h"
 
 NetworkManagerServer::NetworkManagerServer(World& world, Room& room)
 	:
 	world_(world),
 	room_(room)
-{}
-
-
-void NetworkManagerServer::copyPackets()
 {
-	GamePacket<ProtobufStrategy> packet;
-	while (room_.dequeue(packet) && idx_ < copied_packets_.size())
-	{
-		copied_packets_[idx_++] = packet;
-	}
+	using namespace std::placeholders;
 
-	while (room_.dequeue(packet)) {}
-}
+	_process_map.emplace(
+		Data::PacketType::RequestConnect,
+		std::bind(&NetworkManagerServer::processRequestConnect, this, _1, _2));
 
+	_process_map.emplace(
+		Data::PacketType::Hello,
+		std::bind(&NetworkManagerServer::processHello, this, _1, _2));
 
-void NetworkManagerServer::processQueuedPackets()
-{
-	for (int i = 0; i < idx_; ++i)
-	{
-		processByType(copied_packets_[i]);
-	}
-	idx_ = 0;
-}
+	_process_map.emplace(
+		Data::PacketType::ReadyToJoin,
+		std::bind(&NetworkManagerServer::processReadyToJoin, this, _1, _2));
 
+	_process_map.emplace(
+		Data::PacketType::ClientCommand,
+		std::bind(&NetworkManagerServer::processClientCommand, this, _1, _2));
 
+	_process_map.emplace(
+		Data::PacketType::ReadyToChange,
+		std::bind(&NetworkManagerServer::processReadyToChange, this, _1, _2));
 
-void NetworkManagerServer::processByType(const GamePacket<ProtobufStrategy>& packet)
-{
-	Data::HeaderData header;
-	packet.parseHeader(header);
-
-	if (header.type() == Data::PacketType::RequestConnect)
-	{
-		processRequestConnect(header, packet);
-	}
-
-	else if (header.type() == Data::PacketType::ReadyToJoin)
-	{
-		processReadyToJoin(header, packet);
-	}
-
-	else if (header.type() == Data::PacketType::ClientCommand)
-	{
-		processClientCommand(header, packet);
-	}
-
-	else if (header.type() == Data::PacketType::ReadyToChange)
-	{
-		processReadyToChange(header, packet);
-	}
-
-	else if (header.type() == Data::PacketType::Disconnected)
-	{
-		processDisconnected(header, packet);
-	}
+	_process_map.emplace(
+		Data::PacketType::Disconnected,
+		std::bind(&NetworkManagerServer::processDisconnected, this, _1, _2));
 
 }
 
@@ -69,19 +42,40 @@ void NetworkManagerServer::processRequestConnect(
 	const Data::HeaderData& header,
 	const GamePacket<ProtobufStrategy>& packet)
 {
-	std::cout << "processRequestConnect" << std::endl;
 	unsigned int pid = room_.getGenID();
 
-	//# fix
-	unsigned int eid = 0;
+	Data::UserData for_pid;
+	for_pid.set_pid(pid);
 
-	Data::InitGameData idata;
-	ProtobufServerUtils::serializeInitGameData(&world_, pid, eid, idata);
-
-	GamePacket<ProtobufStrategy> send_packet;
-	send_packet.serializeFrom(idata, Data::PacketType::InitGame);
-
+	GamePacket<ProtobufStrategy> send_packet = createAcceptedPacket(for_pid);
 	room_.sendTo(pid, send_packet.data(), send_packet.size());
+}
+
+void NetworkManagerServer::processHello(
+	const Data::HeaderData& header,
+	const GamePacket<ProtobufStrategy>& packet)
+{
+	Data::UserData joined;
+	packet.parseBody(joined, header.size());
+
+	// make eid, pawn
+	float fwidth = (world_.getWidth() - World::Dummy) / 2;
+	Snake* pawn = world_.createPlayerPawn(Vec2(random(-fwidth, fwidth), random(-fwidth, fwidth)));
+	joined.set_eid(pawn->getID());
+	
+	// send InitGame packet to joined user
+	Data::InitGameData idata;
+	ProtobufServerUtils::serializeInitGameData(&world_, joined, idata);
+
+	auto init_packet = createInitGamePacket(idata);
+	room_.sendTo(joined.pid(), init_packet.data(), init_packet.size());
+
+	// send Intro packet to others
+	auto intro_packet = createIntroPacket(joined);
+	room_.broadcast(intro_packet.data(), intro_packet.size());
+
+	all_users_.emplace(joined.pid(), joined);
+	showAllUsers();
 }
 
 
@@ -89,31 +83,57 @@ void NetworkManagerServer::processReadyToJoin(
 	const Data::HeaderData& header,
 	const GamePacket<ProtobufStrategy>& packet)
 {
-	std::cout << "processReadyToJoin" << std::endl;
 }
 
 void NetworkManagerServer::processClientCommand(
 	const Data::HeaderData& header,
 	const GamePacket<ProtobufStrategy>& packet)
 {
-	std::cout << "processClientCommand" << std::endl;
 }
 
 void NetworkManagerServer::processReadyToChange(
 	const Data::HeaderData& header,
 	const GamePacket<ProtobufStrategy>& packet)
 {
-	std::cout << "processReadyToChange" << std::endl;
 }
 
 void NetworkManagerServer::processDisconnected(
 	const Data::HeaderData& header,
 	const GamePacket<ProtobufStrategy>& packet)
 {
-	std::cout << "processDisconnected" << std::endl;
+	Data::UserData disconnected;
+	packet.parseBody(disconnected, header.size());
+
+	unsigned int pid = disconnected.pid();
+
+	auto it = all_users_.find(pid);
+	if (it != std::end(all_users_))
+	{
+		auto discon_packet = createNotifyDisconnectedPacket(it->second);
+		room_.broadcast(discon_packet.data(), discon_packet.size());
+		all_users_.erase(it);
+	}
+	showAllUsers();
+}
+
+void NetworkManagerServer::showAllUsers()
+{
+	std::cout << std::endl << "-------- show all users --------" << std::endl;
+	for (auto e : all_users_)
+	{
+		std::cout << e.second.DebugString() << std::endl;
+	}
+	std::cout<<"--------------------------------" << std::endl << std::endl;
 }
 
 
+GamePacket<ProtobufStrategy>
+NetworkManagerServer::createAcceptedPacket(const Data::UserData& data)
+{
+	GamePacket<ProtobufStrategy> packet;
+	packet.serializeFrom(data, Data::PacketType::Accepted);
+	return packet;
+}
 
 GamePacket<ProtobufStrategy> 
 NetworkManagerServer::createInitGamePacket(const Data::InitGameData& data)
@@ -176,5 +196,14 @@ NetworkManagerServer::createReplicatePacket(const Data::ReplicateData& data)
 {
 	GamePacket<ProtobufStrategy> packet;
 	packet.serializeFrom(data, Data::PacketType::Replicate);
+	return packet;
+}
+
+
+GamePacket<ProtobufStrategy>
+NetworkManagerServer::createDisconnectedPacket(const Data::UserData& data)
+{
+	GamePacket<ProtobufStrategy> packet;
+	packet.serializeFrom(data, Data::PacketType::Disconnected);
 	return packet;
 }

@@ -176,9 +176,6 @@
     <ClInclude Include="GraphicsDriver.h">
       <Filter>Header</Filter>
     </ClInclude>
-    <ClInclude Include="Utils.h">
-      <Filter>Header</Filter>
-    </ClInclude>
     <ClInclude Include="WindowManager.h">
       <Filter>Header</Filter>
     </ClInclude>
@@ -268,6 +265,9 @@
     </ClInclude>
     <ClInclude Include="Server\ProtobufServerUtils.h">
       <Filter>Server</Filter>
+    </ClInclude>
+    <ClInclude Include="..\deps\include\Common\Utils.h">
+      <Filter>Common</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

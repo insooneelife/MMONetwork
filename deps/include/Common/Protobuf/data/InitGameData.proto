@@ -1,6 +1,8 @@
 syntax = "proto2";
 
 import "CreateData.proto";
+import "UserData.proto";
+import "JoinedData.proto";
 
 package Data;
 
@@ -8,6 +10,6 @@ message InitGameData
 {
 	required CreateData creates = 1;
 	required uint32 level = 2;
-	required uint32 pid = 3;
-	required uint32 eid = 4;
+	required UserData joined = 3;
+	required JoinedData others = 4;
 }

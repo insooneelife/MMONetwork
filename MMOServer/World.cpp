@@ -2,9 +2,9 @@
 #include "World.h"
 #include "EntityManager.h"
 #include "Camera2D.h"
-#include "Utils.h"
 #include "GraphicsDriver.h"
 
+#include <Common/Utils.h>
 #include <Common/Math/Transformations.h>
 
 #include "Entity/Snake.h"
@@ -129,10 +129,10 @@ World::World(Room& room, float width)
 	Vec2 tr(fwidth, fwidth );
 
 	// Create hunters
-	for (int i = 0; i < 500; ++i)
+	for (int i = 0; i < 5; ++i)
 		createHunter(Vec2(random(-fwidth, fwidth), random(-fwidth, fwidth)));
 
-	for (int i = 0; i < 30; i++)
+	for (int i = 0; i < 0; i++)
 	{
 		float headingX = random(-1, 1);
 		float headingY = 1 - sqrt(headingX * headingX);
@@ -165,8 +165,6 @@ World::~World()
 
 void World::update()
 {
-	_network_mgr->copyPackets();
-	_network_mgr->processQueuedPackets();
 
 	// If some entities are created, then we first have to push them into queue,
 	// and move them to vector after iteration has finished.
@@ -321,6 +319,12 @@ void World::renderCellSpace()
 	}	
 }
 
+Snake* World::createPlayerPawn(const Vec2& pos)
+{
+	Snake* snake = new Snake(*this, genID(), pos);
+	_created_entities.emplace(snake);
+	return snake;
+}
 
 void World::createHunter(const Vec2& pos)
 {

@@ -2,7 +2,7 @@
 #include <sstream>
 #include "Projectile.h"
 #include "../GraphicsDriver.h"
-#include "../Utils.h"
+#include <Common/Utils.h>
 
 Projectile::Projectile(
 	World& world,

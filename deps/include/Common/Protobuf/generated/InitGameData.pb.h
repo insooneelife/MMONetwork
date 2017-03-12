@@ -29,6 +29,8 @@
 #include <google/protobuf/extension_set.h>  // IWYU pragma: export
 #include <google/protobuf/unknown_field_set.h>
 #include "CreateData.pb.h"
+#include "UserData.pb.h"
+#include "JoinedData.pb.h"
 // @@protoc_insertion_point(includes)
 namespace Data {
 class CreateData;
@@ -37,6 +39,12 @@ extern CreateDataDefaultTypeInternal _CreateData_default_instance_;
 class InitGameData;
 class InitGameDataDefaultTypeInternal;
 extern InitGameDataDefaultTypeInternal _InitGameData_default_instance_;
+class JoinedData;
+class JoinedDataDefaultTypeInternal;
+extern JoinedDataDefaultTypeInternal _JoinedData_default_instance_;
+class UserData;
+class UserDataDefaultTypeInternal;
+extern UserDataDefaultTypeInternal _UserData_default_instance_;
 }  // namespace Data
 
 namespace Data {
@@ -138,6 +146,24 @@ class InitGameData : public ::google::protobuf::Message /* @@protoc_insertion_po
   ::Data::CreateData* release_creates();
   void set_allocated_creates(::Data::CreateData* creates);
 
+  // required .Data.UserData joined = 3;
+  bool has_joined() const;
+  void clear_joined();
+  static const int kJoinedFieldNumber = 3;
+  const ::Data::UserData& joined() const;
+  ::Data::UserData* mutable_joined();
+  ::Data::UserData* release_joined();
+  void set_allocated_joined(::Data::UserData* joined);
+
+  // required .Data.JoinedData others = 4;
+  bool has_others() const;
+  void clear_others();
+  static const int kOthersFieldNumber = 4;
+  const ::Data::JoinedData& others() const;
+  ::Data::JoinedData* mutable_others();
+  ::Data::JoinedData* release_others();
+  void set_allocated_others(::Data::JoinedData* others);
+
   // required uint32 level = 2;
   bool has_level() const;
   void clear_level();
@@ -145,30 +171,16 @@ class InitGameData : public ::google::protobuf::Message /* @@protoc_insertion_po
   ::google::protobuf::uint32 level() const;
   void set_level(::google::protobuf::uint32 value);
 
-  // required uint32 pid = 3;
-  bool has_pid() const;
-  void clear_pid();
-  static const int kPidFieldNumber = 3;
-  ::google::protobuf::uint32 pid() const;
-  void set_pid(::google::protobuf::uint32 value);
-
-  // required uint32 eid = 4;
-  bool has_eid() const;
-  void clear_eid();
-  static const int kEidFieldNumber = 4;
-  ::google::protobuf::uint32 eid() const;
-  void set_eid(::google::protobuf::uint32 value);
-
   // @@protoc_insertion_point(class_scope:Data.InitGameData)
  private:
   void set_has_creates();
   void clear_has_creates();
   void set_has_level();
   void clear_has_level();
-  void set_has_pid();
-  void clear_has_pid();
-  void set_has_eid();
-  void clear_has_eid();
+  void set_has_joined();
+  void clear_has_joined();
+  void set_has_others();
+  void clear_has_others();
 
   // helper for ByteSizeLong()
   size_t RequiredFieldsByteSizeFallback() const;
@@ -177,9 +189,9 @@ class InitGameData : public ::google::protobuf::Message /* @@protoc_insertion_po
   ::google::protobuf::internal::HasBits<1> _has_bits_;
   mutable int _cached_size_;
   ::Data::CreateData* creates_;
+  ::Data::UserData* joined_;
+  ::Data::JoinedData* others_;
   ::google::protobuf::uint32 level_;
-  ::google::protobuf::uint32 pid_;
-  ::google::protobuf::uint32 eid_;
   friend struct  protobuf_InitGameData_2eproto::TableStruct;
 };
 // ===================================================================
@@ -237,13 +249,13 @@ inline void InitGameData::set_allocated_creates(::Data::CreateData* creates) {
 
 // required uint32 level = 2;
 inline bool InitGameData::has_level() const {
-  return (_has_bits_[0] & 0x00000002u) != 0;
+  return (_has_bits_[0] & 0x00000008u) != 0;
 }
 inline void InitGameData::set_has_level() {
-  _has_bits_[0] |= 0x00000002u;
+  _has_bits_[0] |= 0x00000008u;
 }
 inline void InitGameData::clear_has_level() {
-  _has_bits_[0] &= ~0x00000002u;
+  _has_bits_[0] &= ~0x00000008u;
 }
 inline void InitGameData::clear_level() {
   level_ = 0u;
@@ -259,52 +271,94 @@ inline void InitGameData::set_level(::google::protobuf::uint32 value) {
   // @@protoc_insertion_point(field_set:Data.InitGameData.level)
 }
 
-// required uint32 pid = 3;
-inline bool InitGameData::has_pid() const {
-  return (_has_bits_[0] & 0x00000004u) != 0;
+// required .Data.UserData joined = 3;
+inline bool InitGameData::has_joined() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
 }
-inline void InitGameData::set_has_pid() {
-  _has_bits_[0] |= 0x00000004u;
+inline void InitGameData::set_has_joined() {
+  _has_bits_[0] |= 0x00000002u;
 }
-inline void InitGameData::clear_has_pid() {
-  _has_bits_[0] &= ~0x00000004u;
+inline void InitGameData::clear_has_joined() {
+  _has_bits_[0] &= ~0x00000002u;
 }
-inline void InitGameData::clear_pid() {
-  pid_ = 0u;
-  clear_has_pid();
+inline void InitGameData::clear_joined() {
+  if (joined_ != NULL) joined_->::Data::UserData::Clear();
+  clear_has_joined();
 }
-inline ::google::protobuf::uint32 InitGameData::pid() const {
-  // @@protoc_insertion_point(field_get:Data.InitGameData.pid)
-  return pid_;
+inline const ::Data::UserData& InitGameData::joined() const {
+  // @@protoc_insertion_point(field_get:Data.InitGameData.joined)
+  return joined_ != NULL ? *joined_
+                         : *::Data::UserData::internal_default_instance();
 }
-inline void InitGameData::set_pid(::google::protobuf::uint32 value) {
-  set_has_pid();
-  pid_ = value;
-  // @@protoc_insertion_point(field_set:Data.InitGameData.pid)
+inline ::Data::UserData* InitGameData::mutable_joined() {
+  set_has_joined();
+  if (joined_ == NULL) {
+    joined_ = new ::Data::UserData;
+  }
+  // @@protoc_insertion_point(field_mutable:Data.InitGameData.joined)
+  return joined_;
+}
+inline ::Data::UserData* InitGameData::release_joined() {
+  // @@protoc_insertion_point(field_release:Data.InitGameData.joined)
+  clear_has_joined();
+  ::Data::UserData* temp = joined_;
+  joined_ = NULL;
+  return temp;
+}
+inline void InitGameData::set_allocated_joined(::Data::UserData* joined) {
+  delete joined_;
+  joined_ = joined;
+  if (joined) {
+    set_has_joined();
+  } else {
+    clear_has_joined();
+  }
+  // @@protoc_insertion_point(field_set_allocated:Data.InitGameData.joined)
 }
 
-// required uint32 eid = 4;
-inline bool InitGameData::has_eid() const {
-  return (_has_bits_[0] & 0x00000008u) != 0;
+// required .Data.JoinedData others = 4;
+inline bool InitGameData::has_others() const {
+  return (_has_bits_[0] & 0x00000004u) != 0;
 }
-inline void InitGameData::set_has_eid() {
-  _has_bits_[0] |= 0x00000008u;
+inline void InitGameData::set_has_others() {
+  _has_bits_[0] |= 0x00000004u;
 }
-inline void InitGameData::clear_has_eid() {
-  _has_bits_[0] &= ~0x00000008u;
+inline void InitGameData::clear_has_others() {
+  _has_bits_[0] &= ~0x00000004u;
 }
-inline void InitGameData::clear_eid() {
-  eid_ = 0u;
-  clear_has_eid();
+inline void InitGameData::clear_others() {
+  if (others_ != NULL) others_->::Data::JoinedData::Clear();
+  clear_has_others();
 }
-inline ::google::protobuf::uint32 InitGameData::eid() const {
-  // @@protoc_insertion_point(field_get:Data.InitGameData.eid)
-  return eid_;
+inline const ::Data::JoinedData& InitGameData::others() const {
+  // @@protoc_insertion_point(field_get:Data.InitGameData.others)
+  return others_ != NULL ? *others_
+                         : *::Data::JoinedData::internal_default_instance();
 }
-inline void InitGameData::set_eid(::google::protobuf::uint32 value) {
-  set_has_eid();
-  eid_ = value;
-  // @@protoc_insertion_point(field_set:Data.InitGameData.eid)
+inline ::Data::JoinedData* InitGameData::mutable_others() {
+  set_has_others();
+  if (others_ == NULL) {
+    others_ = new ::Data::JoinedData;
+  }
+  // @@protoc_insertion_point(field_mutable:Data.InitGameData.others)
+  return others_;
+}
+inline ::Data::JoinedData* InitGameData::release_others() {
+  // @@protoc_insertion_point(field_release:Data.InitGameData.others)
+  clear_has_others();
+  ::Data::JoinedData* temp = others_;
+  others_ = NULL;
+  return temp;
+}
+inline void InitGameData::set_allocated_others(::Data::JoinedData* others) {
+  delete others_;
+  others_ = others;
+  if (others) {
+    set_has_others();
+  } else {
+    clear_has_others();
+  }
+  // @@protoc_insertion_point(field_set_allocated:Data.InitGameData.others)
 }
 
 #endif  // !PROTOBUF_INLINE_NOT_IN_HEADERS

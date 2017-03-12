@@ -167,6 +167,12 @@
     <ClInclude Include="Client\NetworkManagerClient.h">
       <Filter>Client</Filter>
     </ClInclude>
+    <ClInclude Include="..\deps\include\Common\Network\NetworkManagerBase.hpp">
+      <Filter>Common\Network</Filter>
+    </ClInclude>
+    <ClInclude Include="..\deps\include\Common\Utils.h">
+      <Filter>Common</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\deps\include\Common\Protobuf\설계.txt">

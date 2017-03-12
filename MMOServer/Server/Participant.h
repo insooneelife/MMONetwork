@@ -11,7 +11,7 @@ public:
 	Participant() : id_(0) {}
 
 	virtual ~Participant() {}
-	virtual void send(unsigned char* buffer, unsigned int length) = 0;
+	virtual void send(const unsigned char* buffer, unsigned int length) = 0;
 
 private:
 	unsigned int id_;

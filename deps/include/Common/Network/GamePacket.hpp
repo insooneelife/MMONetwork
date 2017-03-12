@@ -35,6 +35,7 @@ public:
 	inline unsigned char* body()				{ return data_.data() + HeaderLength; }
 	inline const unsigned char* body() const	{ return data_.data() + HeaderLength; }
 	inline size_t size() const					{ return size_; }
+	inline void setSize(size_t size)			{ size_ = size; }
 
 	inline void serializeFrom(int packet_type)
 	{
