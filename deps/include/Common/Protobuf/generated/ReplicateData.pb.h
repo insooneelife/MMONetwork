@@ -28,19 +28,19 @@
 #include <google/protobuf/repeated_field.h>  // IWYU pragma: export
 #include <google/protobuf/extension_set.h>  // IWYU pragma: export
 #include <google/protobuf/unknown_field_set.h>
-#include "ModifyData.pb.h"
-#include "UpdateData.pb.h"
+#include "EntityData.pb.h"
+#include "UserData.pb.h"
 // @@protoc_insertion_point(includes)
 namespace Data {
-class ModifyData;
-class ModifyDataDefaultTypeInternal;
-extern ModifyDataDefaultTypeInternal _ModifyData_default_instance_;
+class EntityData;
+class EntityDataDefaultTypeInternal;
+extern EntityDataDefaultTypeInternal _EntityData_default_instance_;
 class ReplicateData;
 class ReplicateDataDefaultTypeInternal;
 extern ReplicateDataDefaultTypeInternal _ReplicateData_default_instance_;
-class UpdateData;
-class UpdateDataDefaultTypeInternal;
-extern UpdateDataDefaultTypeInternal _UpdateData_default_instance_;
+class UserData;
+class UserDataDefaultTypeInternal;
+extern UserDataDefaultTypeInternal _UserData_default_instance_;
 }  // namespace Data
 
 namespace Data {
@@ -133,36 +133,38 @@ class ReplicateData : public ::google::protobuf::Message /* @@protoc_insertion_p
 
   // accessors -------------------------------------------------------
 
-  // optional .Data.ModifyData modified = 1;
-  bool has_modified() const;
-  void clear_modified();
-  static const int kModifiedFieldNumber = 1;
-  const ::Data::ModifyData& modified() const;
-  ::Data::ModifyData* mutable_modified();
-  ::Data::ModifyData* release_modified();
-  void set_allocated_modified(::Data::ModifyData* modified);
+  // repeated .Data.EntityData entities = 1;
+  int entities_size() const;
+  void clear_entities();
+  static const int kEntitiesFieldNumber = 1;
+  const ::Data::EntityData& entities(int index) const;
+  ::Data::EntityData* mutable_entities(int index);
+  ::Data::EntityData* add_entities();
+  ::google::protobuf::RepeatedPtrField< ::Data::EntityData >*
+      mutable_entities();
+  const ::google::protobuf::RepeatedPtrField< ::Data::EntityData >&
+      entities() const;
 
-  // optional .Data.UpdateData updated = 2;
-  bool has_updated() const;
-  void clear_updated();
-  static const int kUpdatedFieldNumber = 2;
-  const ::Data::UpdateData& updated() const;
-  ::Data::UpdateData* mutable_updated();
-  ::Data::UpdateData* release_updated();
-  void set_allocated_updated(::Data::UpdateData* updated);
+  // repeated .Data.UserData updated_users = 2;
+  int updated_users_size() const;
+  void clear_updated_users();
+  static const int kUpdatedUsersFieldNumber = 2;
+  const ::Data::UserData& updated_users(int index) const;
+  ::Data::UserData* mutable_updated_users(int index);
+  ::Data::UserData* add_updated_users();
+  ::google::protobuf::RepeatedPtrField< ::Data::UserData >*
+      mutable_updated_users();
+  const ::google::protobuf::RepeatedPtrField< ::Data::UserData >&
+      updated_users() const;
 
   // @@protoc_insertion_point(class_scope:Data.ReplicateData)
  private:
-  void set_has_modified();
-  void clear_has_modified();
-  void set_has_updated();
-  void clear_has_updated();
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::internal::HasBits<1> _has_bits_;
   mutable int _cached_size_;
-  ::Data::ModifyData* modified_;
-  ::Data::UpdateData* updated_;
+  ::google::protobuf::RepeatedPtrField< ::Data::EntityData > entities_;
+  ::google::protobuf::RepeatedPtrField< ::Data::UserData > updated_users_;
   friend struct  protobuf_ReplicateData_2eproto::TableStruct;
 };
 // ===================================================================
@@ -173,94 +175,64 @@ class ReplicateData : public ::google::protobuf::Message /* @@protoc_insertion_p
 #if !PROTOBUF_INLINE_NOT_IN_HEADERS
 // ReplicateData
 
-// optional .Data.ModifyData modified = 1;
-inline bool ReplicateData::has_modified() const {
-  return (_has_bits_[0] & 0x00000001u) != 0;
+// repeated .Data.EntityData entities = 1;
+inline int ReplicateData::entities_size() const {
+  return entities_.size();
 }
-inline void ReplicateData::set_has_modified() {
-  _has_bits_[0] |= 0x00000001u;
+inline void ReplicateData::clear_entities() {
+  entities_.Clear();
 }
-inline void ReplicateData::clear_has_modified() {
-  _has_bits_[0] &= ~0x00000001u;
+inline const ::Data::EntityData& ReplicateData::entities(int index) const {
+  // @@protoc_insertion_point(field_get:Data.ReplicateData.entities)
+  return entities_.Get(index);
 }
-inline void ReplicateData::clear_modified() {
-  if (modified_ != NULL) modified_->::Data::ModifyData::Clear();
-  clear_has_modified();
+inline ::Data::EntityData* ReplicateData::mutable_entities(int index) {
+  // @@protoc_insertion_point(field_mutable:Data.ReplicateData.entities)
+  return entities_.Mutable(index);
 }
-inline const ::Data::ModifyData& ReplicateData::modified() const {
-  // @@protoc_insertion_point(field_get:Data.ReplicateData.modified)
-  return modified_ != NULL ? *modified_
-                         : *::Data::ModifyData::internal_default_instance();
+inline ::Data::EntityData* ReplicateData::add_entities() {
+  // @@protoc_insertion_point(field_add:Data.ReplicateData.entities)
+  return entities_.Add();
 }
-inline ::Data::ModifyData* ReplicateData::mutable_modified() {
-  set_has_modified();
-  if (modified_ == NULL) {
-    modified_ = new ::Data::ModifyData;
-  }
-  // @@protoc_insertion_point(field_mutable:Data.ReplicateData.modified)
-  return modified_;
+inline ::google::protobuf::RepeatedPtrField< ::Data::EntityData >*
+ReplicateData::mutable_entities() {
+  // @@protoc_insertion_point(field_mutable_list:Data.ReplicateData.entities)
+  return &entities_;
 }
-inline ::Data::ModifyData* ReplicateData::release_modified() {
-  // @@protoc_insertion_point(field_release:Data.ReplicateData.modified)
-  clear_has_modified();
-  ::Data::ModifyData* temp = modified_;
-  modified_ = NULL;
-  return temp;
-}
-inline void ReplicateData::set_allocated_modified(::Data::ModifyData* modified) {
-  delete modified_;
-  modified_ = modified;
-  if (modified) {
-    set_has_modified();
-  } else {
-    clear_has_modified();
-  }
-  // @@protoc_insertion_point(field_set_allocated:Data.ReplicateData.modified)
+inline const ::google::protobuf::RepeatedPtrField< ::Data::EntityData >&
+ReplicateData::entities() const {
+  // @@protoc_insertion_point(field_list:Data.ReplicateData.entities)
+  return entities_;
 }
 
-// optional .Data.UpdateData updated = 2;
-inline bool ReplicateData::has_updated() const {
-  return (_has_bits_[0] & 0x00000002u) != 0;
+// repeated .Data.UserData updated_users = 2;
+inline int ReplicateData::updated_users_size() const {
+  return updated_users_.size();
 }
-inline void ReplicateData::set_has_updated() {
-  _has_bits_[0] |= 0x00000002u;
+inline void ReplicateData::clear_updated_users() {
+  updated_users_.Clear();
 }
-inline void ReplicateData::clear_has_updated() {
-  _has_bits_[0] &= ~0x00000002u;
+inline const ::Data::UserData& ReplicateData::updated_users(int index) const {
+  // @@protoc_insertion_point(field_get:Data.ReplicateData.updated_users)
+  return updated_users_.Get(index);
 }
-inline void ReplicateData::clear_updated() {
-  if (updated_ != NULL) updated_->::Data::UpdateData::Clear();
-  clear_has_updated();
+inline ::Data::UserData* ReplicateData::mutable_updated_users(int index) {
+  // @@protoc_insertion_point(field_mutable:Data.ReplicateData.updated_users)
+  return updated_users_.Mutable(index);
 }
-inline const ::Data::UpdateData& ReplicateData::updated() const {
-  // @@protoc_insertion_point(field_get:Data.ReplicateData.updated)
-  return updated_ != NULL ? *updated_
-                         : *::Data::UpdateData::internal_default_instance();
+inline ::Data::UserData* ReplicateData::add_updated_users() {
+  // @@protoc_insertion_point(field_add:Data.ReplicateData.updated_users)
+  return updated_users_.Add();
 }
-inline ::Data::UpdateData* ReplicateData::mutable_updated() {
-  set_has_updated();
-  if (updated_ == NULL) {
-    updated_ = new ::Data::UpdateData;
-  }
-  // @@protoc_insertion_point(field_mutable:Data.ReplicateData.updated)
-  return updated_;
+inline ::google::protobuf::RepeatedPtrField< ::Data::UserData >*
+ReplicateData::mutable_updated_users() {
+  // @@protoc_insertion_point(field_mutable_list:Data.ReplicateData.updated_users)
+  return &updated_users_;
 }
-inline ::Data::UpdateData* ReplicateData::release_updated() {
-  // @@protoc_insertion_point(field_release:Data.ReplicateData.updated)
-  clear_has_updated();
-  ::Data::UpdateData* temp = updated_;
-  updated_ = NULL;
-  return temp;
-}
-inline void ReplicateData::set_allocated_updated(::Data::UpdateData* updated) {
-  delete updated_;
-  updated_ = updated;
-  if (updated) {
-    set_has_updated();
-  } else {
-    clear_has_updated();
-  }
-  // @@protoc_insertion_point(field_set_allocated:Data.ReplicateData.updated)
+inline const ::google::protobuf::RepeatedPtrField< ::Data::UserData >&
+ReplicateData::updated_users() const {
+  // @@protoc_insertion_point(field_list:Data.ReplicateData.updated_users)
+  return updated_users_;
 }
 
 #endif  // !PROTOBUF_INLINE_NOT_IN_HEADERS

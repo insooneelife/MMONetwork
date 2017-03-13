@@ -47,93 +47,11 @@ void ProtobufServerUtils::serializeUserData(
 	out.set_point(point);
 }
 
-void ProtobufServerUtils::serializeSnakeAdditionalUpdateData(
-	Snake* snake,
-	Data::SnakeAdditionalUpdateData& out)
-{
-	for (auto e : snake->getBodies())
-	{
-		auto body = out.add_body();
-		body->set_x(e->getPos().x);
-		body->set_y(e->getPos().y);
-	}
-}
 
-void ProtobufServerUtils::serializeEntityUpdateData(
-	unsigned int eid,
-	Vec2 pos,
-	Data::EntityUpdateData& out)
-{
-	out.set_eid(eid);
-	auto p = out.mutable_pos();
-	p->set_x(pos.x);
-	p->set_y(pos.y);
-}
-
-void ProtobufServerUtils::serializeEntityUpdateData(
-	unsigned int eid,
-	const Data::SnakeAdditionalUpdateData& sdata,
-	Data::EntityUpdateData& out)
-{
-	out.set_eid(eid);
-	auto s = out.mutable_sdata();
-	
-	for (int i = 0; i < sdata.body_size(); ++i)
-	{
-		auto add_here = s->add_body();
-
-		auto b = sdata.body(i);
-		add_here->set_x(b.x());
-		add_here->set_y(b.y());
-	}
-}
-
-void ProtobufServerUtils::serializeUpdateData(
-	const std::map <unsigned int, Entity*>& entities,
-	const std::map<unsigned int, Data::UserData>& users,
-	Data::UpdateData& out)
-{
-	for (auto e : entities)
-	{
-		Entity* ent = e.second;
-		Entity::Type type = ent->getType();
-
-		
-		
-		if (type == Entity::Type::kPrey)
-		{}
-
-		else if (type == Entity::Type::kProjectile)
-		{
-			auto add_here = out.add_updated_entities();
-			Projectile* p = static_cast<Projectile*>(ent);
-
-			add_here->set_eid(ent->getID());
-			auto pos = add_here->mutable_pos();
-			pos->set_x(p->getPos().x);
-			pos->set_y(p->getPos().y);
-		}
-
-		else if (type == Entity::Type::kSnake)
-		{
-			auto add_here = out.add_updated_entities();
-			add_here->set_eid(ent->getID());
-
-			Snake* s = static_cast<Snake*>(ent);
-			auto sdata = add_here->mutable_sdata();
-			serializeSnakeAdditionalUpdateData(s, *sdata);
-		}
-
-		else if (type == Entity::Type::kWall)
-		{}
-		
-	}
-}
-
-void ProtobufServerUtils::serializeWallAdditionalCreateData(
+void ProtobufServerUtils::serializeWallAdditionalData(
 	Vec2 begin,
 	Vec2 end,
-	Data::WallAdditionalCreateData& out)
+	Data::WallAdditionalData& out)
 {
 	auto b = out.mutable_begin();
 	auto e = out.mutable_end();
@@ -143,9 +61,9 @@ void ProtobufServerUtils::serializeWallAdditionalCreateData(
 	e->set_y(end.y);
 }
 
-void ProtobufServerUtils::serializeSnakeAdditionalCreateData(
+void ProtobufServerUtils::serializeSnakeAdditionalData(
 	Snake* snake,
-	Data::SnakeAdditionalCreateData& out)
+	Data::SnakeAdditionalData& out)
 {
 	out.set_control_type(snake->getControlType());
 
@@ -158,7 +76,7 @@ void ProtobufServerUtils::serializeSnakeAdditionalCreateData(
 }
 
 
-void ProtobufServerUtils::serializeEntityCreateData(Entity* ent, Data::EntityCreateData& out)
+void ProtobufServerUtils::serializeEntityData(Entity* ent, Data::EntityData& out)
 {
 	out.set_eid(ent->getID());
 	out.set_etype(ent->getType());
@@ -183,14 +101,14 @@ void ProtobufServerUtils::serializeEntityCreateData(Entity* ent, Data::EntityCre
 	{
 		Snake* s = static_cast<Snake*>(ent);
 		auto sdata = out.mutable_sdata();
-		serializeSnakeAdditionalCreateData(s, *sdata);
+		serializeSnakeAdditionalData(s, *sdata);
 	}
 
 	else if (ent->getType() == Entity::Type::kWall)
 	{
 		Wall* w = static_cast<Wall*>(ent);
 		auto wdata = out.mutable_wdata();
-		serializeWallAdditionalCreateData(w->getBegin(), w->getEnd(), *wdata);
+		serializeWallAdditionalData(w->getBegin(), w->getEnd(), *wdata);
 	}
 }
 
@@ -201,43 +119,28 @@ void ProtobufServerUtils::serializeCreateData(
 	for (auto ent : world->getEntityMgr().getEntities())
 	{
 		auto cdata = out.add_created_entities();
-		serializeEntityCreateData(ent.second, *cdata);
+		serializeEntityData(ent.second, *cdata);
 	}
 }
 
-void ProtobufServerUtils::serializeModifyData(
-	World* world,
-	Data::ModifyData& out)
-{
-	for (auto e : world->getModifies())
-	{
-		auto mdata = out.add_modifies();
-		if (e.What == ModifyInfo::Create)
-		{
-			auto cdata = mdata->mutable_created();
-			Entity* ent = world->getEntityMgr().getEntity(e.ID);
-			if (ent != nullptr)
-			{
-				Entity::Type type = ent->getType();
-				serializeEntityCreateData(ent, *cdata);
-			}
-		}
-		else if (e.What == ModifyInfo::Delete)
-		{
-			mdata->set_destroyed(e.ID);
-		}
-	}
-}
+
 
 void ProtobufServerUtils::serializeReplicateData(
 	World* world,
 	Data::ReplicateData& out)
 {
-	auto udata = out.mutable_updated();
-	auto mdata = out.mutable_modified();
-	
-	serializeUpdateData(world->getEntityMgr().getEntities(), world->getNetworkMgr().getUsers(), *udata);
-	serializeModifyData(world, *mdata);
+	for (auto e : world->getEntityMgr().getEntities())
+	{
+		auto add_here = out.add_entities();
+		serializeEntityData(e.second, *add_here);
+	}
+
+	auto udata = out.mutable_updated_users();
+	for (auto e : world->getNetworkMgr().getUsers())
+	{
+		auto add_here = out.add_updated_users();
+		*add_here = e.second;
+	}
 }
 
 void ProtobufServerUtils::serializeInitGameData(

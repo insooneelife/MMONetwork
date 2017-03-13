@@ -35,10 +35,10 @@ const ::google::protobuf::uint32 TableStruct::offsets[] = {
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(ReplicateData, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(ReplicateData, modified_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(ReplicateData, updated_),
-  0,
-  1,
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(ReplicateData, entities_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(ReplicateData, updated_users_),
+  ~0u,
+  ~0u,
 };
 
 static const ::google::protobuf::internal::MigrationSchema schemas[] = {
@@ -81,13 +81,9 @@ void TableStruct::InitDefaultsImpl() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
   ::google::protobuf::internal::InitProtobufDefaults();
-  ::Data::protobuf_ModifyData_2eproto::InitDefaults();
-  ::Data::protobuf_UpdateData_2eproto::InitDefaults();
+  ::Data::protobuf_EntityData_2eproto::InitDefaults();
+  ::Data::protobuf_UserData_2eproto::InitDefaults();
   _ReplicateData_default_instance_.DefaultConstruct();
-  _ReplicateData_default_instance_.get_mutable()->modified_ = const_cast< ::Data::ModifyData*>(
-      ::Data::ModifyData::internal_default_instance());
-  _ReplicateData_default_instance_.get_mutable()->updated_ = const_cast< ::Data::UpdateData*>(
-      ::Data::UpdateData::internal_default_instance());
 }
 
 void InitDefaults() {
@@ -97,17 +93,17 @@ void InitDefaults() {
 void AddDescriptorsImpl() {
   InitDefaults();
   static const char descriptor[] = {
-      "\n\023ReplicateData.proto\022\004Data\032\020ModifyData."
-      "proto\032\020UpdateData.proto\"V\n\rReplicateData"
-      "\022\"\n\010modified\030\001 \001(\0132\020.Data.ModifyData\022!\n\007"
-      "updated\030\002 \001(\0132\020.Data.UpdateData"
+      "\n\023ReplicateData.proto\022\004Data\032\020EntityData."
+      "proto\032\016UserData.proto\"Z\n\rReplicateData\022\""
+      "\n\010entities\030\001 \003(\0132\020.Data.EntityData\022%\n\rup"
+      "dated_users\030\002 \003(\0132\016.Data.UserData"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 151);
+      descriptor, 153);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "ReplicateData.proto", &protobuf_RegisterTypes);
-  ::Data::protobuf_ModifyData_2eproto::AddDescriptors();
-  ::Data::protobuf_UpdateData_2eproto::AddDescriptors();
+  ::Data::protobuf_EntityData_2eproto::AddDescriptors();
+  ::Data::protobuf_UserData_2eproto::AddDescriptors();
   ::google::protobuf::internal::OnShutdown(&TableStruct::Shutdown);
 }
 
@@ -128,8 +124,8 @@ struct StaticDescriptorInitializer {
 // ===================================================================
 
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
-const int ReplicateData::kModifiedFieldNumber;
-const int ReplicateData::kUpdatedFieldNumber;
+const int ReplicateData::kEntitiesFieldNumber;
+const int ReplicateData::kUpdatedUsersFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 ReplicateData::ReplicateData()
@@ -144,25 +140,15 @@ ReplicateData::ReplicateData(const ReplicateData& from)
   : ::google::protobuf::Message(),
       _internal_metadata_(NULL),
       _has_bits_(from._has_bits_),
-      _cached_size_(0) {
+      _cached_size_(0),
+      entities_(from.entities_),
+      updated_users_(from.updated_users_) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
-  if (from.has_modified()) {
-    modified_ = new ::Data::ModifyData(*from.modified_);
-  } else {
-    modified_ = NULL;
-  }
-  if (from.has_updated()) {
-    updated_ = new ::Data::UpdateData(*from.updated_);
-  } else {
-    updated_ = NULL;
-  }
   // @@protoc_insertion_point(copy_constructor:Data.ReplicateData)
 }
 
 void ReplicateData::SharedCtor() {
   _cached_size_ = 0;
-  ::memset(&modified_, 0, reinterpret_cast<char*>(&updated_) -
-    reinterpret_cast<char*>(&modified_) + sizeof(updated_));
 }
 
 ReplicateData::~ReplicateData() {
@@ -171,12 +157,6 @@ ReplicateData::~ReplicateData() {
 }
 
 void ReplicateData::SharedDtor() {
-  if (this != internal_default_instance()) {
-    delete modified_;
-  }
-  if (this != internal_default_instance()) {
-    delete updated_;
-  }
 }
 
 void ReplicateData::SetCachedSize(int size) const {
@@ -204,16 +184,8 @@ ReplicateData* ReplicateData::New(::google::protobuf::Arena* arena) const {
 
 void ReplicateData::Clear() {
 // @@protoc_insertion_point(message_clear_start:Data.ReplicateData)
-  if (_has_bits_[0 / 32] & 3u) {
-    if (has_modified()) {
-      GOOGLE_DCHECK(modified_ != NULL);
-      modified_->::Data::ModifyData::Clear();
-    }
-    if (has_updated()) {
-      GOOGLE_DCHECK(updated_ != NULL);
-      updated_->::Data::UpdateData::Clear();
-    }
-  }
+  entities_.Clear();
+  updated_users_.Clear();
   _has_bits_.Clear();
   _internal_metadata_.Clear();
 }
@@ -228,25 +200,29 @@ bool ReplicateData::MergePartialFromCodedStream(
     tag = p.first;
     if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // optional .Data.ModifyData modified = 1;
+      // repeated .Data.EntityData entities = 1;
       case 1: {
         if (tag == 10u) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
-               input, mutable_modified()));
+          DO_(input->IncrementRecursionDepth());
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtualNoRecursionDepth(
+                input, add_entities()));
         } else {
           goto handle_unusual;
         }
+        input->UnsafeDecrementRecursionDepth();
         break;
       }
 
-      // optional .Data.UpdateData updated = 2;
+      // repeated .Data.UserData updated_users = 2;
       case 2: {
         if (tag == 18u) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
-               input, mutable_updated()));
+          DO_(input->IncrementRecursionDepth());
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtualNoRecursionDepth(
+                input, add_updated_users()));
         } else {
           goto handle_unusual;
         }
+        input->UnsafeDecrementRecursionDepth();
         break;
       }
 
@@ -275,16 +251,16 @@ failure:
 void ReplicateData::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
   // @@protoc_insertion_point(serialize_start:Data.ReplicateData)
-  // optional .Data.ModifyData modified = 1;
-  if (has_modified()) {
+  // repeated .Data.EntityData entities = 1;
+  for (unsigned int i = 0, n = this->entities_size(); i < n; i++) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      1, *this->modified_, output);
+      1, this->entities(i), output);
   }
 
-  // optional .Data.UpdateData updated = 2;
-  if (has_updated()) {
+  // repeated .Data.UserData updated_users = 2;
+  for (unsigned int i = 0, n = this->updated_users_size(); i < n; i++) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      2, *this->updated_, output);
+      2, this->updated_users(i), output);
   }
 
   if (_internal_metadata_.have_unknown_fields()) {
@@ -298,18 +274,18 @@ void ReplicateData::SerializeWithCachedSizes(
     bool deterministic, ::google::protobuf::uint8* target) const {
   (void)deterministic;  // Unused
   // @@protoc_insertion_point(serialize_to_array_start:Data.ReplicateData)
-  // optional .Data.ModifyData modified = 1;
-  if (has_modified()) {
+  // repeated .Data.EntityData entities = 1;
+  for (unsigned int i = 0, n = this->entities_size(); i < n; i++) {
     target = ::google::protobuf::internal::WireFormatLite::
       InternalWriteMessageNoVirtualToArray(
-        1, *this->modified_, false, target);
+        1, this->entities(i), false, target);
   }
 
-  // optional .Data.UpdateData updated = 2;
-  if (has_updated()) {
+  // repeated .Data.UserData updated_users = 2;
+  for (unsigned int i = 0, n = this->updated_users_size(); i < n; i++) {
     target = ::google::protobuf::internal::WireFormatLite::
       InternalWriteMessageNoVirtualToArray(
-        2, *this->updated_, false, target);
+        2, this->updated_users(i), false, target);
   }
 
   if (_internal_metadata_.have_unknown_fields()) {
@@ -329,22 +305,28 @@ size_t ReplicateData::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         unknown_fields());
   }
-  if (_has_bits_[0 / 32] & 3u) {
-    // optional .Data.ModifyData modified = 1;
-    if (has_modified()) {
-      total_size += 1 +
+  // repeated .Data.EntityData entities = 1;
+  {
+    unsigned int count = this->entities_size();
+    total_size += 1UL * count;
+    for (unsigned int i = 0; i < count; i++) {
+      total_size +=
         ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
-          *this->modified_);
+          this->entities(i));
     }
-
-    // optional .Data.UpdateData updated = 2;
-    if (has_updated()) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
-          *this->updated_);
-    }
-
   }
+
+  // repeated .Data.UserData updated_users = 2;
+  {
+    unsigned int count = this->updated_users_size();
+    total_size += 1UL * count;
+    for (unsigned int i = 0; i < count; i++) {
+      total_size +=
+        ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
+          this->updated_users(i));
+    }
+  }
+
   int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
   GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
   _cached_size_ = cached_size;
@@ -371,14 +353,8 @@ void ReplicateData::MergeFrom(const ReplicateData& from) {
 // @@protoc_insertion_point(class_specific_merge_from_start:Data.ReplicateData)
   GOOGLE_DCHECK_NE(&from, this);
   _internal_metadata_.MergeFrom(from._internal_metadata_);
-  if (from._has_bits_[0 / 32] & 3u) {
-    if (from.has_modified()) {
-      mutable_modified()->::Data::ModifyData::MergeFrom(from.modified());
-    }
-    if (from.has_updated()) {
-      mutable_updated()->::Data::UpdateData::MergeFrom(from.updated());
-    }
-  }
+  entities_.MergeFrom(from.entities_);
+  updated_users_.MergeFrom(from.updated_users_);
 }
 
 void ReplicateData::CopyFrom(const ::google::protobuf::Message& from) {
@@ -396,12 +372,8 @@ void ReplicateData::CopyFrom(const ReplicateData& from) {
 }
 
 bool ReplicateData::IsInitialized() const {
-  if (has_modified()) {
-    if (!this->modified_->IsInitialized()) return false;
-  }
-  if (has_updated()) {
-    if (!this->updated_->IsInitialized()) return false;
-  }
+  if (!::google::protobuf::internal::AllAreInitialized(this->entities())) return false;
+  if (!::google::protobuf::internal::AllAreInitialized(this->updated_users())) return false;
   return true;
 }
 
@@ -410,8 +382,8 @@ void ReplicateData::Swap(ReplicateData* other) {
   InternalSwap(other);
 }
 void ReplicateData::InternalSwap(ReplicateData* other) {
-  std::swap(modified_, other->modified_);
-  std::swap(updated_, other->updated_);
+  entities_.UnsafeArenaSwap(&other->entities_);
+  updated_users_.UnsafeArenaSwap(&other->updated_users_);
   std::swap(_has_bits_[0], other->_has_bits_[0]);
   _internal_metadata_.Swap(&other->_internal_metadata_);
   std::swap(_cached_size_, other->_cached_size_);
@@ -425,94 +397,64 @@ void ReplicateData::InternalSwap(ReplicateData* other) {
 #if PROTOBUF_INLINE_NOT_IN_HEADERS
 // ReplicateData
 
-// optional .Data.ModifyData modified = 1;
-bool ReplicateData::has_modified() const {
-  return (_has_bits_[0] & 0x00000001u) != 0;
+// repeated .Data.EntityData entities = 1;
+int ReplicateData::entities_size() const {
+  return entities_.size();
 }
-void ReplicateData::set_has_modified() {
-  _has_bits_[0] |= 0x00000001u;
+void ReplicateData::clear_entities() {
+  entities_.Clear();
 }
-void ReplicateData::clear_has_modified() {
-  _has_bits_[0] &= ~0x00000001u;
+const ::Data::EntityData& ReplicateData::entities(int index) const {
+  // @@protoc_insertion_point(field_get:Data.ReplicateData.entities)
+  return entities_.Get(index);
 }
-void ReplicateData::clear_modified() {
-  if (modified_ != NULL) modified_->::Data::ModifyData::Clear();
-  clear_has_modified();
+::Data::EntityData* ReplicateData::mutable_entities(int index) {
+  // @@protoc_insertion_point(field_mutable:Data.ReplicateData.entities)
+  return entities_.Mutable(index);
 }
-const ::Data::ModifyData& ReplicateData::modified() const {
-  // @@protoc_insertion_point(field_get:Data.ReplicateData.modified)
-  return modified_ != NULL ? *modified_
-                         : *::Data::ModifyData::internal_default_instance();
+::Data::EntityData* ReplicateData::add_entities() {
+  // @@protoc_insertion_point(field_add:Data.ReplicateData.entities)
+  return entities_.Add();
 }
-::Data::ModifyData* ReplicateData::mutable_modified() {
-  set_has_modified();
-  if (modified_ == NULL) {
-    modified_ = new ::Data::ModifyData;
-  }
-  // @@protoc_insertion_point(field_mutable:Data.ReplicateData.modified)
-  return modified_;
+::google::protobuf::RepeatedPtrField< ::Data::EntityData >*
+ReplicateData::mutable_entities() {
+  // @@protoc_insertion_point(field_mutable_list:Data.ReplicateData.entities)
+  return &entities_;
 }
-::Data::ModifyData* ReplicateData::release_modified() {
-  // @@protoc_insertion_point(field_release:Data.ReplicateData.modified)
-  clear_has_modified();
-  ::Data::ModifyData* temp = modified_;
-  modified_ = NULL;
-  return temp;
-}
-void ReplicateData::set_allocated_modified(::Data::ModifyData* modified) {
-  delete modified_;
-  modified_ = modified;
-  if (modified) {
-    set_has_modified();
-  } else {
-    clear_has_modified();
-  }
-  // @@protoc_insertion_point(field_set_allocated:Data.ReplicateData.modified)
+const ::google::protobuf::RepeatedPtrField< ::Data::EntityData >&
+ReplicateData::entities() const {
+  // @@protoc_insertion_point(field_list:Data.ReplicateData.entities)
+  return entities_;
 }
 
-// optional .Data.UpdateData updated = 2;
-bool ReplicateData::has_updated() const {
-  return (_has_bits_[0] & 0x00000002u) != 0;
+// repeated .Data.UserData updated_users = 2;
+int ReplicateData::updated_users_size() const {
+  return updated_users_.size();
 }
-void ReplicateData::set_has_updated() {
-  _has_bits_[0] |= 0x00000002u;
+void ReplicateData::clear_updated_users() {
+  updated_users_.Clear();
 }
-void ReplicateData::clear_has_updated() {
-  _has_bits_[0] &= ~0x00000002u;
+const ::Data::UserData& ReplicateData::updated_users(int index) const {
+  // @@protoc_insertion_point(field_get:Data.ReplicateData.updated_users)
+  return updated_users_.Get(index);
 }
-void ReplicateData::clear_updated() {
-  if (updated_ != NULL) updated_->::Data::UpdateData::Clear();
-  clear_has_updated();
+::Data::UserData* ReplicateData::mutable_updated_users(int index) {
+  // @@protoc_insertion_point(field_mutable:Data.ReplicateData.updated_users)
+  return updated_users_.Mutable(index);
 }
-const ::Data::UpdateData& ReplicateData::updated() const {
-  // @@protoc_insertion_point(field_get:Data.ReplicateData.updated)
-  return updated_ != NULL ? *updated_
-                         : *::Data::UpdateData::internal_default_instance();
+::Data::UserData* ReplicateData::add_updated_users() {
+  // @@protoc_insertion_point(field_add:Data.ReplicateData.updated_users)
+  return updated_users_.Add();
 }
-::Data::UpdateData* ReplicateData::mutable_updated() {
-  set_has_updated();
-  if (updated_ == NULL) {
-    updated_ = new ::Data::UpdateData;
-  }
-  // @@protoc_insertion_point(field_mutable:Data.ReplicateData.updated)
-  return updated_;
+::google::protobuf::RepeatedPtrField< ::Data::UserData >*
+ReplicateData::mutable_updated_users() {
+  // @@protoc_insertion_point(field_mutable_list:Data.ReplicateData.updated_users)
+  return &updated_users_;
 }
-::Data::UpdateData* ReplicateData::release_updated() {
-  // @@protoc_insertion_point(field_release:Data.ReplicateData.updated)
-  clear_has_updated();
-  ::Data::UpdateData* temp = updated_;
-  updated_ = NULL;
-  return temp;
-}
-void ReplicateData::set_allocated_updated(::Data::UpdateData* updated) {
-  delete updated_;
-  updated_ = updated;
-  if (updated) {
-    set_has_updated();
-  } else {
-    clear_has_updated();
-  }
-  // @@protoc_insertion_point(field_set_allocated:Data.ReplicateData.updated)
+const ::google::protobuf::RepeatedPtrField< ::Data::UserData >&
+ReplicateData::updated_users() const {
+  // @@protoc_insertion_point(field_list:Data.ReplicateData.updated_users)
+  return updated_users_;
 }
 
 #endif  // PROTOBUF_INLINE_NOT_IN_HEADERS

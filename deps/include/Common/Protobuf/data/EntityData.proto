@@ -1,0 +1,16 @@
+syntax = "proto2";
+
+import "Base.proto";
+import "WallAdditionalData.proto";
+import "SnakeAdditionalData.proto";
+
+package Data;
+
+message EntityData 
+{
+	required uint32 eid = 1;
+	required uint32 etype = 2;
+	optional Vec2 pos = 3;
+	optional WallAdditionalData wdata = 4;
+	optional SnakeAdditionalData sdata = 5;
+}

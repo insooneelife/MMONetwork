@@ -12,27 +12,14 @@
 #include <vector>
 #include <Common/Network/GamePacket.hpp>
 #include <Common/Protobuf/generated/Base.pb.h>
-#include <Common/Protobuf/generated/Base.pb.h>
 #include <Common/Protobuf/generated/HeaderData.pb.h>
 #include <Common/Protobuf/generated/CommandData.pb.h>
 #include <Common/Protobuf/generated/UserData.pb.h>
 #include <Common/Protobuf/generated/CreateData.pb.h>
-#include <Common/Protobuf/generated/UpdateData.pb.h>
 #include <Common/Protobuf/generated/ReplicateData.pb.h>
 #include <Common/Protobuf/generated/InitGameData.pb.h>
 #include <Common/Protobuf/generated/JoinedData.pb.h>
 #include <Common/Math/Vec2.h>
-
-struct ModifyInfo
-{
-	enum What
-	{
-		Create, Delete
-	};
-
-	unsigned int ID;
-	What What;
-};
 
 class Entity;
 class Snake;
@@ -57,44 +44,21 @@ public:
 		int point,
 		Data::UserData& out);
 
-	static void serializeSnakeAdditionalUpdateData(
-		Snake* snake,
-		Data::SnakeAdditionalUpdateData& out);
-
-	static void serializeEntityUpdateData(
-		unsigned int eid,
-		Vec2 pos,
-		Data::EntityUpdateData& out);
-
-	static void serializeEntityUpdateData(
-		unsigned int eid,
-		const Data::SnakeAdditionalUpdateData& sdata,
-		Data::EntityUpdateData& out);
-
-	static void serializeUpdateData(
-		const std::map <unsigned int, Entity*>& entities,
-		const std::map<unsigned int, Data::UserData>& users,
-		Data::UpdateData& out);
-
-	static void serializeWallAdditionalCreateData(
+	static void serializeWallAdditionalData(
 		Vec2 begin, 
 		Vec2 end,
-		Data::WallAdditionalCreateData& out);
+		Data::WallAdditionalData& out);
 
-	static void serializeSnakeAdditionalCreateData(
+	static void serializeSnakeAdditionalData(
 		Snake* snake,
-		Data::SnakeAdditionalCreateData& out);
+		Data::SnakeAdditionalData& out);
 
-	static void serializeEntityCreateData(Entity* ent, Data::EntityCreateData& out);
+	static void serializeEntityData(Entity* ent, Data::EntityData& out);
 
 
 	static void serializeCreateData(
 		World* world,
 		Data::CreateData& out);
-
-	static void serializeModifyData(
-		World* world,
-		Data::ModifyData& out);
 
 	static void serializeReplicateData(
 		World* world,

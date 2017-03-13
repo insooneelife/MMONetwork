@@ -65,7 +65,6 @@ public:
 	inline float getWidth() const									{ return _width; }
 
 	
-	inline std::vector<ModifyInfo>& getModifies() { return _modifies; }
 
 	World(Room& room, float width);
 	~World();
@@ -87,8 +86,6 @@ public:
 
 private:
 	
-	std::vector<ModifyInfo> _modifies;
-
 	// entities
 	std::vector<Snake*> _snakes;
 	std::vector<Projectile*> _projectiles;

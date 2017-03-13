@@ -4,7 +4,7 @@ import "Base.proto";
 
 package Data;
 
-message SnakeAdditionalCreateData 
+message SnakeAdditionalData 
 {
   repeated Vec2 bodies = 1;
   required ControlType control_type = 2;

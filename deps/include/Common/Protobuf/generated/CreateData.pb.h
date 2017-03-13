@@ -28,15 +28,15 @@
 #include <google/protobuf/repeated_field.h>  // IWYU pragma: export
 #include <google/protobuf/extension_set.h>  // IWYU pragma: export
 #include <google/protobuf/unknown_field_set.h>
-#include "EntityCreateData.pb.h"
+#include "EntityData.pb.h"
 // @@protoc_insertion_point(includes)
 namespace Data {
 class CreateData;
 class CreateDataDefaultTypeInternal;
 extern CreateDataDefaultTypeInternal _CreateData_default_instance_;
-class EntityCreateData;
-class EntityCreateDataDefaultTypeInternal;
-extern EntityCreateDataDefaultTypeInternal _EntityCreateData_default_instance_;
+class EntityData;
+class EntityDataDefaultTypeInternal;
+extern EntityDataDefaultTypeInternal _EntityData_default_instance_;
 }  // namespace Data
 
 namespace Data {
@@ -129,16 +129,16 @@ class CreateData : public ::google::protobuf::Message /* @@protoc_insertion_poin
 
   // accessors -------------------------------------------------------
 
-  // repeated .Data.EntityCreateData created_entities = 1;
+  // repeated .Data.EntityData created_entities = 1;
   int created_entities_size() const;
   void clear_created_entities();
   static const int kCreatedEntitiesFieldNumber = 1;
-  const ::Data::EntityCreateData& created_entities(int index) const;
-  ::Data::EntityCreateData* mutable_created_entities(int index);
-  ::Data::EntityCreateData* add_created_entities();
-  ::google::protobuf::RepeatedPtrField< ::Data::EntityCreateData >*
+  const ::Data::EntityData& created_entities(int index) const;
+  ::Data::EntityData* mutable_created_entities(int index);
+  ::Data::EntityData* add_created_entities();
+  ::google::protobuf::RepeatedPtrField< ::Data::EntityData >*
       mutable_created_entities();
-  const ::google::protobuf::RepeatedPtrField< ::Data::EntityCreateData >&
+  const ::google::protobuf::RepeatedPtrField< ::Data::EntityData >&
       created_entities() const;
 
   // @@protoc_insertion_point(class_scope:Data.CreateData)
@@ -147,7 +147,7 @@ class CreateData : public ::google::protobuf::Message /* @@protoc_insertion_poin
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::internal::HasBits<1> _has_bits_;
   mutable int _cached_size_;
-  ::google::protobuf::RepeatedPtrField< ::Data::EntityCreateData > created_entities_;
+  ::google::protobuf::RepeatedPtrField< ::Data::EntityData > created_entities_;
   friend struct  protobuf_CreateData_2eproto::TableStruct;
 };
 // ===================================================================
@@ -158,31 +158,31 @@ class CreateData : public ::google::protobuf::Message /* @@protoc_insertion_poin
 #if !PROTOBUF_INLINE_NOT_IN_HEADERS
 // CreateData
 
-// repeated .Data.EntityCreateData created_entities = 1;
+// repeated .Data.EntityData created_entities = 1;
 inline int CreateData::created_entities_size() const {
   return created_entities_.size();
 }
 inline void CreateData::clear_created_entities() {
   created_entities_.Clear();
 }
-inline const ::Data::EntityCreateData& CreateData::created_entities(int index) const {
+inline const ::Data::EntityData& CreateData::created_entities(int index) const {
   // @@protoc_insertion_point(field_get:Data.CreateData.created_entities)
   return created_entities_.Get(index);
 }
-inline ::Data::EntityCreateData* CreateData::mutable_created_entities(int index) {
+inline ::Data::EntityData* CreateData::mutable_created_entities(int index) {
   // @@protoc_insertion_point(field_mutable:Data.CreateData.created_entities)
   return created_entities_.Mutable(index);
 }
-inline ::Data::EntityCreateData* CreateData::add_created_entities() {
+inline ::Data::EntityData* CreateData::add_created_entities() {
   // @@protoc_insertion_point(field_add:Data.CreateData.created_entities)
   return created_entities_.Add();
 }
-inline ::google::protobuf::RepeatedPtrField< ::Data::EntityCreateData >*
+inline ::google::protobuf::RepeatedPtrField< ::Data::EntityData >*
 CreateData::mutable_created_entities() {
   // @@protoc_insertion_point(field_mutable_list:Data.CreateData.created_entities)
   return &created_entities_;
 }
-inline const ::google::protobuf::RepeatedPtrField< ::Data::EntityCreateData >&
+inline const ::google::protobuf::RepeatedPtrField< ::Data::EntityData >&
 CreateData::created_entities() const {
   // @@protoc_insertion_point(field_list:Data.CreateData.created_entities)
   return created_entities_;

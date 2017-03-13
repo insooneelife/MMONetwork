@@ -79,7 +79,7 @@ void TableStruct::InitDefaultsImpl() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
   ::google::protobuf::internal::InitProtobufDefaults();
-  ::Data::protobuf_EntityCreateData_2eproto::InitDefaults();
+  ::Data::protobuf_EntityData_2eproto::InitDefaults();
   _CreateData_default_instance_.DefaultConstruct();
 }
 
@@ -90,15 +90,15 @@ void InitDefaults() {
 void AddDescriptorsImpl() {
   InitDefaults();
   static const char descriptor[] = {
-      "\n\020CreateData.proto\022\004Data\032\026EntityCreateDa"
-      "ta.proto\">\n\nCreateData\0220\n\020created_entiti"
-      "es\030\001 \003(\0132\026.Data.EntityCreateData"
+      "\n\020CreateData.proto\022\004Data\032\020EntityData.pro"
+      "to\"8\n\nCreateData\022*\n\020created_entities\030\001 \003"
+      "(\0132\020.Data.EntityData"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 112);
+      descriptor, 100);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "CreateData.proto", &protobuf_RegisterTypes);
-  ::Data::protobuf_EntityCreateData_2eproto::AddDescriptors();
+  ::Data::protobuf_EntityData_2eproto::AddDescriptors();
   ::google::protobuf::internal::OnShutdown(&TableStruct::Shutdown);
 }
 
@@ -192,7 +192,7 @@ bool CreateData::MergePartialFromCodedStream(
     tag = p.first;
     if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // repeated .Data.EntityCreateData created_entities = 1;
+      // repeated .Data.EntityData created_entities = 1;
       case 1: {
         if (tag == 10u) {
           DO_(input->IncrementRecursionDepth());
@@ -230,7 +230,7 @@ failure:
 void CreateData::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
   // @@protoc_insertion_point(serialize_start:Data.CreateData)
-  // repeated .Data.EntityCreateData created_entities = 1;
+  // repeated .Data.EntityData created_entities = 1;
   for (unsigned int i = 0, n = this->created_entities_size(); i < n; i++) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
       1, this->created_entities(i), output);
@@ -247,7 +247,7 @@ void CreateData::SerializeWithCachedSizes(
     bool deterministic, ::google::protobuf::uint8* target) const {
   (void)deterministic;  // Unused
   // @@protoc_insertion_point(serialize_to_array_start:Data.CreateData)
-  // repeated .Data.EntityCreateData created_entities = 1;
+  // repeated .Data.EntityData created_entities = 1;
   for (unsigned int i = 0, n = this->created_entities_size(); i < n; i++) {
     target = ::google::protobuf::internal::WireFormatLite::
       InternalWriteMessageNoVirtualToArray(
@@ -271,7 +271,7 @@ size_t CreateData::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         unknown_fields());
   }
-  // repeated .Data.EntityCreateData created_entities = 1;
+  // repeated .Data.EntityData created_entities = 1;
   {
     unsigned int count = this->created_entities_size();
     total_size += 1UL * count;
@@ -349,31 +349,31 @@ void CreateData::InternalSwap(CreateData* other) {
 #if PROTOBUF_INLINE_NOT_IN_HEADERS
 // CreateData
 
-// repeated .Data.EntityCreateData created_entities = 1;
+// repeated .Data.EntityData created_entities = 1;
 int CreateData::created_entities_size() const {
   return created_entities_.size();
 }
 void CreateData::clear_created_entities() {
   created_entities_.Clear();
 }
-const ::Data::EntityCreateData& CreateData::created_entities(int index) const {
+const ::Data::EntityData& CreateData::created_entities(int index) const {
   // @@protoc_insertion_point(field_get:Data.CreateData.created_entities)
   return created_entities_.Get(index);
 }
-::Data::EntityCreateData* CreateData::mutable_created_entities(int index) {
+::Data::EntityData* CreateData::mutable_created_entities(int index) {
   // @@protoc_insertion_point(field_mutable:Data.CreateData.created_entities)
   return created_entities_.Mutable(index);
 }
-::Data::EntityCreateData* CreateData::add_created_entities() {
+::Data::EntityData* CreateData::add_created_entities() {
   // @@protoc_insertion_point(field_add:Data.CreateData.created_entities)
   return created_entities_.Add();
 }
-::google::protobuf::RepeatedPtrField< ::Data::EntityCreateData >*
+::google::protobuf::RepeatedPtrField< ::Data::EntityData >*
 CreateData::mutable_created_entities() {
   // @@protoc_insertion_point(field_mutable_list:Data.CreateData.created_entities)
   return &created_entities_;
 }
-const ::google::protobuf::RepeatedPtrField< ::Data::EntityCreateData >&
+const ::google::protobuf::RepeatedPtrField< ::Data::EntityData >&
 CreateData::created_entities() const {
   // @@protoc_insertion_point(field_list:Data.CreateData.created_entities)
   return created_entities_;

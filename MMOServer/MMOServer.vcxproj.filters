@@ -90,18 +90,6 @@
     <ClCompile Include="..\deps\include\Common\Protobuf\generated\CommandData.pb.cc">
       <Filter>Common\Protobuf\generated</Filter>
     </ClCompile>
-    <ClCompile Include="..\deps\include\Common\Protobuf\generated\CreateData.pb.cc">
-      <Filter>Common\Protobuf\generated</Filter>
-    </ClCompile>
-    <ClCompile Include="..\deps\include\Common\Protobuf\generated\EntityCreateData.pb.cc">
-      <Filter>Common\Protobuf\generated</Filter>
-    </ClCompile>
-    <ClCompile Include="..\deps\include\Common\Protobuf\generated\EntityModifyData.pb.cc">
-      <Filter>Common\Protobuf\generated</Filter>
-    </ClCompile>
-    <ClCompile Include="..\deps\include\Common\Protobuf\generated\EntityUpdateData.pb.cc">
-      <Filter>Common\Protobuf\generated</Filter>
-    </ClCompile>
     <ClCompile Include="..\deps\include\Common\Protobuf\generated\HeaderData.pb.cc">
       <Filter>Common\Protobuf\generated</Filter>
     </ClCompile>
@@ -111,25 +99,7 @@
     <ClCompile Include="..\deps\include\Common\Protobuf\generated\JoinedData.pb.cc">
       <Filter>Common\Protobuf\generated</Filter>
     </ClCompile>
-    <ClCompile Include="..\deps\include\Common\Protobuf\generated\ModifyData.pb.cc">
-      <Filter>Common\Protobuf\generated</Filter>
-    </ClCompile>
-    <ClCompile Include="..\deps\include\Common\Protobuf\generated\ReplicateData.pb.cc">
-      <Filter>Common\Protobuf\generated</Filter>
-    </ClCompile>
-    <ClCompile Include="..\deps\include\Common\Protobuf\generated\SnakeAdditionalCreateData.pb.cc">
-      <Filter>Common\Protobuf\generated</Filter>
-    </ClCompile>
-    <ClCompile Include="..\deps\include\Common\Protobuf\generated\SnakeAdditionalUpdateData.pb.cc">
-      <Filter>Common\Protobuf\generated</Filter>
-    </ClCompile>
-    <ClCompile Include="..\deps\include\Common\Protobuf\generated\UpdateData.pb.cc">
-      <Filter>Common\Protobuf\generated</Filter>
-    </ClCompile>
     <ClCompile Include="..\deps\include\Common\Protobuf\generated\UserData.pb.cc">
-      <Filter>Common\Protobuf\generated</Filter>
-    </ClCompile>
-    <ClCompile Include="..\deps\include\Common\Protobuf\generated\WallAdditionalCreateData.pb.cc">
       <Filter>Common\Protobuf\generated</Filter>
     </ClCompile>
     <ClCompile Include="Server\NetworkManagerServer.cpp">
@@ -137,6 +107,21 @@
     </ClCompile>
     <ClCompile Include="Server\ProtobufServerUtils.cpp">
       <Filter>Server</Filter>
+    </ClCompile>
+    <ClCompile Include="..\deps\include\Common\Protobuf\generated\CreateData.pb.cc">
+      <Filter>Common\Protobuf\generated</Filter>
+    </ClCompile>
+    <ClCompile Include="..\deps\include\Common\Protobuf\generated\EntityData.pb.cc">
+      <Filter>Common\Protobuf\generated</Filter>
+    </ClCompile>
+    <ClCompile Include="..\deps\include\Common\Protobuf\generated\ReplicateData.pb.cc">
+      <Filter>Common\Protobuf\generated</Filter>
+    </ClCompile>
+    <ClCompile Include="..\deps\include\Common\Protobuf\generated\SnakeAdditionalData.pb.cc">
+      <Filter>Common\Protobuf\generated</Filter>
+    </ClCompile>
+    <ClCompile Include="..\deps\include\Common\Protobuf\generated\WallAdditionalData.pb.cc">
+      <Filter>Common\Protobuf\generated</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -218,18 +203,6 @@
     <ClInclude Include="..\deps\include\Common\Protobuf\generated\CommandData.pb.h">
       <Filter>Common\Protobuf\generated</Filter>
     </ClInclude>
-    <ClInclude Include="..\deps\include\Common\Protobuf\generated\CreateData.pb.h">
-      <Filter>Common\Protobuf\generated</Filter>
-    </ClInclude>
-    <ClInclude Include="..\deps\include\Common\Protobuf\generated\EntityCreateData.pb.h">
-      <Filter>Common\Protobuf\generated</Filter>
-    </ClInclude>
-    <ClInclude Include="..\deps\include\Common\Protobuf\generated\EntityModifyData.pb.h">
-      <Filter>Common\Protobuf\generated</Filter>
-    </ClInclude>
-    <ClInclude Include="..\deps\include\Common\Protobuf\generated\EntityUpdateData.pb.h">
-      <Filter>Common\Protobuf\generated</Filter>
-    </ClInclude>
     <ClInclude Include="..\deps\include\Common\Protobuf\generated\HeaderData.pb.h">
       <Filter>Common\Protobuf\generated</Filter>
     </ClInclude>
@@ -239,25 +212,7 @@
     <ClInclude Include="..\deps\include\Common\Protobuf\generated\JoinedData.pb.h">
       <Filter>Common\Protobuf\generated</Filter>
     </ClInclude>
-    <ClInclude Include="..\deps\include\Common\Protobuf\generated\ModifyData.pb.h">
-      <Filter>Common\Protobuf\generated</Filter>
-    </ClInclude>
-    <ClInclude Include="..\deps\include\Common\Protobuf\generated\ReplicateData.pb.h">
-      <Filter>Common\Protobuf\generated</Filter>
-    </ClInclude>
-    <ClInclude Include="..\deps\include\Common\Protobuf\generated\SnakeAdditionalCreateData.pb.h">
-      <Filter>Common\Protobuf\generated</Filter>
-    </ClInclude>
-    <ClInclude Include="..\deps\include\Common\Protobuf\generated\SnakeAdditionalUpdateData.pb.h">
-      <Filter>Common\Protobuf\generated</Filter>
-    </ClInclude>
-    <ClInclude Include="..\deps\include\Common\Protobuf\generated\UpdateData.pb.h">
-      <Filter>Common\Protobuf\generated</Filter>
-    </ClInclude>
     <ClInclude Include="..\deps\include\Common\Protobuf\generated\UserData.pb.h">
-      <Filter>Common\Protobuf\generated</Filter>
-    </ClInclude>
-    <ClInclude Include="..\deps\include\Common\Protobuf\generated\WallAdditionalCreateData.pb.h">
       <Filter>Common\Protobuf\generated</Filter>
     </ClInclude>
     <ClInclude Include="Server\NetworkManagerServer.h">
@@ -268,6 +223,21 @@
     </ClInclude>
     <ClInclude Include="..\deps\include\Common\Utils.h">
       <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\deps\include\Common\Protobuf\generated\CreateData.pb.h">
+      <Filter>Common\Protobuf\generated</Filter>
+    </ClInclude>
+    <ClInclude Include="..\deps\include\Common\Protobuf\generated\EntityData.pb.h">
+      <Filter>Common\Protobuf\generated</Filter>
+    </ClInclude>
+    <ClInclude Include="..\deps\include\Common\Protobuf\generated\ReplicateData.pb.h">
+      <Filter>Common\Protobuf\generated</Filter>
+    </ClInclude>
+    <ClInclude Include="..\deps\include\Common\Protobuf\generated\SnakeAdditionalData.pb.h">
+      <Filter>Common\Protobuf\generated</Filter>
+    </ClInclude>
+    <ClInclude Include="..\deps\include\Common\Protobuf\generated\WallAdditionalData.pb.h">
+      <Filter>Common\Protobuf\generated</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -283,15 +253,6 @@
     <None Include="..\deps\include\Common\Protobuf\data\CreateData.proto">
       <Filter>Common\Protobuf\data</Filter>
     </None>
-    <None Include="..\deps\include\Common\Protobuf\data\EntityCreateData.proto">
-      <Filter>Common\Protobuf\data</Filter>
-    </None>
-    <None Include="..\deps\include\Common\Protobuf\data\EntityModifyData.proto">
-      <Filter>Common\Protobuf\data</Filter>
-    </None>
-    <None Include="..\deps\include\Common\Protobuf\data\EntityUpdateData.proto">
-      <Filter>Common\Protobuf\data</Filter>
-    </None>
     <None Include="..\deps\include\Common\Protobuf\data\HeaderData.proto">
       <Filter>Common\Protobuf\data</Filter>
     </None>
@@ -301,25 +262,19 @@
     <None Include="..\deps\include\Common\Protobuf\data\JoinedData.proto">
       <Filter>Common\Protobuf\data</Filter>
     </None>
-    <None Include="..\deps\include\Common\Protobuf\data\ModifyData.proto">
-      <Filter>Common\Protobuf\data</Filter>
-    </None>
     <None Include="..\deps\include\Common\Protobuf\data\ReplicateData.proto">
-      <Filter>Common\Protobuf\data</Filter>
-    </None>
-    <None Include="..\deps\include\Common\Protobuf\data\SnakeAdditionalCreateData.proto">
-      <Filter>Common\Protobuf\data</Filter>
-    </None>
-    <None Include="..\deps\include\Common\Protobuf\data\SnakeAdditionalUpdateData.proto">
-      <Filter>Common\Protobuf\data</Filter>
-    </None>
-    <None Include="..\deps\include\Common\Protobuf\data\UpdateData.proto">
       <Filter>Common\Protobuf\data</Filter>
     </None>
     <None Include="..\deps\include\Common\Protobuf\data\UserData.proto">
       <Filter>Common\Protobuf\data</Filter>
     </None>
-    <None Include="..\deps\include\Common\Protobuf\data\WallAdditionalCreateData.proto">
+    <None Include="..\deps\include\Common\Protobuf\data\EntityData.proto">
+      <Filter>Common\Protobuf\data</Filter>
+    </None>
+    <None Include="..\deps\include\Common\Protobuf\data\SnakeAdditionalData.proto">
+      <Filter>Common\Protobuf\data</Filter>
+    </None>
+    <None Include="..\deps\include\Common\Protobuf\data\WallAdditionalData.proto">
       <Filter>Common\Protobuf\data</Filter>
     </None>
   </ItemGroup>
