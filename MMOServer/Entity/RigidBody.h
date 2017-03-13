@@ -21,6 +21,7 @@ public:
 
 	inline Entity& getEntity() const	{ return _owner; }
 	inline Vec2 getPos() const			{ return _pos; }
+	inline void setPos(Vec2 pos)		{ _pos = pos; }
 	inline float getRadius() const		{ return _radius; }
 
 	void updateMovement(Vec2 velocity);

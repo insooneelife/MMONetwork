@@ -36,6 +36,12 @@ public:
 	static const float OneStep;
 	static const float SnakeSpeed;
 	static const float Dummy;
+	static const float WorldSize;
+
+	static const int SnakeNum;
+	static const int ProjectileNum;
+	static const int PreyNum;
+	static const int CellNum;
 
 	// Entity 조합에 맞는 충돌판별 및 처리
 	static void collide(Snake& s1, Snake& s2);
@@ -45,8 +51,7 @@ public:
 	static void collide(Snake& s, Wall& w);
 	static void collide(Snake& s, Prey& p);
 
-	template<class Container>
-	static void updateEntity(Container& entities);
+	
 
 	inline const std::vector<Snake*>& getHunters() const			{ return _snakes; }
 	inline const std::vector<Projectile*>& getProjectiles() const	{ return _projectiles; }
@@ -75,9 +80,11 @@ public:
 	void createPrey(const Vec2& pos);
 	void createWall(const Vec2& begin, const Vec2& end, const Vec2& heading);
 
-	// world의 logic
-	// 모든 entity의 update 호출
 	void update();
+
+	
+	void updateEntity();
+
 	void solveCollide();
 
 	void render();

@@ -112,35 +112,9 @@ bool Engine::init()
 
 	server_.reset(new Server(8000));
 
-	_world.reset(new World(server_->getRoom(), 30000));
+	_world.reset(new World(server_->getRoom(), World::WorldSize));
 
 	
-
-
-	/*
-	Data::ReplicateData rdata;
-
-	ProtobufServerUtils::serializeReplicateData(_world.get(), rdata);
-	auto packet = ProtobufServerUtils::createReplicatePacket(rdata);
-	uint8_t buffer[100000];
-	packet.serialize(buffer);
-	//send
-
-	// recv header
-	uint8_t size = packet.getHeader().ByteSize();
-	Data::HeaderData hdata;
-	google::protobuf::io::CodedInputStream his(buffer, size);
-	hdata.MergePartialFromCodedStream(&his);
-
-	std::cout << "body size : " << hdata.size() << "   body type : " << hdata.type() << std::endl;
-
-	// recv body
-	Data::ReplicateData bdata;
-	google::protobuf::io::CodedInputStream bis(buffer + GamePacket<int>::HeaderLength, hdata.size());
-	bdata.MergePartialFromCodedStream(&bis);
-
-	std::cout << bdata.DebugString() << std::endl;
-	*/
 
 	return true;
 }

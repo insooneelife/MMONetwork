@@ -10,7 +10,7 @@
 //--------------------------------------------------------------------------
 
 #include "Entity.h"
-
+class RigidBody;
 class Prey : public Entity
 {
 public:
@@ -20,4 +20,7 @@ public:
 	virtual ~Prey() {}
 	virtual void update() {}
 	virtual void render();
+
+private:
+	std::unique_ptr<RigidBody> _body;
 };

@@ -9,8 +9,10 @@
 //
 //--------------------------------------------------------------------------
 
+#include <memory>
 #include "Entity.h"
 
+class RigidBody;
 class Projectile : public Entity
 {
 public:
@@ -30,6 +32,6 @@ public:
 	void reflectCircle(Vec2 pos, float radius);
 
 private:
-
+	std::unique_ptr<RigidBody> _body;
 	int _proj_speed;
 };

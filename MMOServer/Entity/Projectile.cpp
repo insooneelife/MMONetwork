@@ -4,6 +4,8 @@
 #include "../GraphicsDriver.h"
 #include <Common/Utils.h>
 
+#include "RigidBody.h"
+
 Projectile::Projectile(
 	World& world,
 	unsigned int id,
@@ -12,6 +14,7 @@ Projectile::Projectile(
 	int proj_speed)
 	:
 	Entity(world, id, pos, 15.0f, Entity::Type::kProjectile, GraphicsDriver::black),
+	_body(new RigidBody(*this, pos, 15.0f)),
 	_proj_speed(proj_speed)
 {
 	setHeading(heading);
@@ -19,7 +22,9 @@ Projectile::Projectile(
 
 void Projectile::update()
 {
-	_pos += _heading * (float)_proj_speed;
+	Vec2 vel = _heading * (float)_proj_speed;
+	_pos += vel;
+	_body->updateMovement(vel);
 }
 
 void Projectile::render()

@@ -20,6 +20,12 @@ using namespace std;
 const float World::OneStep = 50.0f;
 const float World::SnakeSpeed = 1.0f;
 const float World::Dummy = 200;
+const float World::WorldSize = 2000.0f;
+
+const int World::SnakeNum = 20;
+const int World::ProjectileNum = 20;
+const int World::PreyNum = 20;
+const int World::CellNum = 10;
 
 void World::collide(Snake& s1, Snake& s2)
 {
@@ -81,14 +87,30 @@ void World::collide(Snake& s, Prey& p)
 	}
 }
 
-
-
-template<class Container>
-void World::updateEntity(Container& entities)
+void World::updateEntity()
 {
-	// Update entities
-	auto e = begin(entities);
-	while (e != end(entities))
+	auto s = begin(_snakes);
+	while (s != end(_snakes))
+	{
+		// Test for any dead entities and remove them if necessary.
+		if (!(*s)->isGarbage())
+		{
+			(*s)->update();
+			++s;
+		}
+		else
+		{
+			if ((*s)->getWorld().getPlayerEntity() != nullptr &&
+				(*s)->getID() == (*s)->getWorld().getPlayerEntity()->getID())
+				(*s)->getWorld().setPlayerEntity(nullptr);
+
+			delete *s;
+			s = _snakes.erase(s);
+		}
+	}
+	
+	auto e = begin(_preys);
+	while (e != end(_preys))
 	{
 		// Test for any dead entities and remove them if necessary.
 		if (!(*e)->isGarbage())
@@ -98,15 +120,15 @@ void World::updateEntity(Container& entities)
 		}
 		else
 		{
-			if ((*e)->getWorld().getPlayerEntity() != nullptr &&
-				(*e)->getID() == (*e)->getWorld().getPlayerEntity()->getID())
-				(*e)->getWorld().setPlayerEntity(nullptr);
-
 			delete *e;
-			e = entities.erase(e);
+			e = _preys.erase(e);
 		}
 	}
-	
+
+	for (auto p = std::begin(_projectiles); p != std::end(_projectiles); ++p)
+	{
+		(*p)->update();
+	}
 }
 
 // World의 생성자에서 모든 entity의 초기화가 이루어진다.
@@ -114,7 +136,7 @@ World::World(Room& room, float width)
 	:
 	_next_validate_id(1),
 	_width(width),
-	_cell_space(width, width, 50, 50, 1000000),
+	_cell_space(width, width, CellNum, CellNum, 1000000),
 	_network_mgr(new NetworkManagerServer(*this, room)),
 	level_(0)
 {
@@ -129,10 +151,10 @@ World::World(Room& room, float width)
 	Vec2 tr(fwidth, fwidth );
 
 	// Create hunters
-	for (int i = 0; i < 5; ++i)
+	for (int i = 0; i < SnakeNum; ++i)
 		createHunter(Vec2(random(-fwidth, fwidth), random(-fwidth, fwidth)));
 
-	for (int i = 0; i < 0; i++)
+	for (int i = 0; i < ProjectileNum; i++)
 	{
 		float headingX = random(-1, 1);
 		float headingY = 1 - sqrt(headingX * headingX);
@@ -143,7 +165,7 @@ World::World(Room& room, float width)
 	}
 
 	// Create preys
-	for (int i = 0; i < 100; i++)
+	for (int i = 0; i < PreyNum; i++)
 		createPrey(Vec2(random(-fwidth, fwidth), random(-fwidth, fwidth)));
 
 	// Create walls
@@ -190,33 +212,14 @@ void World::update()
 	}
 	
 	// Update entities and delete them if set garbage.
-	updateEntity(_snakes);
-	updateEntity(_projectiles);
-	updateEntity(_preys);
-
-
-	// Preys must maintain 100 units.
-	float screenX = Camera2D::instance->getScreenX();
-	float screenY = Camera2D::instance->getScreenY();
-	int create_num = 100 - _preys.size();
-	float fwidth = (_width - Dummy) / 2;
-
-	while (create_num-- > 0)
-		createPrey(Vec2(random(-fwidth, fwidth), random(-fwidth, fwidth)));
-
+	updateEntity();
 
 	// Process collide between entities.
 	solveCollide();
 
 	// Camera position setting
-	if (_player_entity) {
+	if (_player_entity) 
 		Camera2D::instance->setOrigin(_player_entity->getPos());
-		/*Camera2D::instance->setCamera(
-			_player_entity->getPos(),
-			_player_entity->getHeading(),
-			_player_entity->getSide(),
-			Camera2D::instance->getScale());*/
-	}
 }
 
 void World::solveCollide()
@@ -281,8 +284,8 @@ void World::render()
 	for (auto p : _walls)
 		p->render();
 
-	//renderGrid()
-	//renderCellSpace();
+	//renderGrid();
+	renderCellSpace();
 }
 
 void World::renderGrid()
