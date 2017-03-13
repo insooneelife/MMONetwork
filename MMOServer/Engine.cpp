@@ -170,8 +170,12 @@ void Engine::update()
 
 	std::chrono::duration<double> end2 = std::chrono::system_clock::now().time_since_epoch();
 
+	
 	server_->getRoom().copyPacketsTo(_world->getNetworkMgr());
 	_world->getNetworkMgr().processQueuedPackets();
+
+ 
+	_world->getNetworkMgr().replicateToClients();
 
 	//std::cout <<"u : "<< (end - start).count()<<"  r : "<< (end2 - end).count() << std::endl;
 }

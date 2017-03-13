@@ -90,6 +90,7 @@ void Session::readBody(unsigned int body_size)
 
 void Session::log(const std::string& action, const std::string& what, int size)
 {
+	return;
 	std::thread::id this_id = std::this_thread::get_id();
 
 	log_mutex_.lock();

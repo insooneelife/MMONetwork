@@ -131,6 +131,28 @@ void World::updateEntity()
 	}
 }
 
+void World::regenEntity()
+{
+	float fwidth = (_width - Dummy) / 2;
+	// Create hunters
+	for (int i = 0; i < std::max(SnakeNum - (int)_snakes.size(), 0); ++i)
+		createHunter(Vec2(random(-fwidth, fwidth), random(-fwidth, fwidth)));
+	
+	for (int i = 0; i < std::max(ProjectileNum - (int)_projectiles.size(), 0); ++i)
+	{
+		float headingX = random(-1, 1);
+		float headingY = 1 - sqrt(headingX * headingX);
+
+		createProjectile(
+			Vec2(random(-fwidth, fwidth), random(-fwidth, fwidth)),
+			Vec2(headingX, headingY), 3);
+	}
+
+	// Create preys
+	for (int i = 0; i < std::max(PreyNum - (int)_preys.size(), 0); ++i)
+		createPrey(Vec2(random(-fwidth, fwidth), random(-fwidth, fwidth)));
+}
+
 // World의 생성자에서 모든 entity의 초기화가 이루어진다.
 World::World(Room& room, float width)
 	:
@@ -187,7 +209,6 @@ World::~World()
 
 void World::update()
 {
-
 	// If some entities are created, then we first have to push them into queue,
 	// and move them to vector after iteration has finished.
 	// If entities are inserted into vector when iterating,
@@ -213,6 +234,8 @@ void World::update()
 	
 	// Update entities and delete them if set garbage.
 	updateEntity();
+
+	regenEntity();
 
 	// Process collide between entities.
 	solveCollide();

@@ -30,6 +30,8 @@ public:
 
 	void showAllUsers();
 
+	void replicateToClients();
+
 	void processRequestConnect(
 		const Data::HeaderData& header,
 		const GamePacket<ProtobufStrategy>& packet);

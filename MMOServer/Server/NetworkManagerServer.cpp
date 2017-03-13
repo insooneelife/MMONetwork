@@ -126,6 +126,15 @@ void NetworkManagerServer::showAllUsers()
 	std::cout<<"--------------------------------" << std::endl << std::endl;
 }
 
+void NetworkManagerServer::replicateToClients()
+{
+	Data::ReplicateData rdata;
+	ProtobufServerUtils::serializeReplicateData(&world_, rdata);
+
+	auto packet = createReplicatePacket(rdata);
+	room_.broadcast(packet.data(), packet.size());
+}
+
 
 GamePacket<ProtobufStrategy>
 NetworkManagerServer::createAcceptedPacket(const Data::UserData& data)

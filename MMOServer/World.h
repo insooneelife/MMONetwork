@@ -81,9 +81,9 @@ public:
 	void createWall(const Vec2& begin, const Vec2& end, const Vec2& heading);
 
 	void update();
-
-	
 	void updateEntity();
+
+	void regenEntity();
 
 	void solveCollide();
 
