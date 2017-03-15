@@ -25,6 +25,7 @@ public:
 	static GamePacket<ProtobufStrategy> createDisconnectedPacket(const Data::UserData& user);
 
 	inline const std::map<unsigned int, Data::UserData>& getUsers() { return all_users_; }
+	inline const std::set<unsigned int>& getIgnoreUsers() { return ignore_users_; }
 
 	NetworkManagerServer(World& world, Room& room);
 
@@ -61,4 +62,5 @@ private:
 	Room& room_;
 
 	std::map<unsigned int, Data::UserData> all_users_;
+	std::set<unsigned int> ignore_users_;
 };

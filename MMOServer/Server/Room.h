@@ -23,6 +23,7 @@ public:
 
 	void sendTo(unsigned int id, const unsigned char* buffer, unsigned int length);
 	void broadcast(const unsigned char* buffer, unsigned int length);
+	void broadcast(const unsigned char* buffer, unsigned int length, const std::set<unsigned int>& ignore);
 
 	template<typename NetworkManager>
 	void copyPacketsTo(NetworkManager& to)

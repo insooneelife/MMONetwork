@@ -16,9 +16,18 @@ RigidBody::~RigidBody()
 	_owner.getWorld().getCellSpace().removeEntity(this);
 }
 
+void RigidBody::setPos(Vec2 pos)
+{
+	Vec2 old_pos = _pos;
+	_pos = pos;
+	_owner.getWorld().getCellSpace().updateEntity(this, old_pos);
+}
+
+/*
 void RigidBody::updateMovement(Vec2 velocity)
 {
 	Vec2 old_pos = _pos;
 	_pos = _pos + velocity;
 	_owner.getWorld().getCellSpace().updateEntity(this, old_pos);
 }
+*/

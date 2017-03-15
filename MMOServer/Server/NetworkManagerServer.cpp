@@ -1,3 +1,4 @@
+#include <set>
 #include <Common/Utils.h>
 #include "NetworkManagerServer.h"
 #include "ProtobufServerUtils.h"
@@ -60,7 +61,7 @@ void NetworkManagerServer::processHello(
 
 	// make eid, pawn
 	float fwidth = (world_.getWidth() - World::Dummy) / 2;
-	Snake* pawn = world_.createPlayerPawn(Vec2(random(-fwidth, fwidth), random(-fwidth, fwidth)));
+	Snake* pawn = world_.createPlayerPawn(Vec2(random(-fwidth, fwidth), random(-fwidth, fwidth)), joined);
 	joined.set_eid(pawn->getID());
 	
 	// send InitGame packet to joined user
@@ -71,10 +72,14 @@ void NetworkManagerServer::processHello(
 	room_.sendTo(joined.pid(), init_packet.data(), init_packet.size());
 
 	// send Intro packet to others
+	std::set<unsigned int> ignore;
+	ignore.emplace(joined.pid());
+
 	auto intro_packet = createIntroPacket(joined);
-	room_.broadcast(intro_packet.data(), intro_packet.size());
+	room_.broadcast(intro_packet.data(), intro_packet.size(), ignore);
 
 	all_users_.emplace(joined.pid(), joined);
+	ignore_users_.emplace(joined.pid());
 	showAllUsers();
 }
 
@@ -83,12 +88,31 @@ void NetworkManagerServer::processReadyToJoin(
 	const Data::HeaderData& header,
 	const GamePacket<ProtobufStrategy>& packet)
 {
+	Data::UserData joined;
+	packet.parseBody(joined, header.size());
+
+	ignore_users_.erase(joined.pid());
+
+	Data::JoinedData jdata;
+	auto joined_packet = createJoinedPacket(jdata);
+	room_.sendTo(joined.pid(), joined_packet.data(), joined_packet.size());
 }
 
 void NetworkManagerServer::processClientCommand(
 	const Data::HeaderData& header,
 	const GamePacket<ProtobufStrategy>& packet)
 {
+	Data::CommandData cmd;
+	packet.parseBody(cmd, header.size());
+
+	unsigned int pid = cmd.pid();
+	Data::CommandType ctype = cmd.cmd();
+
+	auto it = all_users_.find(pid);
+	if (it != std::end(all_users_))
+	{
+		world_.getEntityMgr().dispatchMsg(0, it->second.eid(), Message::kCommand, &ctype);
+	}
 }
 
 void NetworkManagerServer::processReadyToChange(
@@ -132,7 +156,7 @@ void NetworkManagerServer::replicateToClients()
 	ProtobufServerUtils::serializeReplicateData(&world_, rdata);
 
 	auto packet = createReplicatePacket(rdata);
-	room_.broadcast(packet.data(), packet.size());
+	room_.broadcast(packet.data(), packet.size(), ignore_users_);
 }
 
 

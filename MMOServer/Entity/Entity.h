@@ -35,7 +35,7 @@ public:
 	inline void setBRadius(const float radius)		{ _radius = radius; }
 	inline Type getType() const						{ return _type; }
 	inline bool isGarbage() const					{ return _is_garbage; }
-	inline void setGarbage()						{ _is_garbage = true; }
+	inline void setGarbage(bool garbage)			{ _is_garbage = garbage; }
 	inline SDL_Color getColor() const				{ return _color; }
 	inline void setColor(const SDL_Color& color)	{ _color = color; }
 	

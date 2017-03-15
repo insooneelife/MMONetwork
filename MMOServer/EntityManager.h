@@ -19,7 +19,7 @@ class Message
 public:
 	enum MsgType
 	{
-		kNone, kIncrease, kDecrease, kDamage
+		kNone, kIncrease, kDecrease, kDamage, kCommand
 	};
 
 	// Handy helper function for dereferencing the getExtraInfo field of the Telegram to the required type.

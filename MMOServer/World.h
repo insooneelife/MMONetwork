@@ -74,7 +74,7 @@ public:
 	World(Room& room, float width);
 	~World();
 	
-	Snake* createPlayerPawn(const Vec2& pos);
+	Snake* createPlayerPawn(const Vec2& pos, Data::UserData& user);
 	void createHunter(const Vec2& pos);
 	void createProjectile(const Vec2& pos, const Vec2& heading, int proj_speed);
 	void createPrey(const Vec2& pos);
@@ -84,6 +84,8 @@ public:
 	void updateEntity();
 
 	void regenEntity();
+
+	void regenPlayerPawn(Snake* pawn);
 
 	void solveCollide();
 

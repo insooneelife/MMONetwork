@@ -42,6 +42,11 @@ void Client::update()
 	network_mgr_->copyPackets(recv_queue_);
 	network_mgr_->processQueuedPackets();
 
+	
+
+	//network_mgr_->sendUpdates();
+
+	
 	std::chrono::duration<double> end = std::chrono::system_clock::now().time_since_epoch();
 }
 

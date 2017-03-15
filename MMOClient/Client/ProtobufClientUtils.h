@@ -12,12 +12,10 @@
 #include <vector>
 #include <Common/Network/GamePacket.hpp>
 #include <Common/Protobuf/generated/Base.pb.h>
-#include <Common/Protobuf/generated/Base.pb.h>
 #include <Common/Protobuf/generated/HeaderData.pb.h>
 #include <Common/Protobuf/generated/CommandData.pb.h>
 #include <Common/Protobuf/generated/UserData.pb.h>
 #include <Common/Protobuf/generated/CreateData.pb.h>
-#include <Common/Protobuf/generated/UpdateData.pb.h>
 #include <Common/Protobuf/generated/ReplicateData.pb.h>
 #include <Common/Protobuf/generated/InitGameData.pb.h>
 #include <Common/Protobuf/generated/JoinedData.pb.h>

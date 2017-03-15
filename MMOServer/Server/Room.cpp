@@ -47,6 +47,21 @@ void Room::broadcast(const unsigned char* buffer, unsigned int length)
 		participant.second->send(buffer, length);
 }
 
+void Room::broadcast(
+	const unsigned char* buffer,
+	unsigned int length,
+	const std::set<unsigned int>& ignore)
+{
+	for (auto participant : participants_)
+	{
+		auto find = ignore.find(participant.first);
+		if (find != std::end(ignore))
+			continue;
+
+		participant.second->send(buffer, length);
+	}
+}
+
 void Room::enqueue(const GamePacket<ProtobufStrategy>& packet)
 {
 	que_mutex_.lock();

@@ -18,9 +18,13 @@ public:
 	static GamePacket<ProtobufStrategy> createReadyToChangePacket(const Data::UserData& user);
 	static GamePacket<ProtobufStrategy> createClientCommandPacket(const Data::CommandData& cmd);
 
+	inline const Data::UserData& getUserData() { return _user_data; }
+
 	explicit NetworkManagerClient(Client& session);
 
 	void showAllUsers();
+
+	void sendUpdates();
 
 	void processAccepted(const Data::HeaderData& header, const GamePacket<ProtobufStrategy>& packet);
 
@@ -49,4 +53,5 @@ private:
 	
 	Data::UserData _user_data;
 	std::map<unsigned int, Data::UserData> _all_users;
+	bool start_send_;
 };

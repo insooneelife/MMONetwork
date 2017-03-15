@@ -4,7 +4,8 @@
 
 NetworkManagerClient::NetworkManagerClient(Client& session)
 	:
-	session_(session)
+	session_(session),
+	start_send_(false)
 {
 	using namespace std::placeholders;
 
@@ -44,6 +45,24 @@ NetworkManagerClient::NetworkManagerClient(Client& session)
 		Data::PacketType::Replicate,
 		std::bind(&NetworkManagerClient::processReplicate, this, _1, _2));
 
+}
+
+void NetworkManagerClient::sendUpdates()
+{
+	static int a = 0;
+	a++;
+
+	if (a % 10 != 0)
+		return;
+
+	Data::CommandData cdata;
+	cdata.set_pid(_user_data.pid());
+
+	Data::CommandType cmd = (Data::CommandType)(int)random(0, 4);
+	cdata.set_cmd(cmd);
+
+	auto packet = createClientCommandPacket(cdata);
+	session_.send(packet.data(), packet.size());
 }
 
 void NetworkManagerClient::processAccepted(
@@ -98,7 +117,9 @@ void NetworkManagerClient::processFull(
 void NetworkManagerClient::processJoined(
 	const Data::HeaderData& header,
 	const GamePacket<ProtobufStrategy>& packet)
-{}
+{
+	std::cout << "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@";
+}
 
 void NetworkManagerClient::processIntro(
 	const Data::HeaderData& header, 

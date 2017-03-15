@@ -24,7 +24,8 @@ void Projectile::update()
 {
 	Vec2 vel = _heading * (float)_proj_speed;
 	_pos += vel;
-	_body->updateMovement(vel);
+	_body->setPos(_pos);
+	//_body->updateMovement(vel);
 }
 
 void Projectile::render()

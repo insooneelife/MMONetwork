@@ -13,6 +13,7 @@
 #include <memory>
 #include "Entity.h"
 #include <Common/Protobuf/generated/Base.pb.h>
+#include <Common/Protobuf/generated/UserData.pb.h>
 
 class RigidBody;
 class Snake : public Entity
@@ -31,9 +32,14 @@ public:
 	inline Data::ControlType getControlType() const { return _control_type; }
 	inline const std::vector<RigidBody*>& getBodies() const { return _body; }
 
-	Snake(World& world, unsigned int id, const Vec2& pos);
+	inline Data::UserData getUserData() const { return _user_data; }
+	inline void setUserData(const Data::UserData& user_data) { _user_data = user_data; }
+
+	Snake(World& world, unsigned int id, const Vec2& pos, Data::ControlType ctype);
 
 	virtual ~Snake();
+
+	void setPos(Vec2 pos);
 
 	virtual void update();
 	virtual void render();
@@ -52,5 +58,5 @@ private:
 	bool _is_player;
 
 	Data::ControlType _control_type;
-
+	Data::UserData _user_data;
 };

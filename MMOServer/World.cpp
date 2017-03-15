@@ -69,7 +69,7 @@ void World::collide(Snake& s, Wall& w)
 	{
 		//cout << "collide!  Snake && Wall" << endl;
 
-		s.setGarbage();
+		s.setGarbage(true);
 	}
 }
 
@@ -78,13 +78,24 @@ void World::collide(Snake& s, Prey& p)
 	if ((s.getPos().distance(p.getPos()) < s.getBRadius() + p.getBRadius()))
 	{
 		//cout << "collide!  Snake && Prey" << endl;
-		p.setGarbage();
+		p.setGarbage(true);
 
 		int increase = 1;
 		
 		p.getWorld().getEntityMgr().dispatchMsg(
 			p.getID(), s.getID(), Message::kIncrease, &increase);
 	}
+}
+
+void World::regenPlayerPawn(Snake* pawn)
+{
+	float fwidth = (getWidth() - World::Dummy) / 2;
+	Snake* new_pawn = createPlayerPawn(
+		Vec2(random(-fwidth, fwidth), random(-fwidth, fwidth)),
+		pawn->getUserData());
+
+	//pawn->setGarbage(false);
+	_created_entities.emplace(new_pawn);
 }
 
 void World::updateEntity()
@@ -100,12 +111,20 @@ void World::updateEntity()
 		}
 		else
 		{
-			if ((*s)->getWorld().getPlayerEntity() != nullptr &&
-				(*s)->getID() == (*s)->getWorld().getPlayerEntity()->getID())
-				(*s)->getWorld().setPlayerEntity(nullptr);
+			//if ((*s)->getControlType() == Data::ControlType::Player)
+			//{
+				//regenPlayerPawn(*s);
+			//}
+			//else
+			{
+				if ((*s)->getWorld().getPlayerEntity() != nullptr &&
+					(*s)->getID() == (*s)->getWorld().getPlayerEntity()->getID())
+					(*s)->getWorld().setPlayerEntity(nullptr);
 
-			delete *s;
-			s = _snakes.erase(s);
+				delete *s;
+				s = _snakes.erase(s);
+			}
+			
 		}
 	}
 	
@@ -163,7 +182,7 @@ World::World(Room& room, float width)
 	level_(0)
 {
 	// Create player with hunter
-	_player_entity = new Snake(*this, genID(), Vec2(100.0f, 100.0f));
+	_player_entity = new Snake(*this, genID(), Vec2(100.0f, 100.0f), Data::ControlType::NPC);
 	_snakes.push_back(_player_entity);
 
 	float fwidth = (width - Dummy) / 2;
@@ -345,16 +364,18 @@ void World::renderCellSpace()
 	}	
 }
 
-Snake* World::createPlayerPawn(const Vec2& pos)
+Snake* World::createPlayerPawn(const Vec2& pos, Data::UserData& user)
 {
-	Snake* snake = new Snake(*this, genID(), pos);
+	Snake* snake = new Snake(*this, genID(), pos, Data::ControlType::Player);
+	user.set_eid(snake->getID());
+	snake->setUserData(user);
 	_created_entities.emplace(snake);
 	return snake;
 }
 
 void World::createHunter(const Vec2& pos)
 {
-	_created_entities.emplace(new Snake(*this, genID(), pos));
+	_created_entities.emplace(new Snake(*this, genID(), pos, Data::ControlType::AI));
 }
 
 void World::createProjectile(const Vec2& pos, const Vec2& heading, int proj_speed)
