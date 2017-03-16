@@ -15,7 +15,12 @@
 #include "Server/Server.h"
 
 
+const double Engine::MsPerUpdate = 0.02;
+const double Engine::ReplicateTerm = 0.2;
+
+
 Engine::Engine()
+	:accum_delta_(0)
 {}
 
 Engine::~Engine()
@@ -96,6 +101,8 @@ void Engine::handleEvent(SDL_Event* inEvent)
 
 bool Engine::init()
 {
+	prev_ = std::chrono::system_clock::now().time_since_epoch();
+
 	SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO);
 
 	if (!WindowManager::staticInit())
@@ -156,26 +163,35 @@ int Engine::run()
 
 void Engine::update()
 {
-	std::chrono::duration<double> start = std::chrono::system_clock::now().time_since_epoch();
-	
-	_world->update();
+	using namespace std::chrono;
 
-	std::chrono::duration<double> end = std::chrono::system_clock::now().time_since_epoch();
+	duration<double> current = system_clock::now().time_since_epoch();
+	delta_ = current - prev_;
+	prev_ = current;
+	lag_ += delta_;
+
 	
+	while (lag_.count() >= MsPerUpdate)
+	{
+		_world->update();
+		lag_ -= duration<double>(MsPerUpdate);
+	}
+
 	// render
 	GraphicsDriver::instance->clear();
 	_world->render();
 	GraphicsDriver::instance->render();
 	GraphicsDriver::instance->present();
 
-	std::chrono::duration<double> end2 = std::chrono::system_clock::now().time_since_epoch();
-
 	
 	server_->getRoom().copyPacketsTo(_world->getNetworkMgr());
 	_world->getNetworkMgr().processQueuedPackets();
 
- 
-	_world->getNetworkMgr().replicateToClients();
 
-	//std::cout <<"u : "<< (end - start).count()<<"  r : "<< (end2 - end).count() << std::endl;
+	accum_delta_ += delta_.count();
+	if (accum_delta_ > ReplicateTerm)
+	{
+		_world->getNetworkMgr().replicateToClients();
+		accum_delta_ = 0;
+	}
 }

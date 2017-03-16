@@ -111,19 +111,15 @@ void World::updateEntity()
 		}
 		else
 		{
-			//if ((*s)->getControlType() == Data::ControlType::Player)
-			//{
-				//regenPlayerPawn(*s);
-			//}
-			//else
-			{
+			
+			
 				if ((*s)->getWorld().getPlayerEntity() != nullptr &&
 					(*s)->getID() == (*s)->getWorld().getPlayerEntity()->getID())
 					(*s)->getWorld().setPlayerEntity(nullptr);
 
 				delete *s;
 				s = _snakes.erase(s);
-			}
+			
 			
 		}
 	}

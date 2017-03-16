@@ -11,6 +11,7 @@
 //------------------------------------------------------------------------
 
 #include <SDL/SDL.h>
+#include <chrono>
 #include <vector>
 #include <memory>
 
@@ -21,6 +22,9 @@ class Server;
 class Engine
 {
 public:
+	static const double MsPerUpdate;
+	static const double ReplicateTerm;
+
 	Engine();
 
 	~Engine();
@@ -42,4 +46,9 @@ private:
 	std::unique_ptr<World> _world;
 
 	std::unique_ptr<Server> server_;
+
+	std::chrono::duration<double> prev_;
+	std::chrono::duration<double> lag_;
+	std::chrono::duration<double> delta_;
+	double accum_delta_;
 };

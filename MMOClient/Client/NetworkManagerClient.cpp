@@ -49,12 +49,6 @@ NetworkManagerClient::NetworkManagerClient(Client& session)
 
 void NetworkManagerClient::sendUpdates()
 {
-	static int a = 0;
-	a++;
-
-	if (a % 10 != 0)
-		return;
-
 	Data::CommandData cdata;
 	cdata.set_pid(_user_data.pid());
 
@@ -118,7 +112,7 @@ void NetworkManagerClient::processJoined(
 	const Data::HeaderData& header,
 	const GamePacket<ProtobufStrategy>& packet)
 {
-	std::cout << "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@";
+	start_send_ = true;
 }
 
 void NetworkManagerClient::processIntro(

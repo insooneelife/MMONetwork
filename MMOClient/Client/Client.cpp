@@ -35,19 +35,16 @@ void Client::close()
 	io_service_.post([this]() { socket_.close(); });
 }
 
-void Client::update()
-{
-	std::chrono::duration<double> start = std::chrono::system_clock::now().time_since_epoch();
 
+void Client::processRecv()
+{
 	network_mgr_->copyPackets(recv_queue_);
 	network_mgr_->processQueuedPackets();
+}
 
-	
-
-	//network_mgr_->sendUpdates();
-
-	
-	std::chrono::duration<double> end = std::chrono::system_clock::now().time_since_epoch();
+void Client::processSend()
+{
+	network_mgr_->sendUpdates();
 }
 
 void Client::connect(boost::asio::ip::tcp::resolver::iterator endpoint_iterator)

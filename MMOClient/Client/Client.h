@@ -18,7 +18,8 @@ public:
 
 	void send(const unsigned char* buffer, std::size_t length);
 	void close();
-	void update();
+	void processRecv();
+	void processSend();
 
 private:
 	void connect(boost::asio::ip::tcp::resolver::iterator endpoint_iterator);
