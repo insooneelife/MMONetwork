@@ -31,6 +31,9 @@
     <Filter Include="Common\Protobuf\generated">
       <UniqueIdentifier>{0e96b9ef-2d8e-4f27-a1a6-589994633300}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Controller">
+      <UniqueIdentifier>{4f392919-b6cb-4eab-a84c-c206a75cb9c3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Entity\Entity.cpp">
@@ -122,6 +125,18 @@
     </ClCompile>
     <ClCompile Include="..\deps\include\Common\Protobuf\generated\WallAdditionalData.pb.cc">
       <Filter>Common\Protobuf\generated</Filter>
+    </ClCompile>
+    <ClCompile Include="Controller\AIController.cpp">
+      <Filter>Controller</Filter>
+    </ClCompile>
+    <ClCompile Include="Controller\PlayerController.cpp">
+      <Filter>Controller</Filter>
+    </ClCompile>
+    <ClCompile Include="Controller\ControllerBase.cpp">
+      <Filter>Controller</Filter>
+    </ClCompile>
+    <ClCompile Include="Server\PlayerState.cpp">
+      <Filter>Server</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -238,6 +253,18 @@
     </ClInclude>
     <ClInclude Include="..\deps\include\Common\Protobuf\generated\WallAdditionalData.pb.h">
       <Filter>Common\Protobuf\generated</Filter>
+    </ClInclude>
+    <ClInclude Include="Controller\AIController.h">
+      <Filter>Controller</Filter>
+    </ClInclude>
+    <ClInclude Include="Controller\PlayerController.h">
+      <Filter>Controller</Filter>
+    </ClInclude>
+    <ClInclude Include="Controller\ControllerBase.h">
+      <Filter>Controller</Filter>
+    </ClInclude>
+    <ClInclude Include="Server\PlayerState.h">
+      <Filter>Server</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

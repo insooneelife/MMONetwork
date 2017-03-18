@@ -20,6 +20,9 @@ public:
 
 	inline const Data::UserData& getUserData() { return _user_data; }
 
+	
+
+
 	explicit NetworkManagerClient(Client& session);
 
 	void showAllUsers();

@@ -32,9 +32,6 @@ public:
 	inline Data::ControlType getControlType() const { return _control_type; }
 	inline const std::vector<RigidBody*>& getBodies() const { return _body; }
 
-	inline Data::UserData getUserData() const { return _user_data; }
-	inline void setUserData(const Data::UserData& user_data) { _user_data = user_data; }
-
 	Snake(World& world, unsigned int id, const Vec2& pos, Data::ControlType ctype);
 
 	virtual ~Snake();
@@ -45,7 +42,6 @@ public:
 	virtual void render();
 	virtual bool handleMessage(const Message& msg);
 
-	bool checkCollideCircleToBody(Vec2 pos, float radius, Vec2& cpos);
 
 private:
 	State _state;
@@ -58,5 +54,4 @@ private:
 	bool _is_player;
 
 	Data::ControlType _control_type;
-	Data::UserData _user_data;
 };

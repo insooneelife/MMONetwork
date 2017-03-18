@@ -32,6 +32,9 @@
     <ClCompile Include="..\deps\include\Common\Protobuf\generated\UserData.pb.cc" />
     <ClCompile Include="..\deps\include\Common\Protobuf\generated\WallAdditionalData.pb.cc" />
     <ClCompile Include="Camera2D.cpp" />
+    <ClCompile Include="Controller\AIController.cpp" />
+    <ClCompile Include="Controller\ControllerBase.cpp" />
+    <ClCompile Include="Controller\PlayerController.cpp" />
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="EntityManager.cpp" />
     <ClCompile Include="Entity\Entity.cpp" />
@@ -43,6 +46,7 @@
     <ClCompile Include="GraphicsDriver.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Server\NetworkManagerServer.cpp" />
+    <ClCompile Include="Server\PlayerState.cpp" />
     <ClCompile Include="Server\ProtobufServerUtils.cpp" />
     <ClCompile Include="Server\Room.cpp" />
     <ClCompile Include="Server\Server.cpp" />
@@ -72,6 +76,9 @@
     <ClInclude Include="AABBox2D.h" />
     <ClInclude Include="Camera2D.h" />
     <ClInclude Include="CellSpacePartition.h" />
+    <ClInclude Include="Controller\AIController.h" />
+    <ClInclude Include="Controller\ControllerBase.h" />
+    <ClInclude Include="Controller\PlayerController.h" />
     <ClInclude Include="Engine.h" />
     <ClInclude Include="EntityManager.h" />
     <ClInclude Include="Entity\Entity.h" />
@@ -82,6 +89,7 @@
     <ClInclude Include="Entity\Wall.h" />
     <ClInclude Include="GraphicsDriver.h" />
     <ClInclude Include="Server\NetworkManagerServer.h" />
+    <ClInclude Include="Server\PlayerState.h" />
     <ClInclude Include="Server\ProtobufServerUtils.h" />
     <ClInclude Include="Server\Participant.h" />
     <ClInclude Include="Server\Room.h" />

@@ -78,7 +78,12 @@ void NetworkManagerServer::processHello(
 	auto intro_packet = createIntroPacket(joined);
 	room_.broadcast(intro_packet.data(), intro_packet.size(), ignore);
 
-	all_users_.emplace(joined.pid(), joined);
+	// create player controller
+	std::unique_ptr<PlayerState> pstate(new PlayerState());
+	//pstate->setOwner(pawn);
+	pstate->setUserData(joined);
+
+	all_users_.emplace(joined.pid(), std::move(pstate));
 	ignore_users_.emplace(joined.pid());
 	showAllUsers();
 }
@@ -111,7 +116,7 @@ void NetworkManagerServer::processClientCommand(
 	auto it = all_users_.find(pid);
 	if (it != std::end(all_users_))
 	{
-		world_.getEntityMgr().dispatchMsg(0, it->second.eid(), Message::kCommand, &ctype);
+		world_.getEntityMgr().dispatchMsg(0, it->second->getUserData().eid(), Message::kCommand, &ctype);
 	}
 }
 
@@ -133,7 +138,7 @@ void NetworkManagerServer::processDisconnected(
 	auto it = all_users_.find(pid);
 	if (it != std::end(all_users_))
 	{
-		auto discon_packet = createNotifyDisconnectedPacket(it->second);
+		auto discon_packet = createNotifyDisconnectedPacket(it->second->getUserData());
 		room_.broadcast(discon_packet.data(), discon_packet.size());
 		all_users_.erase(it);
 	}
@@ -143,9 +148,9 @@ void NetworkManagerServer::processDisconnected(
 void NetworkManagerServer::showAllUsers()
 {
 	std::cout << std::endl << "-------- show all users --------" << std::endl;
-	for (auto e : all_users_)
+	for (auto e = std::begin(all_users_); e != std::end(all_users_); ++e)
 	{
-		std::cout << e.second.DebugString() << std::endl;
+		std::cout << e->second->getUserData().DebugString() << std::endl;
 	}
 	std::cout<<"--------------------------------" << std::endl << std::endl;
 }
@@ -157,6 +162,19 @@ void NetworkManagerServer::replicateToClients()
 
 	auto packet = createReplicatePacket(rdata);
 	room_.broadcast(packet.data(), packet.size(), ignore_users_);
+}
+
+bool NetworkManagerServer::queryUserDataByEID(unsigned int eid, Data::UserData& user_data)
+{
+	for (auto u = std::begin(all_users_); u != std::end(all_users_); ++u)
+	{
+		if (u->second->getUserData().eid() == eid)
+		{
+			user_data = u->second->getUserData();
+			return true;
+		}
+	}
+	return false;
 }
 
 

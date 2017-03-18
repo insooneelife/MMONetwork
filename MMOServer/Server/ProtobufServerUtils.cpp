@@ -136,10 +136,11 @@ void ProtobufServerUtils::serializeReplicateData(
 	}
 
 	auto udata = out.mutable_updated_users();
-	for (auto e : world->getNetworkMgr().getUsers())
+	for (auto e = std::begin(world->getNetworkMgr().getUsers()); 
+		e != std::end(world->getNetworkMgr().getUsers()); ++e)
 	{
 		auto add_here = out.add_updated_users();
-		*add_here = e.second;
+		*add_here = e->second->getUserData();
 	}
 }
 
@@ -156,16 +157,17 @@ void ProtobufServerUtils::serializeInitGameData(
 	serializeCreateData(world, *cdata);
 	
 	auto jdata = out.mutable_others();
-	serializeJoinedData(world->getNetworkMgr().getUsers(), *jdata);
+	serializeJoinedData(world, *jdata);
 }
 
 void ProtobufServerUtils::serializeJoinedData(
-	const std::map<unsigned int, Data::UserData>& users,
+	World* world,
 	Data::JoinedData& out)
 {
-	for (auto e : users)
+	for (auto e = std::begin(world->getNetworkMgr().getUsers());
+		e != std::end(world->getNetworkMgr().getUsers()); ++e)
 	{
 		auto add_here = out.add_users();
-		*add_here = e.second;
+		*add_here = e->second->getUserData();
 	}
 }

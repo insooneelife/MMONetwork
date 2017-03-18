@@ -2,10 +2,12 @@
 
 #include <array>
 #include <queue>
+#include <memory>
 #include <Common/Protobuf/ProtobufStrategy.h>
 #include <Common/Network/GamePacket.hpp>
 #include <Common/Network/NetworkManagerBase.hpp>
 #include "ProtobufServerUtils.h"
+#include "PlayerState.h"
 
 class Room;
 class World;
@@ -24,7 +26,8 @@ public:
 	static GamePacket<ProtobufStrategy> createReplicatePacket(const Data::ReplicateData& data);
 	static GamePacket<ProtobufStrategy> createDisconnectedPacket(const Data::UserData& user);
 
-	inline const std::map<unsigned int, Data::UserData>& getUsers() { return all_users_; }
+	//inline const std::map<unsigned int, Data::UserData>& getUsers() { return all_users_; }
+	inline const std::map<unsigned int, std::unique_ptr<PlayerState> >& getUsers() const { return all_users_; }
 	inline const std::set<unsigned int>& getIgnoreUsers() { return ignore_users_; }
 
 	NetworkManagerServer(World& world, Room& room);
@@ -32,6 +35,8 @@ public:
 	void showAllUsers();
 
 	void replicateToClients();
+
+	bool queryUserDataByEID(unsigned int eid, Data::UserData& user_data);
 
 	void processRequestConnect(
 		const Data::HeaderData& header,
@@ -61,6 +66,6 @@ private:
 	World& world_;
 	Room& room_;
 
-	std::map<unsigned int, Data::UserData> all_users_;
+	std::map<unsigned int, std::unique_ptr<PlayerState> > all_users_;
 	std::set<unsigned int> ignore_users_;
 };

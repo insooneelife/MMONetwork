@@ -86,7 +86,9 @@ void Snake::render()
 	
 	if (_control_type == Data::ControlType::Player)
 	{
-		ss << _user_data.name();
+		Data::UserData user_data;
+		_world.getNetworkMgr().queryUserDataByEID(_id, user_data);
+		ss << user_data.name() << " " << _id;
 		_color = GraphicsDriver::red;
 	}
 	else
@@ -95,7 +97,6 @@ void Snake::render()
 	}
 	
 	
-	//GraphicsDriver::instance->drawCircle(_pos, _radius, _color);
 	GraphicsDriver::instance->drawText(ss.str(), _pos, _color);
 
 	Vec2 sidev = getSide() * _radius / 2;
@@ -103,9 +104,13 @@ void Snake::render()
 	GraphicsDriver::instance->drawLine(_pos + sidev, _pos + _heading * _radius * 2, _color);
 	GraphicsDriver::instance->drawLine(_pos - sidev, _pos + _heading * _radius * 2, _color);
 
-	GraphicsDriver::instance->drawCircle(_pos, _radius, _color);
-	for (auto e : _body)
-		GraphicsDriver::instance->drawCircle(e->getPos(), _radius, _color);
+
+	for (int i = 0; i < _body.size() - 1; ++i)
+	{
+		Vec2 begin = _body[i]->getPos();
+		Vec2 end = _body[i + 1]->getPos();
+		GraphicsDriver::instance->drawLine(begin, end, _color);
+	}
 }
 
 
@@ -156,17 +161,4 @@ bool Snake::handleMessage(const Message& msg)
 		break;
 	}
 	return false; 
-}
-
-bool Snake::checkCollideCircleToBody(Vec2 pos, float radius, Vec2& cpos)
-{
-	/*for (auto e : _body)
-	{
-		if (e.distance(pos) < _radius + radius)
-		{
-			cpos = e;
-			return true;
-		}
-	}*/
-	return false;
 }

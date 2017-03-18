@@ -70,7 +70,7 @@ public:
 		Data::InitGameData& out);
 
 	static void serializeJoinedData(
-		const std::map<unsigned int, Data::UserData>& users,
+		World* world,
 		Data::JoinedData& joined);
 
 };

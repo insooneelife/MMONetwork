@@ -89,13 +89,7 @@ void World::collide(Snake& s, Prey& p)
 
 void World::regenPlayerPawn(Snake* pawn)
 {
-	float fwidth = (getWidth() - World::Dummy) / 2;
-	Snake* new_pawn = createPlayerPawn(
-		Vec2(random(-fwidth, fwidth), random(-fwidth, fwidth)),
-		pawn->getUserData());
-
-	//pawn->setGarbage(false);
-	_created_entities.emplace(new_pawn);
+	
 }
 
 void World::updateEntity()
@@ -111,16 +105,29 @@ void World::updateEntity()
 		}
 		else
 		{
-			
-			
-				if ((*s)->getWorld().getPlayerEntity() != nullptr &&
-					(*s)->getID() == (*s)->getWorld().getPlayerEntity()->getID())
-					(*s)->getWorld().setPlayerEntity(nullptr);
+			if ((*s)->getWorld().getPlayerEntity() != nullptr &&
+				(*s)->getID() == (*s)->getWorld().getPlayerEntity()->getID())
+				(*s)->getWorld().setPlayerEntity(nullptr);
 
-				delete *s;
-				s = _snakes.erase(s);
-			
-			
+			if ((*s)->getControlType() == Data::ControlType::Player)
+
+			{
+				Data::UserData user_data;
+				bool success = _network_mgr->queryUserDataByEID((*s)->getID(), user_data);
+				if (success)
+				{
+					float fwidth = (_width - Dummy) / 2;
+					Snake* sn = createPlayerPawn(Vec2(random(-fwidth, fwidth), random(-fwidth, fwidth)), user_data);
+					auto it = _network_mgr->getUsers().find(user_data.pid());
+					if (it != std::end(_network_mgr->getUsers()))
+					{
+						it->second->setUserData(user_data);
+					}
+				}
+			}
+
+			delete *s;
+			s = _snakes.erase(s);
 		}
 	}
 	
@@ -364,7 +371,6 @@ Snake* World::createPlayerPawn(const Vec2& pos, Data::UserData& user)
 {
 	Snake* snake = new Snake(*this, genID(), pos, Data::ControlType::Player);
 	user.set_eid(snake->getID());
-	snake->setUserData(user);
 	_created_entities.emplace(snake);
 	return snake;
 }
