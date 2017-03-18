@@ -2,7 +2,7 @@
 #define CELLSPACEPARTITION_H
 //-----------------------------------------------------------------------------
 //
-//  Name:   CellSpacePartition\CellSpacePartition.h
+//  Name:   CellSpacePartition
 //
 //  Desc:   Class to divide a 2D space into a grid of cells each of which
 //          may contain a number of entities. Once created and initialized 
