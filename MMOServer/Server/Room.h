@@ -8,10 +8,14 @@
 #include <Common/Protobuf/ProtobufStrategy.h>
 #include <Common/Network/GamePacket.hpp>
 #include "Participant.h"
+#include "ProtobufServerUtils.h"
 
 class Room
 {
 public:
+	typedef ProtobufServerUtils::RecvPacket RecvPacket;
+	typedef ProtobufServerUtils::SendPacket SendPacket;
+
 	enum { IDNotSet = 0 };
 
 	inline unsigned int getGenID() const { return gen_id_; }
@@ -32,7 +36,7 @@ public:
 		to.copyPackets(recv_queue_);
 		que_mutex_.unlock();
 	}
-	void enqueue(const GamePacket<ProtobufStrategy>& packet);
+	void enqueue(const RecvPacket& packet);
 
 private:
 	std::mutex map_mutex_;
@@ -40,7 +44,7 @@ private:
 	unsigned int gen_id_;
 
 	std::mutex que_mutex_;
-	std::queue<GamePacket<ProtobufStrategy> > recv_queue_;
+	std::queue<RecvPacket> recv_queue_;
 
 	
 };

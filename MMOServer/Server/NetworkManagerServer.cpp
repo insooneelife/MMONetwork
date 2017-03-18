@@ -41,20 +41,20 @@ NetworkManagerServer::NetworkManagerServer(World& world, Room& room)
 
 void NetworkManagerServer::processRequestConnect(
 	const Data::HeaderData& header,
-	const GamePacket<ProtobufStrategy>& packet)
+	const RecvPacket& packet)
 {
-	unsigned int pid = room_.getGenID();
+	/*unsigned int pid = room_.getGenID();
 
 	Data::UserData for_pid;
 	for_pid.set_pid(pid);
 
 	GamePacket<ProtobufStrategy> send_packet = createAcceptedPacket(for_pid);
-	room_.sendTo(pid, send_packet.data(), send_packet.size());
+	room_.sendTo(pid, send_packet.data(), send_packet.size());*/
 }
 
 void NetworkManagerServer::processHello(
 	const Data::HeaderData& header,
-	const GamePacket<ProtobufStrategy>& packet)
+	const RecvPacket& packet)
 {
 	Data::UserData joined;
 	packet.parseBody(joined, header.size());
@@ -80,18 +80,19 @@ void NetworkManagerServer::processHello(
 
 	// create player controller
 	std::unique_ptr<PlayerState> pstate(new PlayerState());
-	//pstate->setOwner(pawn);
 	pstate->setUserData(joined);
+
+	std::cout << joined.DebugString() << std::endl;
 
 	all_users_.emplace(joined.pid(), std::move(pstate));
 	ignore_users_.emplace(joined.pid());
-	showAllUsers();
+	//showAllUsers();
 }
 
 
 void NetworkManagerServer::processReadyToJoin(
 	const Data::HeaderData& header,
-	const GamePacket<ProtobufStrategy>& packet)
+	const RecvPacket& packet)
 {
 	Data::UserData joined;
 	packet.parseBody(joined, header.size());
@@ -105,7 +106,7 @@ void NetworkManagerServer::processReadyToJoin(
 
 void NetworkManagerServer::processClientCommand(
 	const Data::HeaderData& header,
-	const GamePacket<ProtobufStrategy>& packet)
+	const RecvPacket& packet)
 {
 	Data::CommandData cmd;
 	packet.parseBody(cmd, header.size());
@@ -122,13 +123,13 @@ void NetworkManagerServer::processClientCommand(
 
 void NetworkManagerServer::processReadyToChange(
 	const Data::HeaderData& header,
-	const GamePacket<ProtobufStrategy>& packet)
+	const RecvPacket& packet)
 {
 }
 
 void NetworkManagerServer::processDisconnected(
 	const Data::HeaderData& header,
-	const GamePacket<ProtobufStrategy>& packet)
+	const RecvPacket& packet)
 {
 	Data::UserData disconnected;
 	packet.parseBody(disconnected, header.size());
@@ -142,7 +143,7 @@ void NetworkManagerServer::processDisconnected(
 		room_.broadcast(discon_packet.data(), discon_packet.size());
 		all_users_.erase(it);
 	}
-	showAllUsers();
+	//showAllUsers();
 }
 
 void NetworkManagerServer::showAllUsers()
@@ -178,7 +179,7 @@ bool NetworkManagerServer::queryUserDataByEID(unsigned int eid, Data::UserData& 
 }
 
 
-GamePacket<ProtobufStrategy>
+NetworkManagerServer::SendPacket
 NetworkManagerServer::createAcceptedPacket(const Data::UserData& data)
 {
 	GamePacket<ProtobufStrategy> packet;
@@ -186,7 +187,7 @@ NetworkManagerServer::createAcceptedPacket(const Data::UserData& data)
 	return packet;
 }
 
-GamePacket<ProtobufStrategy> 
+NetworkManagerServer::SendPacket
 NetworkManagerServer::createInitGamePacket(const Data::InitGameData& data)
 {
 	GamePacket<ProtobufStrategy> packet;
@@ -194,7 +195,7 @@ NetworkManagerServer::createInitGamePacket(const Data::InitGameData& data)
 	return packet;
 }
 
-GamePacket<ProtobufStrategy> 
+NetworkManagerServer::SendPacket
 NetworkManagerServer::createFullPacket()
 {
 	GamePacket<ProtobufStrategy> packet;
@@ -202,7 +203,7 @@ NetworkManagerServer::createFullPacket()
 	return packet;
 }
 
-GamePacket<ProtobufStrategy> 
+NetworkManagerServer::SendPacket
 NetworkManagerServer::createJoinedPacket(const Data::JoinedData& user)
 {
 	GamePacket<ProtobufStrategy> packet;
@@ -210,7 +211,7 @@ NetworkManagerServer::createJoinedPacket(const Data::JoinedData& user)
 	return packet;
 }
 
-GamePacket<ProtobufStrategy> 
+NetworkManagerServer::SendPacket
 NetworkManagerServer::createIntroPacket(const Data::UserData& user)
 {
 	GamePacket<ProtobufStrategy> packet;
@@ -218,7 +219,7 @@ NetworkManagerServer::createIntroPacket(const Data::UserData& user)
 	return packet;
 }
 
-GamePacket<ProtobufStrategy> 
+NetworkManagerServer::SendPacket
 NetworkManagerServer::createNotifyDisconnectedPacket(const Data::UserData& user)
 {
 	GamePacket<ProtobufStrategy> packet;
@@ -226,7 +227,7 @@ NetworkManagerServer::createNotifyDisconnectedPacket(const Data::UserData& user)
 	return packet;
 }
 
-GamePacket<ProtobufStrategy> 
+NetworkManagerServer::SendPacket
 NetworkManagerServer::createChangeLevelPacket(const Data::InitGameData& data)
 {
 	GamePacket<ProtobufStrategy> packet;
@@ -234,7 +235,7 @@ NetworkManagerServer::createChangeLevelPacket(const Data::InitGameData& data)
 	return packet;
 }
 
-GamePacket<ProtobufStrategy> 
+NetworkManagerServer::SendPacket
 NetworkManagerServer::createEnterPlayingPacket()
 {
 	GamePacket<ProtobufStrategy> packet;
@@ -242,7 +243,7 @@ NetworkManagerServer::createEnterPlayingPacket()
 	return packet;
 }
 
-GamePacket<ProtobufStrategy> 
+NetworkManagerServer::SendPacket
 NetworkManagerServer::createReplicatePacket(const Data::ReplicateData& data)
 {
 	GamePacket<ProtobufStrategy> packet;
@@ -251,10 +252,10 @@ NetworkManagerServer::createReplicatePacket(const Data::ReplicateData& data)
 }
 
 
-GamePacket<ProtobufStrategy>
+NetworkManagerServer::RecvPacket
 NetworkManagerServer::createDisconnectedPacket(const Data::UserData& data)
 {
-	GamePacket<ProtobufStrategy> packet;
+	NetworkManagerServer::RecvPacket packet;
 	packet.serializeFrom(data, Data::PacketType::Disconnected);
 	return packet;
 }

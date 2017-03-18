@@ -22,10 +22,19 @@ int main(int argc, char** argv)
 		boost::asio::io_service io_service;
 		tcp::resolver resolver(io_service);
 		auto endpoint_iterator = resolver.resolve({ "61.77.82.237", "8000" });
-		Client client(io_service, endpoint_iterator);
+		//Client client(io_service, endpoint_iterator);
 		
-		std::thread t([&io_service]() { io_service.run(); });
-		t.detach();
+		std::vector<std::unique_ptr<Client> > clients;
+		for (int i = 0; i < 200; i++)
+		{
+			clients.emplace_back(new Client(io_service, endpoint_iterator));
+		}
+
+		for (int i = 0; i < 1; i++)
+		{
+			std::thread t([&io_service]() { io_service.run(); });
+			t.detach();
+		}
 		
 		while (1)
 		{
@@ -45,18 +54,31 @@ int main(int argc, char** argv)
 
 
 			// network io
-			client.processRecv();
+			//client.processRecv();
+			for (auto c = std::begin(clients); c != std::end(clients); ++c)
+			{
+				(*c)->processRecv();
+			}
 			
 			accum_delta += delta.count();
 			if (accum_delta > ReplicateTerm)
 			{
-				client.processSend();
+				//client.processSend();
+				for (auto c = std::begin(clients); c != std::end(clients); ++c)
+				{
+					(*c)->processSend();
+				}
+
 				accum_delta = 0;
 			}
 
 		}
 
-		client.close();
+		//client.close();
+		for (auto c = std::begin(clients); c != std::end(clients); ++c)
+		{
+			(*c)->close();
+		}
 	}
 	catch (std::exception& e)
 	{

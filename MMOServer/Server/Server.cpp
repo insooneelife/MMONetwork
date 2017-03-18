@@ -37,7 +37,7 @@ void Server::accept()
 {
 	acceptor_.async_accept(
 		socket_,
-		[this](boost::system::error_code ec)
+		strand_.wrap([this](boost::system::error_code ec)
 	{
 		if (!ec)
 		{
@@ -49,6 +49,6 @@ void Server::accept()
 		}
 
 		accept();
-	});
+	}));
 }
 

@@ -62,7 +62,7 @@ void Room::broadcast(
 	}
 }
 
-void Room::enqueue(const GamePacket<ProtobufStrategy>& packet)
+void Room::enqueue(const RecvPacket& packet)
 {
 	que_mutex_.lock();
 	recv_queue_.emplace(packet);

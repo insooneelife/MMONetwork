@@ -4,7 +4,7 @@
 #include <cstdio>
 #include <cassert>
 
-template <typename Strategy>
+template <typename Strategy, int MaxBodyLength = 100000>
 class GamePacket
 {
 public:
@@ -14,8 +14,6 @@ public:
 	enum { TypeHeaderLength = 5 };
 
 	enum { HeaderLength = SizeHeaderLength + TypeHeaderLength };
-
-	enum { MaxBodyLength = 100000 };
 
 	enum { BufferLength = MaxBodyLength + HeaderLength };
 

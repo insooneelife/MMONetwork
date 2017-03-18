@@ -31,7 +31,7 @@ private:
 
 	boost::asio::ip::tcp::socket socket_;
 	Room& room_;
-	GamePacket<ProtobufStrategy> recv_packet_;
+	ProtobufServerUtils::RecvPacket recv_packet_;
 
 	std::mutex log_mutex_;
 	boost::asio::io_service::strand& strand_;

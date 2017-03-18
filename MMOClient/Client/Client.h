@@ -2,16 +2,19 @@
 #include <iostream>
 #include <queue>
 #include <memory>
+#include <mutex>
 #include <boost/asio.hpp>
 #include <thread>
 #include <Common/Protobuf/ProtobufStrategy.h>
 #include <Common/Network/GamePacket.hpp>
 #include <Common/Protobuf/generated/InitGameData.pb.h>
+#include "ProtobufClientUtils.h"
 
 class NetworkManagerClient;
 class Client
 {
 public:
+	
 	Client(
 		boost::asio::io_service& io_service,
 		boost::asio::ip::tcp::resolver::iterator endpoint_iterator);
@@ -21,6 +24,16 @@ public:
 	void processRecv();
 	void processSend();
 
+	template<typename NetworkManager>
+	void copyPacketsTo(NetworkManager& to)
+	{
+		//que_mutex_.lock();
+		to.copyPackets(recv_queue_);
+		//que_mutex_.unlock();
+	}
+
+	void enqueue(const ProtobufClientUtils::RecvPacket& packet);
+
 private:
 	void connect(boost::asio::ip::tcp::resolver::iterator endpoint_iterator);
 	void readHeader();
@@ -29,8 +42,10 @@ private:
 	
 	boost::asio::io_service& io_service_;
 	boost::asio::ip::tcp::socket socket_;
+	boost::asio::io_service::strand strand_;
 
-	GamePacket<ProtobufStrategy> recv_packet_;
-	std::queue<GamePacket<ProtobufStrategy> > recv_queue_;
+	ProtobufClientUtils::RecvPacket recv_packet_;
+	std::mutex que_mutex_;
+	std::queue<ProtobufClientUtils::RecvPacket> recv_queue_;
 	std::unique_ptr<NetworkManagerClient> network_mgr_;
 };

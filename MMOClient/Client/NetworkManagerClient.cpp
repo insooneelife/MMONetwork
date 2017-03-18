@@ -61,14 +61,14 @@ void NetworkManagerClient::sendUpdates()
 
 void NetworkManagerClient::processAccepted(
 	const Data::HeaderData& header,
-	const GamePacket<ProtobufStrategy>& packet)
+	const ProtobufClientUtils::RecvPacket& packet)
 {
 	packet.parseBody<Data::UserData>(_user_data, header.size());
 
 	// set user data
 	_user_data.set_name(generateRandomName());
 	_user_data.set_character(1);
-	
+
 	_all_users.emplace(_user_data.pid(), _user_data);
 
 	auto send_packet = createHelloPacket(_user_data);
@@ -77,7 +77,7 @@ void NetworkManagerClient::processAccepted(
 
 void NetworkManagerClient::processInitGame(
 	const Data::HeaderData& header,
-	const GamePacket<ProtobufStrategy>& packet)
+	const ProtobufClientUtils::RecvPacket& packet)
 {
 	// parse data
 	Data::InitGameData idata;
@@ -100,56 +100,56 @@ void NetworkManagerClient::processInitGame(
 	auto send_packet = createReadyToJoinPacket(_user_data);
 	session_.send(send_packet.data(), send_packet.size());
 
-	showAllUsers();
+	//showAllUsers();
 }
 
 void NetworkManagerClient::processFull(
 	const Data::HeaderData& header,
-	const GamePacket<ProtobufStrategy>& packet)
+	const ProtobufClientUtils::RecvPacket& packet)
 {}
 
 void NetworkManagerClient::processJoined(
 	const Data::HeaderData& header,
-	const GamePacket<ProtobufStrategy>& packet)
+	const ProtobufClientUtils::RecvPacket& packet)
 {
 	start_send_ = true;
 }
 
 void NetworkManagerClient::processIntro(
 	const Data::HeaderData& header, 
-	const GamePacket<ProtobufStrategy>& packet)
+	const ProtobufClientUtils::RecvPacket& packet)
 {
 	Data::UserData udata;
 	packet.parseBody(udata, header.size());
 	_all_users.emplace(udata.pid(), udata);
 
-	showAllUsers();
+	//showAllUsers();
 }
 
 void NetworkManagerClient::processNotifyDisconnected(
 	const Data::HeaderData& header,
-	const GamePacket<ProtobufStrategy>& packet)
+	const ProtobufClientUtils::RecvPacket& packet)
 {
 	Data::UserData udata;
 	packet.parseBody(udata, header.size());
 	_all_users.erase(udata.pid());
 
-	showAllUsers();
+	//showAllUsers();
 }
 
 void NetworkManagerClient::processChangeLevel(
 	const Data::HeaderData& header, 
-	const GamePacket<ProtobufStrategy>& packet)
+	const ProtobufClientUtils::RecvPacket& packet)
 {}
 
 void NetworkManagerClient::processEnterPlaying(
 	const Data::HeaderData& header,
-	const GamePacket<ProtobufStrategy>& packet)
+	const ProtobufClientUtils::RecvPacket& packet)
 {}
 
 void NetworkManagerClient::processReplicate(
 	const Data::HeaderData& header,
-	const GamePacket<ProtobufStrategy>& packet)
+	const ProtobufClientUtils::RecvPacket& packet)
 {}
 
 void NetworkManagerClient::showAllUsers()
@@ -177,30 +177,30 @@ std::string NetworkManagerClient::generateRandomName()
 	return name;
 }
 
-GamePacket<ProtobufStrategy> NetworkManagerClient::createHelloPacket(const Data::UserData& user)
+ProtobufClientUtils::SendPacket NetworkManagerClient::createHelloPacket(const Data::UserData& user)
 {
-	GamePacket<ProtobufStrategy> packet;
+	ProtobufClientUtils::SendPacket packet;
 	packet.serializeFrom(user, Data::PacketType::Hello);
 	return packet;
 }
 
-GamePacket<ProtobufStrategy> NetworkManagerClient::createReadyToJoinPacket(const Data::UserData& user)
+ProtobufClientUtils::SendPacket NetworkManagerClient::createReadyToJoinPacket(const Data::UserData& user)
 {
-	GamePacket<ProtobufStrategy> packet;
+	ProtobufClientUtils::SendPacket packet;
 	packet.serializeFrom(user, Data::PacketType::ReadyToJoin);
 	return packet;
 }
 
-GamePacket<ProtobufStrategy> NetworkManagerClient::createReadyToChangePacket(const Data::UserData& user)
+ProtobufClientUtils::SendPacket NetworkManagerClient::createReadyToChangePacket(const Data::UserData& user)
 {
-	GamePacket<ProtobufStrategy> packet;
+	ProtobufClientUtils::SendPacket packet;
 	packet.serializeFrom(user, Data::PacketType::ReadyToChange);
 	return packet;
 }
 
-GamePacket<ProtobufStrategy> NetworkManagerClient::createClientCommandPacket(const Data::CommandData& cmd)
+ProtobufClientUtils::SendPacket NetworkManagerClient::createClientCommandPacket(const Data::CommandData& cmd)
 {
-	GamePacket<ProtobufStrategy> packet;
+	ProtobufClientUtils::SendPacket packet;
 	packet.serializeFrom(cmd, Data::PacketType::ClientCommand);
 	return packet;
 }

@@ -9,14 +9,15 @@
 #include "ProtobufClientUtils.h"
 
 class Client;
-class NetworkManagerClient : public NetworkManagerBase<GamePacket<ProtobufStrategy> >
+class NetworkManagerClient 
+	: public NetworkManagerBase<ProtobufClientUtils::RecvPacket, ProtobufClientUtils::PacketBufferSize>
 {
 public:
 
-	static GamePacket<ProtobufStrategy> createHelloPacket(const Data::UserData& user);
-	static GamePacket<ProtobufStrategy> createReadyToJoinPacket(const Data::UserData& user);
-	static GamePacket<ProtobufStrategy> createReadyToChangePacket(const Data::UserData& user);
-	static GamePacket<ProtobufStrategy> createClientCommandPacket(const Data::CommandData& cmd);
+	static ProtobufClientUtils::SendPacket createHelloPacket(const Data::UserData& user);
+	static ProtobufClientUtils::SendPacket createReadyToJoinPacket(const Data::UserData& user);
+	static ProtobufClientUtils::SendPacket createReadyToChangePacket(const Data::UserData& user);
+	static ProtobufClientUtils::SendPacket createClientCommandPacket(const Data::CommandData& cmd);
 
 	inline const Data::UserData& getUserData() { return _user_data; }
 
@@ -29,23 +30,23 @@ public:
 
 	void sendUpdates();
 
-	void processAccepted(const Data::HeaderData& header, const GamePacket<ProtobufStrategy>& packet);
+	void processAccepted(const Data::HeaderData& header, const ProtobufClientUtils::RecvPacket& packet);
 
-	void processInitGame(const Data::HeaderData& header, const GamePacket<ProtobufStrategy>& packet);
+	void processInitGame(const Data::HeaderData& header, const ProtobufClientUtils::RecvPacket& packet);
 
-	void processFull(const Data::HeaderData& header, const GamePacket<ProtobufStrategy>& packet);
+	void processFull(const Data::HeaderData& header, const ProtobufClientUtils::RecvPacket& packet);
 
-	void processJoined(const Data::HeaderData& header, const GamePacket<ProtobufStrategy>& packet);
+	void processJoined(const Data::HeaderData& header, const ProtobufClientUtils::RecvPacket& packet);
 
-	void processIntro(const Data::HeaderData& header, const GamePacket<ProtobufStrategy>& packet);
+	void processIntro(const Data::HeaderData& header, const ProtobufClientUtils::RecvPacket& packet);
 
-	void processNotifyDisconnected(const Data::HeaderData& header, const GamePacket<ProtobufStrategy>& packet);
+	void processNotifyDisconnected(const Data::HeaderData& header, const ProtobufClientUtils::RecvPacket& packet);
 
-	void processChangeLevel(const Data::HeaderData& header,	const GamePacket<ProtobufStrategy>& packet);
+	void processChangeLevel(const Data::HeaderData& header,	const ProtobufClientUtils::RecvPacket& packet);
 
-	void processEnterPlaying(const Data::HeaderData& header, const GamePacket<ProtobufStrategy>& packet);
+	void processEnterPlaying(const Data::HeaderData& header, const ProtobufClientUtils::RecvPacket& packet);
 
-	void processReplicate(const Data::HeaderData& header, const GamePacket<ProtobufStrategy>& packet);
+	void processReplicate(const Data::HeaderData& header, const ProtobufClientUtils::RecvPacket& packet);
 
 
 private:

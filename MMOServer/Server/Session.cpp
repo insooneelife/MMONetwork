@@ -1,4 +1,5 @@
 #include "Session.h"
+#include "NetworkManagerServer.h"
 
 Session::Session(
 	boost::asio::ip::tcp::socket socket,
@@ -13,8 +14,14 @@ Session::Session(
 void Session::start()
 {
 	room_.insert(shared_from_this());
-	recv_packet_.serializeFrom(Data::PacketType::RequestConnect);
-	room_.enqueue(recv_packet_);
+	//recv_packet_.serializeFrom(Data::PacketType::RequestConnect);
+	//room_.enqueue(recv_packet_);
+
+	Data::UserData for_pid;
+	for_pid.set_pid(room_.getGenID());
+
+	ProtobufServerUtils::SendPacket send_packet = NetworkManagerServer::createAcceptedPacket(for_pid);
+	send(send_packet.data(), send_packet.size());
 
 	readHeader();
 }
@@ -44,7 +51,7 @@ void Session::readHeader()
 	auto self(shared_from_this());
 	boost::asio::async_read(
 		socket_,
-		boost::asio::buffer(recv_packet_.data(), GamePacket<ProtobufStrategy>::HeaderLength),
+		boost::asio::buffer(recv_packet_.data(), ProtobufServerUtils::RecvPacket::HeaderLength),
 		strand_.wrap(
 			[this, self](boost::system::error_code ec, std::size_t length)
 	{
@@ -76,7 +83,7 @@ void Session::readBody(unsigned int body_size)
 		{
 			// process..
 			log("read", "body", len);
-			recv_packet_.setSize(GamePacket<ProtobufStrategy>::HeaderLength + len);
+			recv_packet_.setSize(recv_packet_.size() + len);
 			room_.enqueue(recv_packet_);
 
 			readHeader();

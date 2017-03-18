@@ -1,4 +1,5 @@
 #include <chrono>
+#include <iomanip>
 #include "Engine.h"
 #include "WindowManager.h"
 #include "GraphicsDriver.h"
@@ -45,24 +46,28 @@ void Engine::handleEvent(SDL_Event* inEvent)
 	{
 	case SDL_KEYDOWN:
 		// Details
-		if (player)
-		{
+		//if (player)
+		//{
 			switch (inEvent->key.keysym.sym)
 			{
 			case SDLK_a:
-					player->setHeading(left);
+				if (player)player->setHeading(left);
 				break;
 
 			case SDLK_d:
-					player->setHeading(right);
+				if (player)player->setHeading(right);
 				break;
 
 			case SDLK_w:
-					player->setHeading(up);
+				if (player)player->setHeading(up);
 				break;
 
 			case SDLK_s:
-					player->setHeading(down);
+				if (player)player->setHeading(down);
+				break;
+
+			case SDLK_u:
+				_world->getNetworkMgr().showAllUsers();
 				break;
 
 			case SDLK_SPACE:
@@ -71,7 +76,7 @@ void Engine::handleEvent(SDL_Event* inEvent)
 			default:
 				break;
 			}
-		}
+		//}
 		break;
 
 	case SDL_KEYUP:
@@ -170,12 +175,18 @@ void Engine::update()
 	prev_ = current;
 	lag_ += delta_;
 
-	
+
+	duration<double> u0 = system_clock::now().time_since_epoch();
 	while (lag_.count() >= MsPerUpdate)
 	{
 		_world->update();
 		lag_ -= duration<double>(MsPerUpdate);
 	}
+	duration<double> u1 = system_clock::now().time_since_epoch();
+
+
+
+	duration<double> re0 = system_clock::now().time_since_epoch();
 
 	// render
 	GraphicsDriver::instance->clear();
@@ -183,15 +194,31 @@ void Engine::update()
 	GraphicsDriver::instance->render();
 	GraphicsDriver::instance->present();
 
+	duration<double> re1 = system_clock::now().time_since_epoch();
 	
+
+	duration<double> c0 = system_clock::now().time_since_epoch();
+
 	server_->getRoom().copyPacketsTo(_world->getNetworkMgr());
 	_world->getNetworkMgr().processQueuedPackets();
 
+	duration<double> c1 = system_clock::now().time_since_epoch();
 
 	accum_delta_ += delta_.count();
 	if (accum_delta_ > ReplicateTerm)
 	{
+		duration<double> r0 = system_clock::now().time_since_epoch();
 		_world->getNetworkMgr().replicateToClients();
 		accum_delta_ = 0;
+		duration<double> r1 = system_clock::now().time_since_epoch();
+
+
+		std::cout
+			<< "r : " << std::fixed << std::setprecision(5) << (r1 - r0).count()
+			<< "  re : " << std::fixed << std::setprecision(5) << (re1 - re0).count()
+			<< "  u : " << std::fixed << std::setprecision(5) << (u1 - u0).count()
+			<< "  c : " << std::fixed << std::setprecision(5) << (c1 - c0).count()
+			<< "  delta : " << std::fixed << std::setprecision(5) << delta_.count()
+			<< std::endl;
 	}
 }

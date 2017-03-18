@@ -10,6 +10,7 @@
 //------------------------------------------------------------------------
 
 #include <vector>
+#include <Common/Protobuf/ProtobufStrategy.h>
 #include <Common/Network/GamePacket.hpp>
 #include <Common/Protobuf/generated/Base.pb.h>
 #include <Common/Protobuf/generated/HeaderData.pb.h>
@@ -26,6 +27,10 @@ class ProtobufClientUtils
 {
 public:
 	
+	typedef GamePacket<ProtobufStrategy, 100000> RecvPacket;
+	typedef GamePacket<ProtobufStrategy, 100> SendPacket;
+	enum { PacketBufferSize = 5 };
+
 	static void serializeVec2(float x, float y, Data::Vec2& out);
 
 	static void serializeCommandData(unsigned int pid, Data::CommandType cmd, Data::CommandData& out);

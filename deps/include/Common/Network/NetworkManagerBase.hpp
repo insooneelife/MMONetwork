@@ -8,7 +8,7 @@
 #include "../Protobuf/generated/Base.pb.h"
 #include "../Protobuf/generated/HeaderData.pb.h"
 
-template<typename Packet>
+template<typename Packet, int PacketBufferSize = 100>
 class NetworkManagerBase
 {
 public:
@@ -45,9 +45,9 @@ public:
 
 		if (found != std::end(_process_map))
 		{
-			std::cout <<
-				"handled  packet type : [" << Data::PacketType_Name(ptype) << "]" <<
-				"  body size : " << header.size() << std::endl;
+			//std::cout <<
+			//	"handled  packet type : [" << Data::PacketType_Name(ptype) << "]" <<
+			//	"  body size : " << header.size() << std::endl;
 
 			found->second(header, packet);
 		}
@@ -59,7 +59,7 @@ public:
 
 protected:
 
-	std::array<Packet, 50> copied_packets_;
+	std::array<Packet, PacketBufferSize> copied_packets_;
 	int idx_;
 	
 	std::map<Data::PacketType, std::function<void(const Data::HeaderData&, const Packet&)> > _process_map;
