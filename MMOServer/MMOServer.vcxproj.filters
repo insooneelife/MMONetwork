@@ -45,9 +45,6 @@
     <ClCompile Include="Entity\Projectile.cpp">
       <Filter>Entity</Filter>
     </ClCompile>
-    <ClCompile Include="Entity\RigidBody.cpp">
-      <Filter>Entity</Filter>
-    </ClCompile>
     <ClCompile Include="Entity\Snake.cpp">
       <Filter>Entity</Filter>
     </ClCompile>
@@ -138,6 +135,12 @@
     <ClCompile Include="Server\PlayerState.cpp">
       <Filter>Server</Filter>
     </ClCompile>
+    <ClCompile Include="PhysicsManager.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity\Structure.cpp">
+      <Filter>Entity</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Entity\Entity.h">
@@ -147,9 +150,6 @@
       <Filter>Entity</Filter>
     </ClInclude>
     <ClInclude Include="Entity\Projectile.h">
-      <Filter>Entity</Filter>
-    </ClInclude>
-    <ClInclude Include="Entity\RigidBody.h">
       <Filter>Entity</Filter>
     </ClInclude>
     <ClInclude Include="Entity\Snake.h">
@@ -162,9 +162,6 @@
       <Filter>Header</Filter>
     </ClInclude>
     <ClInclude Include="Camera2D.h">
-      <Filter>Header</Filter>
-    </ClInclude>
-    <ClInclude Include="CellSpacePartition.h">
       <Filter>Header</Filter>
     </ClInclude>
     <ClInclude Include="Engine.h">
@@ -265,6 +262,12 @@
     </ClInclude>
     <ClInclude Include="Server\PlayerState.h">
       <Filter>Server</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysicsManager.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity\Structure.h">
+      <Filter>Entity</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

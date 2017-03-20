@@ -4,7 +4,6 @@
 #include "../Entity/Projectile.h"
 #include "../Entity/Snake.h"
 #include "../Entity/Wall.h"
-#include "../Entity/RigidBody.h"
 #include "../EntityManager.h"
 #include "../World.h"
 #include "../Server/NetworkManagerServer.h"
@@ -70,8 +69,8 @@ void ProtobufServerUtils::serializeSnakeAdditionalData(
 	for (auto e : snake->getBodies())
 	{
 		auto body = out.add_bodies();
-		body->set_x(e->getPos().x);
-		body->set_y(e->getPos().y);
+		body->set_x(e->GetPosition().x);
+		body->set_y(e->GetPosition().y);
 	}
 }
 

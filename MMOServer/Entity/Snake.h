@@ -9,6 +9,7 @@
 //
 //--------------------------------------------------------------------------
 
+#include <Box2D/Box2D.h>
 #include <vector>
 #include <memory>
 #include "Entity.h"
@@ -30,7 +31,8 @@ public:
 	inline bool isPlayer() const		{ return _is_player; }
 
 	inline Data::ControlType getControlType() const { return _control_type; }
-	inline const std::vector<RigidBody*>& getBodies() const { return _body; }
+	//inline const std::vector<RigidBody*>& getBodies() const { return _body; }
+	inline const std::vector<b2Body*>& getBodies() const { return _bodies; }
 
 	Snake(World& world, unsigned int id, const Vec2& pos, Data::ControlType ctype);
 
@@ -47,7 +49,8 @@ private:
 	State _state;
 	Vec2 _destination;
 
-	std::vector<RigidBody*> _body;
+	//std::vector<RigidBody*> _body;
+	std::vector<b2Body*> _bodies;
 	std::vector<Vec2> _destinations;
 
 	int _experience;

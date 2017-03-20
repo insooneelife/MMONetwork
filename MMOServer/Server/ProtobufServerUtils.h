@@ -30,7 +30,7 @@ class ProtobufServerUtils
 public:
 
 	typedef GamePacket<ProtobufStrategy, 100> RecvPacket;
-	typedef GamePacket<ProtobufStrategy, 100000> SendPacket;
+	typedef GamePacket<ProtobufStrategy, 200000> SendPacket;
 	enum { PacketBufferSize = 1000 };
 	
 	static void serializeVec2(float x, float y, Data::Vec2& out);

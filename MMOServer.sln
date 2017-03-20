@@ -7,6 +7,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MMOServer", "MMOServer\MMOS
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MMOClient", "MMOClient\MMOClient.vcxproj", "{AD2656C9-1DB8-431E-BE00-7049BED44FA2}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Box2D", "Box2D\Box2D.vcxproj", "{11C88A8A-E76C-4E82-B4E9-D95A9EC9E15A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -31,6 +33,14 @@ Global
 		{AD2656C9-1DB8-431E-BE00-7049BED44FA2}.Release|x64.Build.0 = Release|x64
 		{AD2656C9-1DB8-431E-BE00-7049BED44FA2}.Release|x86.ActiveCfg = Release|Win32
 		{AD2656C9-1DB8-431E-BE00-7049BED44FA2}.Release|x86.Build.0 = Release|Win32
+		{11C88A8A-E76C-4E82-B4E9-D95A9EC9E15A}.Debug|x64.ActiveCfg = Debug|x64
+		{11C88A8A-E76C-4E82-B4E9-D95A9EC9E15A}.Debug|x64.Build.0 = Debug|x64
+		{11C88A8A-E76C-4E82-B4E9-D95A9EC9E15A}.Debug|x86.ActiveCfg = Debug|Win32
+		{11C88A8A-E76C-4E82-B4E9-D95A9EC9E15A}.Debug|x86.Build.0 = Debug|Win32
+		{11C88A8A-E76C-4E82-B4E9-D95A9EC9E15A}.Release|x64.ActiveCfg = Release|x64
+		{11C88A8A-E76C-4E82-B4E9-D95A9EC9E15A}.Release|x64.Build.0 = Release|x64
+		{11C88A8A-E76C-4E82-B4E9-D95A9EC9E15A}.Release|x86.ActiveCfg = Release|Win32
+		{11C88A8A-E76C-4E82-B4E9-D95A9EC9E15A}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

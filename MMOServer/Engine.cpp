@@ -214,11 +214,11 @@ void Engine::update()
 
 
 		std::cout
-			<< "r : " << std::fixed << std::setprecision(5) << (r1 - r0).count()
-			<< "  re : " << std::fixed << std::setprecision(5) << (re1 - re0).count()
-			<< "  u : " << std::fixed << std::setprecision(5) << (u1 - u0).count()
-			<< "  c : " << std::fixed << std::setprecision(5) << (c1 - c0).count()
-			<< "  delta : " << std::fixed << std::setprecision(5) << delta_.count()
+			<< "r : " << std::fixed << std::setprecision(6) << (r1 - r0).count()
+			<< "  re : " << std::fixed << std::setprecision(6) << (re1 - re0).count()
+			<< "  u : " << std::fixed << std::setprecision(6) << (u1 - u0).count()
+			<< "  c : " << std::fixed << std::setprecision(6) << (c1 - c0).count()
+			<< "  delta : " << std::fixed << std::setprecision(6) << delta_.count()
 			<< std::endl;
 	}
 }

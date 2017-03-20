@@ -1,15 +1,16 @@
 #include <iostream>
 #include <sstream>
+#include <vector>
 #include "Snake.h"
-#include "RigidBody.h"
 #include "../World.h"
 #include "../EntityManager.h"
 #include "../GraphicsDriver.h"
 #include "../Server/NetworkManagerServer.h"
 
+
 Snake::Snake(World& world, unsigned int id, const Vec2& pos, Data::ControlType ctype)
 	:
-	Entity(world, id, pos, 25.0f, Entity::Type::kSnake, GraphicsDriver::black),
+	Entity(world, id, pos, World::SnakeRadius, Entity::Type::kSnake, GraphicsDriver::black),
 	_state(kIdle),
 	_experience(8),
 	_is_player(true),
@@ -17,24 +18,38 @@ Snake::Snake(World& world, unsigned int id, const Vec2& pos, Data::ControlType c
 {
 	for (int i = 0; i < _experience; ++i)
 	{
-		_body.push_back(new RigidBody(*this, pos, _radius));
+		//_body.push_back(new RigidBody(*this, pos, _radius));
+
+		b2CircleShape shape;
+		shape.m_radius = World::SnakeRadius;
+
+		auto body = _world.getPhysicsMgr()->CreateBody(pos.x, pos.y, b2BodyType::b2_dynamicBody, &shape, true);
+		body->SetLinearDamping(2.0f);
+		body->SetUserData(this);
+		_bodies.emplace_back(body);
+
 		_destinations.push_back(pos);
 	}
+
+	
 }
 
 Snake::~Snake()
 {
-	for (auto e : _body)
-		delete e;
+	for (auto e : _bodies)
+		_world.getPhysicsMgr()->RemoveBody(e);
+	//for (auto e : _body)
+	//	delete e;
 }
 
 void Snake::setPos(Vec2 pos)
 {
 	_pos = pos;
 	_destination = pos;
-	for (auto e : _body)
+	for (auto e : _bodies)
 	{
-		e->setPos(pos);
+		e->SetTransform(b2Vec2(pos.x, pos.y), 0);		
+		//e->setPos(pos);
 	}
 	for (auto& e : _destinations)
 	{
@@ -44,6 +59,25 @@ void Snake::setPos(Vec2 pos)
 
 void Snake::update()
 {
+	/*_bodies[0]->SetLinearVelocity(b2Vec2(_heading.x * World::SnakeSpeed, _heading.y * World::SnakeSpeed));
+	_pos = Vec2(_bodies[0]->GetPosition().x, _bodies[0]->GetPosition().y);
+	
+	for (int i = 0; i < _bodies.size() - 1; ++i)
+	{
+		Vec2 pos1 = Vec2(_bodies[i]->GetPosition().x, _bodies[i]->GetPosition().y);
+		Vec2 pos2 = Vec2(_bodies[i + 1]->GetPosition().x, _bodies[i + 1]->GetPosition().y);
+		Vec2 vel = (pos1 - pos2).getNormalized() * World::SnakeSpeed;
+		
+		//Vec2 vel = (_destinations[i] - pos).getNormalized() * World::SnakeSpeed;
+
+		//b2Vec2 bpos = b2Vec2()
+
+		//_bodies[i]->SetTransform(b2Vec2((pos + vel).x, (pos + vel).y), 0);
+		_bodies[i + 1]->SetLinearVelocity(b2Vec2(vel.x, vel.y));
+		//_bodies[i]->setPos(pos + (_destinations[i] - pos).getNormalized() * World::SnakeSpeed);
+
+	}*/
+
 	if (_state == kIdle)
 	{
 		_destination = _pos + _heading * World::OneStep;
@@ -54,7 +88,9 @@ void Snake::update()
 			if (i == 0)
 				_destinations[i] = _destination;
 			else
-				_destinations[i] = _body[i - 1]->getPos();
+				_destinations[i] =
+				Vec2(_bodies[i - 1]->GetPosition().x, _bodies[i - 1]->GetPosition().y);
+				//_destinations[i] = _body[i - 1]->getPos();
 		}
 	}
 	else if (_state == kMoving)
@@ -65,16 +101,22 @@ void Snake::update()
 		}
 		else
 		{
-			_pos += (_destination - _pos).getNormalized() * World::SnakeSpeed;
+			//_pos += (_destination - _pos).getNormalized() * World::SnakeSpeed;
 
-			for (int i = 0; i < _body.size(); ++i)
+			for (int i = 0; i < _bodies.size(); ++i)
 			{
-				Vec2 pos = _body[i]->getPos();
-				_body[i]->setPos(pos + (_destinations[i] - pos).getNormalized() * World::SnakeSpeed);
-				//_body[i]->updateMovement((_destinations[i] - pos).getNormalized() * World::SnakeSpeed);
-				//_body[i]->setPos(pos + (_destinations[i] - pos).getNormalized() * World::SnakeSpeed);
-				//_body[i] += (_destinations[i] - _body[i]).getNormalized() * World::SnakeSpeed;
+				Vec2 pos = Vec2(_bodies[i]->GetPosition().x, _bodies[i]->GetPosition().y);
+				Vec2 vel = (_destinations[i] - pos).getNormalized() * World::SnakeSpeed;
+
+				//b2Vec2 bpos = b2Vec2()
+
+				//_bodies[i]->SetTransform(b2Vec2((pos + vel).x, (pos + vel).y), 0);
+				_bodies[i]->SetLinearVelocity(b2Vec2(vel.x, vel.y));
+				//_bodies[i]->setPos(pos + (_destinations[i] - pos).getNormalized() * World::SnakeSpeed);
+				
 			}
+			_pos.x = _bodies[0]->GetPosition().x;
+			_pos.y = _bodies[0]->GetPosition().y;
 		}
 	}
 }
@@ -82,7 +124,6 @@ void Snake::update()
 void Snake::render()
 {
 	std::stringstream ss;
-	
 	
 	if (_control_type == Data::ControlType::Player)
 	{
@@ -96,21 +137,22 @@ void Snake::render()
 		ss << _id;
 	}
 	
-	
 	GraphicsDriver::instance->drawText(ss.str(), _pos, _color);
-
+	
 	Vec2 sidev = getSide() * _radius / 2;
-	GraphicsDriver::instance->drawLine(_pos + sidev, _pos - sidev, _color);
-	GraphicsDriver::instance->drawLine(_pos + sidev, _pos + _heading * _radius * 2, _color);
-	GraphicsDriver::instance->drawLine(_pos - sidev, _pos + _heading * _radius * 2, _color);
+	std::vector<Vec2> tri(4);
+	tri[0] = _pos + sidev;
+	tri[1] = _pos - sidev;
+	tri[2] = _pos + _heading * _radius * 2;
+	tri[3] = _pos + sidev;
+	GraphicsDriver::instance->drawLines(tri, _color);
 
-
-	for (int i = 0; i < _body.size() - 1; ++i)
+	std::vector<Vec2> lines(_bodies.size());
+	for (int i = 0; i < _bodies.size(); ++i)
 	{
-		Vec2 begin = _body[i]->getPos();
-		Vec2 end = _body[i + 1]->getPos();
-		GraphicsDriver::instance->drawLine(begin, end, _color);
+		lines[i] = Vec2(_bodies[i]->GetPosition().x, _bodies[i]->GetPosition().y);
 	}
+	GraphicsDriver::instance->drawLines(lines, _color);
 }
 
 
@@ -123,7 +165,6 @@ bool Snake::handleMessage(const Message& msg)
 
 	case Message::kIncrease:
 		setExp(getExp() + Message::voidToType<int>(msg.getExtraInfo()));
-		std::cout <<"exp : " << getExp() << std::endl;
 		break;
 
 	case Message::kDecrease:

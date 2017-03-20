@@ -7,6 +7,7 @@
 #include <thread>
 #include <Common/Protobuf/ProtobufStrategy.h>
 #include <Common/Network/GamePacket.hpp>
+#include <Common/Network/NetworkManagerBase.hpp>
 #include <Common/Protobuf/generated/InitGameData.pb.h>
 #include "ProtobufClientUtils.h"
 

@@ -13,6 +13,8 @@ class NetworkManagerBase
 {
 public:
 
+	
+
 	NetworkManagerBase() :idx_(0) {}
 
 	void copyPackets(std::queue<Packet>& recv_que)

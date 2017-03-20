@@ -22,12 +22,10 @@ Entity::Entity(
 	_heading(1, 0),
 	_is_garbage(false)
 {
-	//EntityManager::instance->registerEntity(this);
 	_world.getEntityMgr().registerEntity(this);
 }
 
 Entity::~Entity()
 {
-	//EntityManager::instance->unregisterEntity(this);
-	_world.getEntityMgr().unregisterEntity(this);
+	_world.getEntityMgr().unregisterEntity(this);	
 }

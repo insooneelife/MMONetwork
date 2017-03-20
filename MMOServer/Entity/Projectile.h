@@ -9,22 +9,25 @@
 //
 //--------------------------------------------------------------------------
 
+#include <Box2D/Box2D.h>
 #include <memory>
 #include "Entity.h"
+//#include "RigidBody.h"
 
 class RigidBody;
 class Projectile : public Entity
 {
 public:
+	inline b2Body* getBody() const { return _body; }
+
 	Projectile(
 		World& world,
 		unsigned int id,
 		const Vec2& pos,
-		const Vec2& heading,
-		int proj_speed);
+		const Vec2& heading);
 
 
-	virtual ~Projectile() {}
+	virtual ~Projectile();
 	virtual void update();
 	virtual void render();
 
@@ -32,6 +35,7 @@ public:
 	void reflectCircle(Vec2 pos, float radius);
 
 private:
-	std::unique_ptr<RigidBody> _body;
-	int _proj_speed;
+	//std::unique_ptr<RigidBody> _body;
+
+	b2Body* _body;
 };

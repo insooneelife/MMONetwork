@@ -13,6 +13,8 @@
 #include <cassert>
 #include "Math/Vec2.h"
 
+#include <Box2D/Box2D.h>
+
 namespace
 {
 	// random number generator
@@ -116,5 +118,17 @@ namespace
 
 		force = (pos1 - pos2).getNormalized() * amount_of_overlap;
 		return true;
+	}
+
+	template<typename Point>
+	static inline Vec2 toVec(const Point& p) { return Vec2(p.x, p.y); }
+
+	template<typename Point>
+	static inline b2Vec2 tob2Vec(const Point& p) { return b2Vec2(p.x, p.y); }
+
+	template<typename Color>
+	static inline b2Color tob2Color(const Color& sdl_color)
+	{
+		return b2Color(sdl_color.r, sdl_color.g, sdl_color.b, sdl_color.a);
 	}
 }

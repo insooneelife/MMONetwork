@@ -182,7 +182,7 @@ bool NetworkManagerServer::queryUserDataByEID(unsigned int eid, Data::UserData& 
 NetworkManagerServer::SendPacket
 NetworkManagerServer::createAcceptedPacket(const Data::UserData& data)
 {
-	GamePacket<ProtobufStrategy> packet;
+	NetworkManagerServer::SendPacket packet;
 	packet.serializeFrom(data, Data::PacketType::Accepted);
 	return packet;
 }
@@ -190,7 +190,7 @@ NetworkManagerServer::createAcceptedPacket(const Data::UserData& data)
 NetworkManagerServer::SendPacket
 NetworkManagerServer::createInitGamePacket(const Data::InitGameData& data)
 {
-	GamePacket<ProtobufStrategy> packet;
+	NetworkManagerServer::SendPacket packet;
 	packet.serializeFrom(data, Data::PacketType::InitGame);
 	return packet;
 }
@@ -198,7 +198,7 @@ NetworkManagerServer::createInitGamePacket(const Data::InitGameData& data)
 NetworkManagerServer::SendPacket
 NetworkManagerServer::createFullPacket()
 {
-	GamePacket<ProtobufStrategy> packet;
+	NetworkManagerServer::SendPacket packet;
 	packet.serializeFrom(Data::PacketType::Full);
 	return packet;
 }
@@ -206,7 +206,7 @@ NetworkManagerServer::createFullPacket()
 NetworkManagerServer::SendPacket
 NetworkManagerServer::createJoinedPacket(const Data::JoinedData& user)
 {
-	GamePacket<ProtobufStrategy> packet;
+	NetworkManagerServer::SendPacket packet;
 	packet.serializeFrom(user, Data::PacketType::Joined);
 	return packet;
 }
@@ -214,7 +214,7 @@ NetworkManagerServer::createJoinedPacket(const Data::JoinedData& user)
 NetworkManagerServer::SendPacket
 NetworkManagerServer::createIntroPacket(const Data::UserData& user)
 {
-	GamePacket<ProtobufStrategy> packet;
+	NetworkManagerServer::SendPacket packet;
 	packet.serializeFrom(user, Data::PacketType::Intro);
 	return packet;
 }
@@ -222,7 +222,7 @@ NetworkManagerServer::createIntroPacket(const Data::UserData& user)
 NetworkManagerServer::SendPacket
 NetworkManagerServer::createNotifyDisconnectedPacket(const Data::UserData& user)
 {
-	GamePacket<ProtobufStrategy> packet;
+	NetworkManagerServer::SendPacket packet;
 	packet.serializeFrom(user, Data::PacketType::NotifyDisconnected);
 	return packet;
 }
@@ -230,7 +230,7 @@ NetworkManagerServer::createNotifyDisconnectedPacket(const Data::UserData& user)
 NetworkManagerServer::SendPacket
 NetworkManagerServer::createChangeLevelPacket(const Data::InitGameData& data)
 {
-	GamePacket<ProtobufStrategy> packet;
+	NetworkManagerServer::SendPacket packet;
 	packet.serializeFrom(data, Data::PacketType::ChangeLevel);
 	return packet;
 }
@@ -238,7 +238,7 @@ NetworkManagerServer::createChangeLevelPacket(const Data::InitGameData& data)
 NetworkManagerServer::SendPacket
 NetworkManagerServer::createEnterPlayingPacket()
 {
-	GamePacket<ProtobufStrategy> packet;
+	NetworkManagerServer::SendPacket packet;
 	packet.serializeFrom(Data::PacketType::EnterPlaying);
 	return packet;
 }
@@ -246,7 +246,7 @@ NetworkManagerServer::createEnterPlayingPacket()
 NetworkManagerServer::SendPacket
 NetworkManagerServer::createReplicatePacket(const Data::ReplicateData& data)
 {
-	GamePacket<ProtobufStrategy> packet;
+	NetworkManagerServer::SendPacket packet;
 	packet.serializeFrom(data, Data::PacketType::Replicate);
 	return packet;
 }

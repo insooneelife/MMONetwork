@@ -8,9 +8,9 @@
 //  Author: Insub Im (insooneelife@naver.com)
 //
 //--------------------------------------------------------------------------
-
+#include <Box2D/Box2D.h>
 #include "Entity.h"
-class RigidBody;
+//class RigidBody;
 class Prey : public Entity
 {
 public:
@@ -22,5 +22,6 @@ public:
 	virtual void render();
 
 private:
-	std::unique_ptr<RigidBody> _body;
+	//std::unique_ptr<RigidBody> _body;
+	b2Body* _body;
 };

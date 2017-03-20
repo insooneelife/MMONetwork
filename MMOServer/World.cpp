@@ -7,29 +7,38 @@
 #include <Common/Utils.h>
 #include <Common/Math/Transformations.h>
 
+#include <Box2D/Box2D.h>
+
 #include "Entity/Snake.h"
 #include "Entity/Prey.h"
 #include "Entity/Projectile.h"
 #include "Entity/Wall.h"
-#include "Entity/RigidBody.h"
+#include "Entity/Structure.h"
 
 #include "Server/NetworkManagerServer.h"
 
 using namespace std;
 
-const float World::OneStep = 50.0f;
-const float World::SnakeSpeed = 1.0f;
-const float World::Dummy = 200;
-const float World::WorldSize = 2000.0f;
+const float World::OneStep = 0.50f;
 
-const int World::SnakeNum = 20;
-const int World::ProjectileNum = 20;
-const int World::PreyNum = 20;
-const int World::CellNum = 10;
+const float World::SnakeSpeed = 0.25f;
+const float World::SnakeRadius = 0.25f;
+const float World::ProjectileSpeed = 1.0f;
+const float World::ProjectileRadius = 0.15f;
+
+const float World::PreyRadius = 0.15f;
+
+const float World::Dummy = 2;
+const float World::WorldSize = 200.0f;
+
+const int World::SnakeNum = 100;
+const int World::ProjectileNum = 200;
+const int World::PreyNum = 1000;
+const int World::CellNum = 40;
 
 void World::collide(Snake& s1, Snake& s2)
 {
-	//cout << "collide!  Snake && Snake" << endl;
+	cout << "collide!  Snake && Snake" << endl;
 }
 
 void World::collide(Snake& s, Projectile& p)
@@ -180,12 +189,12 @@ World::World(Room& room, float width)
 	:
 	_next_validate_id(1),
 	_width(width),
-	_cell_space(width, width, CellNum, CellNum, 1000000),
 	_network_mgr(new NetworkManagerServer(*this, room)),
+	_physics(new PhysicsManager(WorldSize, WorldSize)),
 	level_(0)
 {
 	// Create player with hunter
-	_player_entity = new Snake(*this, genID(), Vec2(100.0f, 100.0f), Data::ControlType::NPC);
+	_player_entity = new Snake(*this, genID(), Vec2(0.0f, 0.0f), Data::ControlType::NPC);
 	_snakes.push_back(_player_entity);
 
 	float fwidth = (width - Dummy) / 2;
@@ -197,6 +206,14 @@ World::World(Room& room, float width)
 	// Create hunters
 	for (int i = 0; i < SnakeNum; ++i)
 		createHunter(Vec2(random(-fwidth, fwidth), random(-fwidth, fwidth)));
+
+	// Create Structures
+	for (int i = 0; i < 10; i++)
+	{
+		int type = random(0, 4);
+		createStructure(Vec2(random(-fwidth, fwidth), random(-fwidth, fwidth)), random(1.0f, 4.0f), type);
+	}
+
 
 	for (int i = 0; i < ProjectileNum; i++)
 	{
@@ -251,9 +268,14 @@ void World::update()
 		else if (ent->getType() == Entity::kWall)
 			_walls.push_back(static_cast<Wall*>(ent));
 
+		else if (ent->getType() == Entity::kStructure)
+			_structures.push_back(static_cast<Structure*>(ent));
+
 		_created_entities.pop();
 	}
 	
+	_physics->Step();
+
 	// Update entities and delete them if set garbage.
 	updateEntity();
 
@@ -269,7 +291,7 @@ void World::update()
 
 void World::solveCollide()
 {
-	for (auto s1 : _snakes)
+	/*for (auto s1 : _snakes)
 	{
 		_cell_space.calculateNeighborsForOne(s1->getPos());
 
@@ -312,6 +334,7 @@ void World::solveCollide()
 	for (auto s : _snakes)
 		for (auto p : _preys)
 			collide(*s, *p);
+			*/
 }
 
 
@@ -329,43 +352,11 @@ void World::render()
 	for (auto p : _walls)
 		p->render();
 
-	//renderGrid();
-	renderCellSpace();
+	for (auto s : _structures)
+		s->render();
+
 }
 
-void World::renderGrid()
-{
-	for (float x = -_width; x < _width; x += OneStep)
-	{
-		GraphicsDriver::instance->drawLine(Vec2(x, -_width), Vec2(x, _width));
-	}
-
-	for (float y = -_width; y < _width; y += OneStep)
-	{
-		GraphicsDriver::instance->drawLine(Vec2(-_width, y), Vec2(_width, y));
-	}
-}
-
-void World::renderCellSpace()
-{
-	for (auto c = std::begin(_cell_space.getCells()); c != std::end(_cell_space.getCells()); ++c)
-	{
-		Vec2 bl = _cell_space.toWorldPos((*c)->bounding_box.getBottomLeft());
-		Vec2 br = _cell_space.toWorldPos((*c)->bounding_box.getBottomRight());
-		Vec2 tr = _cell_space.toWorldPos((*c)->bounding_box.getTopRight());
-		Vec2 tl = _cell_space.toWorldPos((*c)->bounding_box.getTopLeft());
-		Vec2 center = _cell_space.toWorldPos((*c)->bounding_box.getCenter());
-
-		GraphicsDriver::instance->drawLine(bl, br);
-		GraphicsDriver::instance->drawLine(br, tr);
-		GraphicsDriver::instance->drawLine(tr, tl);
-		GraphicsDriver::instance->drawLine(tl, bl);
-
-		std::stringstream ss;
-		ss << (*c)->members.size();
-		GraphicsDriver::instance->drawText(ss.str(), center, GraphicsDriver::blue);
-	}	
-}
 
 Snake* World::createPlayerPawn(const Vec2& pos, Data::UserData& user)
 {
@@ -382,7 +373,7 @@ void World::createHunter(const Vec2& pos)
 
 void World::createProjectile(const Vec2& pos, const Vec2& heading, int proj_speed)
 {
-	_created_entities.emplace(new Projectile(*this, genID(), pos, heading, proj_speed));
+	_created_entities.emplace(new Projectile(*this, genID(), pos, heading));
 }
 
 void World::createPrey(const Vec2& pos)
@@ -393,4 +384,16 @@ void World::createPrey(const Vec2& pos)
 void World::createWall(const Vec2& begin, const Vec2& end, const Vec2& heading)
 {
 	_created_entities.emplace(new Wall(*this, genID(), begin, end, heading));
+}
+
+void World::createStructure(const Vec2& pos, float radius, int type)
+{
+	if (type == Structure::StructureType::kCircle)
+		_created_entities.emplace(Structure::createCircle(*this, genID(), pos, radius));
+
+	else if (type == Structure::StructureType::kPolygon)
+		_created_entities.emplace(Structure::createPolygon(*this, genID(), pos));
+
+	else if (type == Structure::StructureType::kAnchor)
+		_created_entities.emplace(Structure::createAnchor(*this, genID(), pos, pos + Vec2(2.0f, 0)));
 }

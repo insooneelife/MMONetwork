@@ -22,7 +22,8 @@ public:
 		kSnake,
 		kPrey,
 		kProjectile,
-		kWall
+		kWall,
+		kStructure
 	};
 
 	inline World& getWorld() const					{ return _world; }
@@ -38,7 +39,8 @@ public:
 	inline void setGarbage(bool garbage)			{ _is_garbage = garbage; }
 	inline SDL_Color getColor() const				{ return _color; }
 	inline void setColor(const SDL_Color& color)	{ _color = color; }
-	
+
+
 	Entity(
 		World& world,
 		unsigned int id,
@@ -61,4 +63,6 @@ protected:
 	Type _type;
 	bool _is_garbage;
 	SDL_Color _color;
+
+	
 };

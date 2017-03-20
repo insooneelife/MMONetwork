@@ -40,11 +40,12 @@
     <ClCompile Include="Entity\Entity.cpp" />
     <ClCompile Include="Entity\Prey.cpp" />
     <ClCompile Include="Entity\Projectile.cpp" />
-    <ClCompile Include="Entity\RigidBody.cpp" />
     <ClCompile Include="Entity\Snake.cpp" />
+    <ClCompile Include="Entity\Structure.cpp" />
     <ClCompile Include="Entity\Wall.cpp" />
     <ClCompile Include="GraphicsDriver.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="PhysicsManager.cpp" />
     <ClCompile Include="Server\NetworkManagerServer.cpp" />
     <ClCompile Include="Server\PlayerState.cpp" />
     <ClCompile Include="Server\ProtobufServerUtils.cpp" />
@@ -75,7 +76,6 @@
     <ClInclude Include="..\deps\include\Common\Utils.h" />
     <ClInclude Include="AABBox2D.h" />
     <ClInclude Include="Camera2D.h" />
-    <ClInclude Include="CellSpacePartition.h" />
     <ClInclude Include="Controller\AIController.h" />
     <ClInclude Include="Controller\ControllerBase.h" />
     <ClInclude Include="Controller\PlayerController.h" />
@@ -84,10 +84,11 @@
     <ClInclude Include="Entity\Entity.h" />
     <ClInclude Include="Entity\Prey.h" />
     <ClInclude Include="Entity\Projectile.h" />
-    <ClInclude Include="Entity\RigidBody.h" />
     <ClInclude Include="Entity\Snake.h" />
+    <ClInclude Include="Entity\Structure.h" />
     <ClInclude Include="Entity\Wall.h" />
     <ClInclude Include="GraphicsDriver.h" />
+    <ClInclude Include="PhysicsManager.h" />
     <ClInclude Include="Server\NetworkManagerServer.h" />
     <ClInclude Include="Server\PlayerState.h" />
     <ClInclude Include="Server\ProtobufServerUtils.h" />
@@ -242,7 +243,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>SDL2.lib;SDL2_image.lib;SDL2_ttf.lib;SDL2main.lib;SDL2test.lib;zdll.lib;libprotobuf.lib;libprotobuf-lite.lib;libprotoc.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;SDL2_image.lib;SDL2_ttf.lib;SDL2main.lib;SDL2test.lib;zdll.lib;libprotobuf.lib;libprotobuf-lite.lib;libprotoc.lib;Box2D.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

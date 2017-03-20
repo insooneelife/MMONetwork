@@ -4,7 +4,7 @@
 #include <cstdio>
 #include <cassert>
 
-template <typename Strategy, int MaxBodyLength = 100000>
+template <typename Strategy, int MaxBodyLength>
 class GamePacket
 {
 public:

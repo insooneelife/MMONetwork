@@ -1,7 +1,9 @@
+#include <array>
+#include <iostream>
 #include "GraphicsDriver.h"
 #include "EntityManager.h"
 #include "Camera2D.h"
-#include <iostream>
+#include <Common/Utils.h>
 
 std::unique_ptr< GraphicsDriver > GraphicsDriver::instance = nullptr;
 
@@ -10,6 +12,16 @@ SDL_Color GraphicsDriver::blue;
 SDL_Color GraphicsDriver::yellow;
 SDL_Color GraphicsDriver::black;
 SDL_Color GraphicsDriver::white;
+
+SDL_Color GraphicsDriver::green;
+SDL_Color GraphicsDriver::indigo;
+SDL_Color GraphicsDriver::darkgray;
+SDL_Color GraphicsDriver::orange;
+SDL_Color GraphicsDriver::antiquewhite;
+SDL_Color GraphicsDriver::lemon;
+SDL_Color GraphicsDriver::darkgreen;
+
+
 
 bool GraphicsDriver::staticInit(SDL_Window* wnd)
 {
@@ -26,11 +38,21 @@ bool GraphicsDriver::staticInit(SDL_Window* wnd)
 	}
 
 	// Set color
+	// Set color
 	red.r = 255;	red.g = 0;		red.b = 0;
 	blue.r = 0;		blue.g = 0;		blue.b = 255;
-	yellow.r = 255;	yellow.g = 237;	yellow.b = 0;
+	yellow.r = 255;	yellow.g = 255;	yellow.b = 0;
 	black.r = 0;	black.g = 0;	black.b = 0;
 	white.r = 255;	white.g = 255;	white.b = 255;
+
+	green.r = 0;		green.g = 255;		green.b = 0;
+	indigo.r = 75;		indigo.g = 0;		indigo.b = 130;
+	darkgray.r = 169;	darkgray.g = 169;	darkgray.b = 169;
+	orange.r = 238;		orange.g = 154;		orange.b = 0;
+
+	antiquewhite.r = 255;	antiquewhite.g = 239;	antiquewhite.b = 219;
+	lemon.r = 255;			lemon.g = 250;			lemon.b = 205;
+	darkgreen.r = 162;		darkgreen.g = 205;		darkgreen.b = 90;
 
 	return result;
 }
@@ -74,6 +96,12 @@ GraphicsDriver::~GraphicsDriver()
 	{
 		SDL_DestroyRenderer(_renderer);
 	}
+
+	for (auto e : text_cache_)
+	{
+		SDL_DestroyTexture(e.second.second);
+		SDL_FreeSurface(e.second.first);
+	}
 }
 
 void GraphicsDriver::render()
@@ -81,7 +109,7 @@ void GraphicsDriver::render()
 
 void GraphicsDriver::clear()
 {
-	SDL_SetRenderDrawColor(_renderer, 100, 149, 237, SDL_ALPHA_OPAQUE );
+	SDL_SetRenderDrawColor(_renderer, 100, 149, 237, SDL_ALPHA_OPAQUE);
 	SDL_RenderClear(_renderer);
 }
 
@@ -120,20 +148,54 @@ void GraphicsDriver::drawLine(Vec2 a, Vec2 b, SDL_Color color, bool on_ui)
 		static_cast<int>(b.y));
 }
 
-void GraphicsDriver::drawRect(Vec2 p, float w, float h, SDL_Color color, bool on_ui)
+void GraphicsDriver::drawLines(const std::vector<Vec2>& lines, SDL_Color color, bool on_ui)
+{
+	SDL_SetRenderDrawColor(_renderer, color.r, color.g, color.b, color.a);
+	std::array<SDL_Point, 100> rv;
+
+	for (int i = 0; i < lines.size(); ++i)
+	{
+		Vec2 cp = Camera2D::instance->worldToScreen(lines[i]);
+		rv[i].x = cp.x;
+		rv[i].y = cp.y;
+	}
+	
+	SDL_RenderDrawLines(_renderer, rv.data(), lines.size());
+}
+
+void GraphicsDriver::drawRect(Vec2 bot_left, Vec2 top_right, SDL_Color color, bool on_ui)
 {
 	if (!on_ui)
 	{
-		p = Camera2D::instance->worldToScreen(p);
+		bot_left = Camera2D::instance->worldToScreen(bot_left);
+		top_right = Camera2D::instance->worldToScreen(top_right);
 	}
 
 	SDL_SetRenderDrawColor(_renderer, color.r, color.g, color.b, color.a);
 	SDL_Rect rect;
-	rect.x = static_cast<int>(p.x);
-	rect.y = static_cast<int>(p.y);
-	rect.w = static_cast<int>(w);
-	rect.h = static_cast<int>(h);
+	rect.x = static_cast<int>(bot_left.x);
+	rect.y = static_cast<int>(bot_left.y);
+	rect.w = static_cast<int>(top_right.x - bot_left.x);
+	rect.h = static_cast<int>(top_right.y - bot_left.y);
 	SDL_RenderDrawRect(_renderer, &rect);
+}
+
+void GraphicsDriver::drawRects(const std::vector<std::pair<Vec2, Vec2> >& rects, SDL_Color color, bool on_ui)
+{
+	SDL_SetRenderDrawColor(_renderer, color.r, color.g, color.b, color.a);
+	std::array<SDL_Rect, 10000> rv;
+
+	for (int i = 0; i < rects.size(); ++i)
+	{
+		Vec2 bot_left = Camera2D::instance->worldToScreen(rects[i].first);
+		Vec2 top_right = Camera2D::instance->worldToScreen(rects[i].second);
+		rv[i].x = static_cast<int>(bot_left.x);
+		rv[i].y = static_cast<int>(bot_left.y);
+		rv[i].w = static_cast<int>(top_right.x - bot_left.x);
+		rv[i].h = static_cast<int>(top_right.y - bot_left.y);
+	}
+
+	SDL_RenderDrawRects(_renderer, rv.data(), rects.size());
 }
 
 
@@ -158,31 +220,82 @@ void GraphicsDriver::drawText(const std::string& inStr, Vec2 origin, const SDL_C
 	{
 		origin = Camera2D::instance->worldToScreen(origin);
 	}
+	auto key = std::make_tuple(inStr, inColor.r, inColor.g, inColor.b, inColor.a);
+	auto it = text_cache_.find(key);
+	if (it != std::end(text_cache_))
+	{
+		SDL_Texture* texture = it->second.second;
 
-	// Convert the color
-	SDL_Color color;
-	color.r = inColor.r;
-	color.g = inColor.g;
-	color.b = inColor.b;
-	color.a = 255;
+		SDL_Rect dstRect;
+		dstRect.x = static_cast<int>(origin.x);
+		dstRect.y = static_cast<int>(origin.y);
+		SDL_QueryTexture(texture, nullptr, nullptr, &dstRect.w, &dstRect.h);
 
-	
-	// Draw to surface and create a texture
-	SDL_Surface* surface = TTF_RenderText_Blended(_font, inStr.c_str(), color);
-	SDL_Texture* texture = SDL_CreateTextureFromSurface(GraphicsDriver::instance->getRenderer(), surface);
+		// Draw the texture
+		SDL_RenderCopy(GraphicsDriver::instance->getRenderer(), texture, nullptr, &dstRect);
+	}
+	else
+	{
+		// Convert the color
+		SDL_Color color;
+		color.r = inColor.r;
+		color.g = inColor.g;
+		color.b = inColor.b;
+		color.a = 255;
 
-	// Setup the rect for the texture
-	SDL_Rect dstRect;
-	dstRect.x = static_cast<int>(origin.x);
-	dstRect.y = static_cast<int>(origin.y);
-	SDL_QueryTexture(texture, nullptr, nullptr, &dstRect.w, &dstRect.h);
+		// Draw to surface and create a texture
+		SDL_Surface* surface = TTF_RenderText_Blended(_font, inStr.c_str(), color);
+		SDL_Texture* texture = SDL_CreateTextureFromSurface(GraphicsDriver::instance->getRenderer(), surface);
 
-	// Draw the texture
-	SDL_RenderCopy(GraphicsDriver::instance->getRenderer(), texture, nullptr, &dstRect);
+		text_cache_.emplace(key, std::make_pair(surface, texture));
 
-	// Destroy the surface/texture
-	SDL_DestroyTexture(texture);
-	SDL_FreeSurface(surface);
+		// Setup the rect for the texture
+		SDL_Rect dstRect;
+		dstRect.x = static_cast<int>(origin.x);
+		dstRect.y = static_cast<int>(origin.y);
+		SDL_QueryTexture(texture, nullptr, nullptr, &dstRect.w, &dstRect.h);
 
-	
+		// Draw the texture
+		SDL_RenderCopy(GraphicsDriver::instance->getRenderer(), texture, nullptr, &dstRect);
+	}	
+}
+
+void GraphicsDriver::drawBox2DShape(b2Shape* shape)
+{
+	if (shape->GetType() == b2Shape::e_chain)
+	{
+		auto chain = static_cast<b2ChainShape*>(shape);
+
+		for (int i = 0; i < chain->GetChildCount(); i++)
+		{
+			b2EdgeShape edge;
+			chain->GetChildEdge(&edge, i);
+			drawLine(toVec(edge.m_vertex1), toVec(edge.m_vertex2));
+		}
+	}
+
+	else if (shape->GetType() == b2Shape::e_circle)
+	{
+		auto circle = static_cast<b2CircleShape*>(shape);
+		drawCircle(toVec(circle->m_p), circle->m_radius);
+	}
+
+	else if (shape->GetType() == b2Shape::e_edge)
+	{
+		auto edge = static_cast<b2EdgeShape*>(shape);
+		drawLine(toVec(edge->m_vertex1), toVec(edge->m_vertex2));
+	}
+
+	else if (shape->GetType() == b2Shape::e_polygon)
+	{
+		auto polygon = static_cast<b2PolygonShape*>(shape);
+
+		for (int i = 0; i < polygon->GetVertexCount(); i++)
+		{
+			int j = (i + 1) % polygon->GetVertexCount();
+			b2Vec2 a = polygon->GetVertex(i);
+			b2Vec2 b = polygon->GetVertex(j);
+			drawLine(toVec(a), toVec(b));
+		}
+	}
 }

@@ -27,7 +27,7 @@ class ProtobufClientUtils
 {
 public:
 	
-	typedef GamePacket<ProtobufStrategy, 100000> RecvPacket;
+	typedef GamePacket<ProtobufStrategy, 200000> RecvPacket;
 	typedef GamePacket<ProtobufStrategy, 100> SendPacket;
 	enum { PacketBufferSize = 5 };
 
