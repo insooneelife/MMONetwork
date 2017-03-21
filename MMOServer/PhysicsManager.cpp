@@ -6,6 +6,7 @@
 #include "Entity/Snake.h"
 #include "Entity/Prey.h"
 #include "Entity/Projectile.h"
+#include "Entity/Structure.h"
 
 
 bool PhysicsManager::CheckContact(
@@ -308,6 +309,12 @@ void PhysicsManager::BeginContact(b2Contact* contact)
 		else if (entA->getType() == Entity::Type::kSnake && entB->getType() == Entity::Type::kProjectile)
 			World::collide(*static_cast<Snake*>(entA), *static_cast<Projectile*>(entB));
 
+		else if (entA->getType() == Entity::Type::kSnake && entB->getType() == Entity::Type::kPrey)
+			World::collide(*static_cast<Snake*>(entA), *static_cast<Prey*>(entB));
+
+		else if (entA->getType() == Entity::Type::kPrey && entB->getType() == Entity::Type::kSnake)
+			World::collide(*static_cast<Snake*>(entB), *static_cast<Prey*>(entA));
+
 		else if (entA->getType() == Entity::Type::kProjectile && entB->getType() == Entity::Type::kSnake)
 			World::collide(*static_cast<Snake*>(entB), *static_cast<Projectile*>(entA));
 
@@ -317,6 +324,17 @@ void PhysicsManager::BeginContact(b2Contact* contact)
 		else if (entA->getType() == Entity::Type::kPrey && entB->getType() == Entity::Type::kProjectile)
 			World::collide(*static_cast<Projectile*>(entB), *static_cast<Prey*>(entA));
 
+		else if(entA->getType() == Entity::Type::kStructure && entB->getType() == Entity::Type::kSnake)
+			World::collide(*static_cast<Structure*>(entA), *static_cast<Snake*>(entB));
+
+		else if (entA->getType() == Entity::Type::kStructure && entB->getType() == Entity::Type::kProjectile)
+			World::collide(*static_cast<Structure*>(entA), *static_cast<Projectile*>(entB));
+
+		else if (entA->getType() == Entity::Type::kSnake && entB->getType() == Entity::Type::kStructure)
+			World::collide(*static_cast<Structure*>(entB), *static_cast<Snake*>(entA));
+
+		else if (entA->getType() == Entity::Type::kProjectile && entB->getType() == Entity::Type::kStructure)
+			World::collide(*static_cast<Structure*>(entB), *static_cast<Projectile*>(entA));
 	}
 }
 
@@ -393,7 +411,12 @@ b2Body* PhysicsManager::CreateApplyForceBody(float x, float y, b2Shape* shape)
 	return body;
 }
 
-b2Body* PhysicsManager::CreateBody(float x, float y, b2BodyType type, b2Shape* shape, bool sensor)
+b2Body* PhysicsManager::CreateBody(
+	float x, float y,
+	b2BodyType type,
+	b2Shape* shape,
+	bool sensor, 
+	float resti)
 {
 	b2BodyDef bd;
 	bd.position.Set(x, y);
@@ -404,9 +427,9 @@ b2Body* PhysicsManager::CreateBody(float x, float y, b2BodyType type, b2Shape* s
 
 	b2FixtureDef fd;
 	fd.shape = shape;
-	fd.density = 20.0f;
+	fd.density = 0.0f;
 	fd.friction = 0.0f;
-	fd.restitution = 0.0f;
+	fd.restitution = resti;
 	fd.isSensor = sensor;
 	body->CreateFixture(&fd);
 	return body;

@@ -22,7 +22,6 @@ public:
 		kSnake,
 		kPrey,
 		kProjectile,
-		kWall,
 		kStructure
 	};
 

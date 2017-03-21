@@ -3,7 +3,6 @@
 #include "../Entity/Prey.h"
 #include "../Entity/Projectile.h"
 #include "../Entity/Snake.h"
-#include "../Entity/Wall.h"
 #include "../EntityManager.h"
 #include "../World.h"
 #include "../Server/NetworkManagerServer.h"
@@ -103,11 +102,11 @@ void ProtobufServerUtils::serializeEntityData(Entity* ent, Data::EntityData& out
 		serializeSnakeAdditionalData(s, *sdata);
 	}
 
-	else if (ent->getType() == Entity::Type::kWall)
+	else if (ent->getType() == Entity::Type::kStructure)
 	{
-		Wall* w = static_cast<Wall*>(ent);
-		auto wdata = out.mutable_wdata();
-		serializeWallAdditionalData(w->getBegin(), w->getEnd(), *wdata);
+		//Wall* w = static_cast<Wall*>(ent);
+		//auto wdata = out.mutable_wdata();
+		//serializeWallAdditionalData(w->getBegin(), w->getEnd(), *wdata);
 	}
 }
 

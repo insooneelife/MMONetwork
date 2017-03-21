@@ -50,16 +50,17 @@ public:
 
 	void drawLine(Vec2 a, Vec2 b, SDL_Color color = red, bool on_ui = false);
 	void drawLines(const std::vector<Vec2>& lines, SDL_Color color = red, bool on_ui = false);
+	void drawLines(const b2Vec2* lines, int size, SDL_Color color = red, bool on_ui = false);
 	void drawRect(Vec2 bot_left, Vec2 top_right, SDL_Color color = red, bool on_ui = false);
 	void drawRects(
 		const std::vector<std::pair<Vec2, Vec2> >& rects,
 		SDL_Color color = red,
 		bool on_ui = false);
 
-	void drawCircle(Vec2 p, float r, SDL_Color color = red, float fragment = 3, bool on_ui = false);
+	void drawCircle(Vec2 p, float r, SDL_Color color = red, int fragment = 10, bool on_ui = false);
 	void drawText(const std::string& inStr, Vec2 origin, const SDL_Color& inColor = red, bool on_ui = false);
 	
-	void drawBox2DShape(b2Shape* shape);
+	void drawBox2DShape(Vec2 origin, b2Shape* shape);
 	
 	~GraphicsDriver();
 

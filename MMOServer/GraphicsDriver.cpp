@@ -86,7 +86,8 @@ bool GraphicsDriver::init(SDL_Window* wnd)
 }
 
 GraphicsDriver::GraphicsDriver()
-	: _renderer( nullptr )
+	: 
+	_renderer(nullptr)
 {}
 
 
@@ -135,7 +136,7 @@ void GraphicsDriver::drawLine(Vec2 a, Vec2 b, SDL_Color color, bool on_ui)
 {
 	if (!on_ui)
 	{
-		a = Camera2D::instance->worldToScreen(a);
+		a = Camera2D::instance->worldToScreen(a) ;
 		b = Camera2D::instance->worldToScreen(b);
 	}
 
@@ -148,6 +149,7 @@ void GraphicsDriver::drawLine(Vec2 a, Vec2 b, SDL_Color color, bool on_ui)
 		static_cast<int>(b.y));
 }
 
+// #fix - draw with points  (intput n points, output n lines)
 void GraphicsDriver::drawLines(const std::vector<Vec2>& lines, SDL_Color color, bool on_ui)
 {
 	SDL_SetRenderDrawColor(_renderer, color.r, color.g, color.b, color.a);
@@ -161,6 +163,22 @@ void GraphicsDriver::drawLines(const std::vector<Vec2>& lines, SDL_Color color, 
 	}
 	
 	SDL_RenderDrawLines(_renderer, rv.data(), lines.size());
+}
+
+void GraphicsDriver::drawLines(const b2Vec2* lines, int size, SDL_Color color, bool on_ui)
+{
+	SDL_SetRenderDrawColor(_renderer, color.r, color.g, color.b, color.a);
+	std::array<SDL_Point, 100> rv;
+
+	for (int i = 0; i < size + 1; ++i)
+	{
+		Vec2 cp = Camera2D::instance->worldToScreen(Vec2(lines[i % size].x, lines[i % size].y));
+		rv[i].x = cp.x;
+		rv[i].y = cp.y;
+	}
+
+	SDL_RenderDrawLines(_renderer, rv.data(), size + 1);
+
 }
 
 void GraphicsDriver::drawRect(Vec2 bot_left, Vec2 top_right, SDL_Color color, bool on_ui)
@@ -199,19 +217,25 @@ void GraphicsDriver::drawRects(const std::vector<std::pair<Vec2, Vec2> >& rects,
 }
 
 
-void GraphicsDriver::drawCircle(Vec2 p, float r,  SDL_Color color, float fragment, bool on_ui)
+void GraphicsDriver::drawCircle(Vec2 p, float r,  SDL_Color color, int fragment, bool on_ui)
 {
-	float add = 360 / fragment;
+	float add = 360.0f / (float)fragment;
 	Vec2 start = Vec2(r, 0) + p;
 	Vec2 end(0, 0);
 
-	for (float degree = 0; degree <= 360; degree += add)
+	std::vector<Vec2> lines(fragment+1);
+	int idx = 0;
+
+	for(int i = 0; i < fragment; ++i)
 	{
-		float rad = MATH_DEG_TO_RAD(degree);
+		float rad = MATH_DEG_TO_RAD(add * (float)i);
 		end = Vec2(r*cos(rad), r*sin(rad)) + p;
-		drawLine(start, end, color, on_ui);
+		lines[idx++] = end;
 		start = end;
 	}
+	lines[idx++] = Vec2(r, 0) + p;
+
+	drawLines(lines, color, on_ui);
 }
 
 void GraphicsDriver::drawText(const std::string& inStr, Vec2 origin, const SDL_Color& inColor, bool on_ui)
@@ -220,8 +244,10 @@ void GraphicsDriver::drawText(const std::string& inStr, Vec2 origin, const SDL_C
 	{
 		origin = Camera2D::instance->worldToScreen(origin);
 	}
+
 	auto key = std::make_tuple(inStr, inColor.r, inColor.g, inColor.b, inColor.a);
 	auto it = text_cache_.find(key);
+
 	if (it != std::end(text_cache_))
 	{
 		SDL_Texture* texture = it->second.second;
@@ -260,42 +286,37 @@ void GraphicsDriver::drawText(const std::string& inStr, Vec2 origin, const SDL_C
 	}	
 }
 
-void GraphicsDriver::drawBox2DShape(b2Shape* shape)
+void GraphicsDriver::drawBox2DShape(Vec2 origin, b2Shape* shape)
 {
 	if (shape->GetType() == b2Shape::e_chain)
 	{
 		auto chain = static_cast<b2ChainShape*>(shape);
-
-		for (int i = 0; i < chain->GetChildCount(); i++)
-		{
-			b2EdgeShape edge;
-			chain->GetChildEdge(&edge, i);
-			drawLine(toVec(edge.m_vertex1), toVec(edge.m_vertex2));
-		}
+		drawLines(chain->m_vertices, chain->GetChildCount());
 	}
 
 	else if (shape->GetType() == b2Shape::e_circle)
 	{
 		auto circle = static_cast<b2CircleShape*>(shape);
-		drawCircle(toVec(circle->m_p), circle->m_radius);
+		drawCircle(toVec(circle->m_p) + origin, circle->m_radius);
 	}
 
 	else if (shape->GetType() == b2Shape::e_edge)
 	{
 		auto edge = static_cast<b2EdgeShape*>(shape);
-		drawLine(toVec(edge->m_vertex1), toVec(edge->m_vertex2));
+		drawLine(toVec(edge->m_vertex1) + origin, toVec(edge->m_vertex2) + origin);
 	}
 
 	else if (shape->GetType() == b2Shape::e_polygon)
 	{
 		auto polygon = static_cast<b2PolygonShape*>(shape);
 
+		std::vector<Vec2> vertices(polygon->GetVertexCount());
+
 		for (int i = 0; i < polygon->GetVertexCount(); i++)
 		{
-			int j = (i + 1) % polygon->GetVertexCount();
-			b2Vec2 a = polygon->GetVertex(i);
-			b2Vec2 b = polygon->GetVertex(j);
-			drawLine(toVec(a), toVec(b));
+			vertices[i].x = polygon->GetVertex(i).x;
+			vertices[i].y = polygon->GetVertex(i).y;
 		}
+		drawLines(vertices);
 	}
 }

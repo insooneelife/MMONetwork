@@ -12,7 +12,6 @@
 #include "Entity/Snake.h"
 #include "Entity/Prey.h"
 #include "Entity/Projectile.h"
-#include "Entity/Wall.h"
 #include "Entity/Structure.h"
 
 #include "Server/NetworkManagerServer.h"
@@ -28,65 +27,43 @@ const float World::ProjectileRadius = 0.15f;
 
 const float World::PreyRadius = 0.15f;
 
-const float World::Dummy = 2;
+const float World::Dummy = 2.0f;
 const float World::WorldSize = 200.0f;
 
-const int World::SnakeNum = 100;
+const int World::SnakeNum = 1000;
 const int World::ProjectileNum = 200;
 const int World::PreyNum = 1000;
 const int World::CellNum = 40;
 
 void World::collide(Snake& s1, Snake& s2)
 {
-	cout << "collide!  Snake && Snake" << endl;
+	//cout << "collide!  Snake && Snake" << endl;
 }
 
 void World::collide(Snake& s, Projectile& p)
 {
-	Vec2 collide_pos;
-	//if(s.checkCollideCircleToBody(p.getPos(), p.getBRadius(), collide_pos))
-	if ((s.getPos().distance(p.getPos()) < s.getBRadius() + p.getBRadius()))
-	{
-		//cout << "collide!  Snake && Projectile" << endl;
-		p.reflectCircle(s.getPos(), s.getBRadius());
-	}
+	//cout << "collide!  Snake && Projectile" << endl;
 }
 
 void World::collide(Projectile& pro, Prey& prey)
 {
-	if ((pro.getPos().distance(prey.getPos()) < pro.getBRadius() + prey.getBRadius()))
-	{
-		//cout << "collide!  Projectile && Prey" << endl;
-		pro.reflectCircle(prey.getPos(), prey.getBRadius());
-	}
+	//cout << "collide!  Projectile && Prey" << endl;
 }
 
-void World::collide(Projectile& p, Wall& w)
+void World::collide(Structure& w, Projectile& p)
 {
-	if (segmentCircleOverlap(w.getBegin(), w.getEnd(), p.getPos(), p.getBRadius()))
-	{
-		//cout << "collide!  Projectile && Wall" << endl;
-
-		float distance = sqrt(distToSegmentSq(w.getBegin(), w.getEnd(), p.getPos()));
-		p.reflect(w.getBegin(), w.getEnd());
-	}
+	//cout << "collide!  Projectile && Structure" << endl;
 }
 
-void World::collide(Snake& s, Wall& w)
+void World::collide(Structure& w, Snake& s)
 {
-	if (segmentCircleOverlap(w.getBegin(), w.getEnd(), s.getPos(), s.getBRadius()))
-	{
-		//cout << "collide!  Snake && Wall" << endl;
-
-		s.setGarbage(true);
-	}
+	//cout << "collide!  Snake && Structure" << endl;
 }
 
 void World::collide(Snake& s, Prey& p)
 {
 	if ((s.getPos().distance(p.getPos()) < s.getBRadius() + p.getBRadius()))
 	{
-		//cout << "collide!  Snake && Prey" << endl;
 		p.setGarbage(true);
 
 		int increase = 1;
@@ -211,7 +188,9 @@ World::World(Room& room, float width)
 	for (int i = 0; i < 10; i++)
 	{
 		int type = random(0, 4);
-		createStructure(Vec2(random(-fwidth, fwidth), random(-fwidth, fwidth)), random(1.0f, 4.0f), type);
+		
+		type = 1;
+		createStructure(Vec2(random(-fwidth, fwidth), random(-fwidth, fwidth)), random(10.0f, 20.0f), type);
 	}
 
 
@@ -230,10 +209,16 @@ World::World(Room& room, float width)
 		createPrey(Vec2(random(-fwidth, fwidth), random(-fwidth, fwidth)));
 
 	// Create walls
-	createWall(bl, br, (br - bl).getNormalized().getPerp());
-	createWall(br, tr, (tr - br).getNormalized().getPerp());
-	createWall(tr, tl, (tl - tr).getNormalized().getPerp());
-	createWall(tl, bl, (bl - tl).getNormalized().getPerp());
+	std::vector<b2Vec2> walls =
+	{
+		b2Vec2(bl.x, bl.y),
+		b2Vec2(br.x, br.y),
+		b2Vec2(tr.x, tr.y),
+		b2Vec2(tl.x, tl.y),
+		b2Vec2(bl.x, bl.y)
+	};
+
+	_created_entities.emplace(Structure::createChain(*this, genID(), walls));
 
 	// Set camera
 	Vec2 heading = _player_entity->getHeading();
@@ -265,9 +250,6 @@ void World::update()
 		else if (ent->getType() == Entity::kProjectile)
 			_projectiles.push_back(static_cast<Projectile*>(ent));
 
-		else if (ent->getType() == Entity::kWall)
-			_walls.push_back(static_cast<Wall*>(ent));
-
 		else if (ent->getType() == Entity::kStructure)
 			_structures.push_back(static_cast<Structure*>(ent));
 
@@ -281,61 +263,11 @@ void World::update()
 
 	regenEntity();
 
-	// Process collide between entities.
-	solveCollide();
-
 	// Camera position setting
 	if (_player_entity) 
 		Camera2D::instance->setOrigin(_player_entity->getPos());
 }
 
-void World::solveCollide()
-{
-	/*for (auto s1 : _snakes)
-	{
-		_cell_space.calculateNeighborsForOne(s1->getPos());
-
-		for (int i = 0; i < _cell_space.getNeighborsCnt(); ++i)
-		{
-			if (s1->getID() == _cell_space.getNeighbors()[i]->getEntity().getID())
-				continue;
-
-			if (_cell_space.getNeighbors()[i]->getEntity().getType() != Entity::kSnake)
-				continue;
-
-			// check if snake head collides with body piece
-			Vec2 bpos = _cell_space.getNeighbors()[i]->getPos();
-			float brad = _cell_space.getNeighbors()[i]->getRadius();
-
-			if (s1->getPos().distance(bpos) < s1->getBRadius() + brad)
-			{
-				Snake* s2 = static_cast<Snake*>(&_cell_space.getNeighbors()[i]->getEntity());
-				collide(*s1, *s2);
-			}
-		}
-	}
-
-	for (auto s : _snakes)
-		for (auto p : _projectiles)
-			collide(*s, *p);
-
-	for (auto pro : _projectiles)
-		for (auto p : _preys)
-			collide(*pro, *p);
-
-	for (auto p : _projectiles)
-		for (auto w : _walls)
-			collide(*p, *w);
-
-	for (auto s : _snakes)
-		for (auto w : _walls)
-			collide(*s, *w);
-
-	for (auto s : _snakes)
-		for (auto p : _preys)
-			collide(*s, *p);
-			*/
-}
 
 
 void World::render()
@@ -347,9 +279,6 @@ void World::render()
 		p->render();
 
 	for (auto  p: _preys)
-		p->render();
-
-	for (auto p : _walls)
 		p->render();
 
 	for (auto s : _structures)
@@ -381,10 +310,6 @@ void World::createPrey(const Vec2& pos)
 	_created_entities.emplace(new Prey(*this, genID(), pos));
 }
 
-void World::createWall(const Vec2& begin, const Vec2& end, const Vec2& heading)
-{
-	_created_entities.emplace(new Wall(*this, genID(), begin, end, heading));
-}
 
 void World::createStructure(const Vec2& pos, float radius, int type)
 {

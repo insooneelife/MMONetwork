@@ -49,7 +49,6 @@ private:
 	State _state;
 	Vec2 _destination;
 
-	//std::vector<RigidBody*> _body;
 	std::vector<b2Body*> _bodies;
 	std::vector<Vec2> _destinations;
 

@@ -45,6 +45,5 @@ private:
 		b2Body* body);
 
 	StructureType _structure_type;
-
 	b2Body* _body;
 };

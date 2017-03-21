@@ -39,11 +39,14 @@ Structure* Structure::createPolygon(World& world, unsigned int id, const Vec2& p
 	bd.position.Set(pos.x, pos.y);
 	b2Body* body = physics->CreateBody(&bd);
 
-	b2ChainShape chain;
-	chain.CreateChain(points, 6);
+	//b2ChainShape chain;
+	//chain.CreateChain(points, 6);
+
+	b2PolygonShape poly;
+	poly.Set(points, 6);
 
 	b2FixtureDef groundFixture;
-	groundFixture.shape = &chain;
+	groundFixture.shape = &poly;
 	groundFixture.restitution = 0.1f;
 	groundFixture.friction = 0.0f;
 
@@ -55,22 +58,10 @@ Structure* Structure::createPolygon(World& world, unsigned int id, const Vec2& p
 
 Structure* Structure::createChain(World& world, unsigned int id, const std::vector<b2Vec2>& points)
 {
-	/*b2Vec2 points[] =
-	{
-		b2Vec2(-1.0f, -1.0f),
-		b2Vec2(3.0f, 0.0f),
-		b2Vec2(2.0f, 2.0f),
-		b2Vec2(0.0f, 3.0f),
-		b2Vec2(-3.0f, 1.5f),
-		b2Vec2(-1.0f, -1.0f)
-	};*/
-
-	Vec2 pos = Vec2(points[0].x, points[0].y);
-
+	Vec2 pos = Vec2();
 	auto physics = world.getPhysicsMgr()->GetPhysicsWorld();
 
 	b2BodyDef bd;
-	bd.position.Set(points[0].x, points[0].y);
 	b2Body* body = physics->CreateBody(&bd);
 
 	b2ChainShape chain;
@@ -138,12 +129,11 @@ void Structure::render()
 	std::stringstream ss;
 	ss << _id;
 
-	//GraphicsDriver::instance->drawCircle(_pos, _radius, _color);
 	GraphicsDriver::instance->drawText(ss.str(), _pos);
 
 	for (auto f = _body->GetFixtureList(); f; f = f->GetNext())
 	{
-		GraphicsDriver::instance->drawBox2DShape(f->GetShape());
+		GraphicsDriver::instance->drawBox2DShape(_pos, f->GetShape());
 	}
 
 }

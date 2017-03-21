@@ -12,7 +12,6 @@
 #include <Box2D/Box2D.h>
 #include <memory>
 #include "Entity.h"
-//#include "RigidBody.h"
 
 class RigidBody;
 class Projectile : public Entity
@@ -35,7 +34,6 @@ public:
 	void reflectCircle(Vec2 pos, float radius);
 
 private:
-	//std::unique_ptr<RigidBody> _body;
 
 	b2Body* _body;
 };

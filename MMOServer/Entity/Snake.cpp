@@ -18,12 +18,10 @@ Snake::Snake(World& world, unsigned int id, const Vec2& pos, Data::ControlType c
 {
 	for (int i = 0; i < _experience; ++i)
 	{
-		//_body.push_back(new RigidBody(*this, pos, _radius));
-
 		b2CircleShape shape;
 		shape.m_radius = World::SnakeRadius;
 
-		auto body = _world.getPhysicsMgr()->CreateBody(pos.x, pos.y, b2BodyType::b2_dynamicBody, &shape, true);
+		auto body = _world.getPhysicsMgr()->CreateBody(pos.x, pos.y, b2BodyType::b2_kinematicBody, &shape, true);
 		body->SetLinearDamping(2.0f);
 		body->SetUserData(this);
 		_bodies.emplace_back(body);
@@ -38,8 +36,6 @@ Snake::~Snake()
 {
 	for (auto e : _bodies)
 		_world.getPhysicsMgr()->RemoveBody(e);
-	//for (auto e : _body)
-	//	delete e;
 }
 
 void Snake::setPos(Vec2 pos)
@@ -48,8 +44,7 @@ void Snake::setPos(Vec2 pos)
 	_destination = pos;
 	for (auto e : _bodies)
 	{
-		e->SetTransform(b2Vec2(pos.x, pos.y), 0);		
-		//e->setPos(pos);
+		e->SetTransform(b2Vec2(pos.x, pos.y), 0);	
 	}
 	for (auto& e : _destinations)
 	{
@@ -59,25 +54,6 @@ void Snake::setPos(Vec2 pos)
 
 void Snake::update()
 {
-	/*_bodies[0]->SetLinearVelocity(b2Vec2(_heading.x * World::SnakeSpeed, _heading.y * World::SnakeSpeed));
-	_pos = Vec2(_bodies[0]->GetPosition().x, _bodies[0]->GetPosition().y);
-	
-	for (int i = 0; i < _bodies.size() - 1; ++i)
-	{
-		Vec2 pos1 = Vec2(_bodies[i]->GetPosition().x, _bodies[i]->GetPosition().y);
-		Vec2 pos2 = Vec2(_bodies[i + 1]->GetPosition().x, _bodies[i + 1]->GetPosition().y);
-		Vec2 vel = (pos1 - pos2).getNormalized() * World::SnakeSpeed;
-		
-		//Vec2 vel = (_destinations[i] - pos).getNormalized() * World::SnakeSpeed;
-
-		//b2Vec2 bpos = b2Vec2()
-
-		//_bodies[i]->SetTransform(b2Vec2((pos + vel).x, (pos + vel).y), 0);
-		_bodies[i + 1]->SetLinearVelocity(b2Vec2(vel.x, vel.y));
-		//_bodies[i]->setPos(pos + (_destinations[i] - pos).getNormalized() * World::SnakeSpeed);
-
-	}*/
-
 	if (_state == kIdle)
 	{
 		_destination = _pos + _heading * World::OneStep;
@@ -90,7 +66,6 @@ void Snake::update()
 			else
 				_destinations[i] =
 				Vec2(_bodies[i - 1]->GetPosition().x, _bodies[i - 1]->GetPosition().y);
-				//_destinations[i] = _body[i - 1]->getPos();
 		}
 	}
 	else if (_state == kMoving)
@@ -101,19 +76,11 @@ void Snake::update()
 		}
 		else
 		{
-			//_pos += (_destination - _pos).getNormalized() * World::SnakeSpeed;
-
 			for (int i = 0; i < _bodies.size(); ++i)
 			{
 				Vec2 pos = Vec2(_bodies[i]->GetPosition().x, _bodies[i]->GetPosition().y);
 				Vec2 vel = (_destinations[i] - pos).getNormalized() * World::SnakeSpeed;
-
-				//b2Vec2 bpos = b2Vec2()
-
-				//_bodies[i]->SetTransform(b2Vec2((pos + vel).x, (pos + vel).y), 0);
 				_bodies[i]->SetLinearVelocity(b2Vec2(vel.x, vel.y));
-				//_bodies[i]->setPos(pos + (_destinations[i] - pos).getNormalized() * World::SnakeSpeed);
-				
 			}
 			_pos.x = _bodies[0]->GetPosition().x;
 			_pos.y = _bodies[0]->GetPosition().y;

@@ -48,9 +48,6 @@
     <ClCompile Include="Entity\Snake.cpp">
       <Filter>Entity</Filter>
     </ClCompile>
-    <ClCompile Include="Entity\Wall.cpp">
-      <Filter>Entity</Filter>
-    </ClCompile>
     <ClCompile Include="Camera2D.cpp">
       <Filter>Source</Filter>
     </ClCompile>
@@ -153,9 +150,6 @@
       <Filter>Entity</Filter>
     </ClInclude>
     <ClInclude Include="Entity\Snake.h">
-      <Filter>Entity</Filter>
-    </ClInclude>
-    <ClInclude Include="Entity\Wall.h">
       <Filter>Entity</Filter>
     </ClInclude>
     <ClInclude Include="AABBox2D.h">

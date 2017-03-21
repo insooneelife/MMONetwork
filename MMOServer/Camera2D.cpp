@@ -16,7 +16,7 @@ Camera2D::Camera2D(float screenX, float screenY)
 	_origin(0, 0),
 	_axisX(1, 0),
 	_axisY(0, 1),
-	_scale(1.0f, 1.0f)
+	_scale(100.0f, 100.0f)
 {}
 
 Vec2 Camera2D::worldToScreen(const Vec2& pos)

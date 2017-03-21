@@ -42,7 +42,6 @@
     <ClCompile Include="Entity\Projectile.cpp" />
     <ClCompile Include="Entity\Snake.cpp" />
     <ClCompile Include="Entity\Structure.cpp" />
-    <ClCompile Include="Entity\Wall.cpp" />
     <ClCompile Include="GraphicsDriver.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="PhysicsManager.cpp" />
@@ -86,7 +85,6 @@
     <ClInclude Include="Entity\Projectile.h" />
     <ClInclude Include="Entity\Snake.h" />
     <ClInclude Include="Entity\Structure.h" />
-    <ClInclude Include="Entity\Wall.h" />
     <ClInclude Include="GraphicsDriver.h" />
     <ClInclude Include="PhysicsManager.h" />
     <ClInclude Include="Server\NetworkManagerServer.h" />

@@ -51,8 +51,8 @@ public:
 	static void collide(Snake& s1, Snake& s2);
 	static void collide(Snake& s, Projectile& p);
 	static void collide(Projectile& h, Prey& p);
-	static void collide(Projectile& h, Wall& w);
-	static void collide(Snake& s, Wall& w);
+	static void collide(Structure& w, Projectile& p);
+	static void collide(Structure& w, Snake& s);
 	static void collide(Snake& s, Prey& p);
 
 	
@@ -60,7 +60,7 @@ public:
 	inline const std::vector<Snake*>& getHunters() const			{ return _snakes; }
 	inline const std::vector<Projectile*>& getProjectiles() const	{ return _projectiles; }
 	inline const std::vector<Prey*>& getPreys() const				{ return _preys; }
-	inline const std::vector<Wall*>& getWalls() const				{ return _walls; }
+	inline const std::vector<Structure*>& getWalls() const			{ return _structures; }
 
 	inline EntityManager& getEntityMgr()							{ return _entity_mgr; }
 	inline NetworkManagerServer& getNetworkMgr()					{ return *_network_mgr; }
@@ -82,17 +82,13 @@ public:
 	void createHunter(const Vec2& pos);
 	void createProjectile(const Vec2& pos, const Vec2& heading, int proj_speed);
 	void createPrey(const Vec2& pos);
-	void createWall(const Vec2& begin, const Vec2& end, const Vec2& heading);
 	void createStructure(const Vec2& pos, float radius, int type);
 
 	void update();
 	void updateEntity();
 
 	void regenEntity();
-
 	void regenPlayerPawn(Snake* pawn);
-
-	void solveCollide();
 
 	void render();
 
@@ -102,7 +98,6 @@ private:
 	std::vector<Snake*> _snakes;
 	std::vector<Projectile*> _projectiles;
 	std::vector<Prey*> _preys;
-	std::vector<Wall*> _walls;
 	std::vector<Structure*> _structures;
 	std::queue<Entity*> _created_entities;
 	

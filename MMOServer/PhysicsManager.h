@@ -176,7 +176,7 @@ public:
 	virtual void PostSolve(b2Contact* contact, const b2ContactImpulse* impulse) override { B2_NOT_USED(contact); B2_NOT_USED(impulse); }
 
 	b2Body* CreateApplyForceBody(float x, float y, b2Shape* shape);
-	b2Body* CreateBody(float x, float y, b2BodyType type, b2Shape* shape, bool sensor);
+	b2Body* CreateBody(float x, float y, b2BodyType type, b2Shape* shape, bool sensor, float resti = 0.0f);
 
 	void RemoveBody(b2Body* body);
 
