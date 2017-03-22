@@ -22,7 +22,6 @@ Projectile::Projectile(
 	_body = _world.getPhysicsMgr()->CreateBody(pos.x, pos.y, b2BodyType::b2_dynamicBody, &shape, false, 1.0f);
 	_body->SetUserData(this);
 
-	
 	setHeading(heading);
 	Vec2 vel = _heading * World::ProjectileSpeed;
 	_body->SetLinearVelocity(b2Vec2(vel.x, vel.y));
@@ -36,19 +35,14 @@ Projectile::~Projectile()
 
 void Projectile::update()
 {
-	_pos = Vec2(_body->GetPosition().x, _body->GetPosition().y);
+	_pos = _body->GetPosition();
 	
 }
 
 void Projectile::render()
 {
 	Vec2 sidev = getSide() * _radius / 2;
-	std::array<Vec2, 4> arr{ _pos + sidev, _pos - sidev, _pos + _heading * _radius * 2, _pos + sidev };
-	std::vector<Vec2> tri(4);
-	tri[0] = _pos + sidev;
-	tri[1] = _pos - sidev;
-	tri[2] = _pos + _heading * _radius * 2;
-	tri[3] = _pos + sidev;
+	std::vector<Vec2> tri { _pos + sidev, _pos - sidev, _pos + _heading * _radius * 2, _pos + sidev };
 	GraphicsDriver::instance->drawLines(tri, _color);
 }
 

@@ -21,8 +21,6 @@ SDL_Color GraphicsDriver::antiquewhite;
 SDL_Color GraphicsDriver::lemon;
 SDL_Color GraphicsDriver::darkgreen;
 
-
-
 bool GraphicsDriver::staticInit(SDL_Window* wnd)
 {
 	GraphicsDriver* new_graph_driver = new GraphicsDriver();
@@ -149,7 +147,6 @@ void GraphicsDriver::drawLine(Vec2 a, Vec2 b, SDL_Color color, bool on_ui)
 		static_cast<int>(b.y));
 }
 
-// #fix - draw with points  (intput n points, output n lines)
 void GraphicsDriver::drawLines(const std::vector<Vec2>& lines, SDL_Color color, bool on_ui)
 {
 	SDL_SetRenderDrawColor(_renderer, color.r, color.g, color.b, color.a);
@@ -165,7 +162,7 @@ void GraphicsDriver::drawLines(const std::vector<Vec2>& lines, SDL_Color color, 
 	SDL_RenderDrawLines(_renderer, rv.data(), lines.size());
 }
 
-void GraphicsDriver::drawLines(const b2Vec2* lines, int size, SDL_Color color, bool on_ui)
+void GraphicsDriver::drawLines(const b2Vec2* lines, int size, const Vec2& origin, SDL_Color color, bool on_ui)
 {
 	SDL_SetRenderDrawColor(_renderer, color.r, color.g, color.b, color.a);
 	std::array<SDL_Point, 100> rv;
@@ -173,8 +170,8 @@ void GraphicsDriver::drawLines(const b2Vec2* lines, int size, SDL_Color color, b
 	for (int i = 0; i < size + 1; ++i)
 	{
 		Vec2 cp = Camera2D::instance->worldToScreen(Vec2(lines[i % size].x, lines[i % size].y));
-		rv[i].x = cp.x;
-		rv[i].y = cp.y;
+		rv[i].x = cp.x + origin.x;
+		rv[i].y = cp.y + origin.y;
 	}
 
 	SDL_RenderDrawLines(_renderer, rv.data(), size + 1);
@@ -233,8 +230,8 @@ void GraphicsDriver::drawCircle(Vec2 p, float r,  SDL_Color color, int fragment,
 		lines[idx++] = end;
 		start = end;
 	}
-	lines[idx++] = Vec2(r, 0) + p;
 
+	lines[idx++] = Vec2(r, 0) + p;
 	drawLines(lines, color, on_ui);
 }
 
@@ -291,7 +288,7 @@ void GraphicsDriver::drawBox2DShape(Vec2 origin, b2Shape* shape)
 	if (shape->GetType() == b2Shape::e_chain)
 	{
 		auto chain = static_cast<b2ChainShape*>(shape);
-		drawLines(chain->m_vertices, chain->GetChildCount());
+		drawLines(chain->m_vertices, chain->GetChildCount(), origin);
 	}
 
 	else if (shape->GetType() == b2Shape::e_circle)
@@ -309,14 +306,14 @@ void GraphicsDriver::drawBox2DShape(Vec2 origin, b2Shape* shape)
 	else if (shape->GetType() == b2Shape::e_polygon)
 	{
 		auto polygon = static_cast<b2PolygonShape*>(shape);
+		std::vector<Vec2> vertices(polygon->GetVertexCount() + 1);
 
-		std::vector<Vec2> vertices(polygon->GetVertexCount());
-
-		for (int i = 0; i < polygon->GetVertexCount(); i++)
+		for (int i = 0; i < polygon->GetVertexCount() + 1; i++)
 		{
-			vertices[i].x = polygon->GetVertex(i).x;
-			vertices[i].y = polygon->GetVertex(i).y;
+			int j = i % polygon->GetVertexCount();
+			vertices[i] = polygon->GetVertex(j) + origin;
 		}
+
 		drawLines(vertices);
 	}
 }

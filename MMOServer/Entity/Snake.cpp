@@ -64,8 +64,7 @@ void Snake::update()
 			if (i == 0)
 				_destinations[i] = _destination;
 			else
-				_destinations[i] =
-				Vec2(_bodies[i - 1]->GetPosition().x, _bodies[i - 1]->GetPosition().y);
+				_destinations[i] = _bodies[i - 1]->GetPosition();
 		}
 	}
 	else if (_state == kMoving)
@@ -78,12 +77,11 @@ void Snake::update()
 		{
 			for (int i = 0; i < _bodies.size(); ++i)
 			{
-				Vec2 pos = Vec2(_bodies[i]->GetPosition().x, _bodies[i]->GetPosition().y);
+				Vec2 pos = _bodies[i]->GetPosition();
 				Vec2 vel = (_destinations[i] - pos).getNormalized() * World::SnakeSpeed;
 				_bodies[i]->SetLinearVelocity(b2Vec2(vel.x, vel.y));
 			}
-			_pos.x = _bodies[0]->GetPosition().x;
-			_pos.y = _bodies[0]->GetPosition().y;
+			_pos = _bodies[0]->GetPosition();
 		}
 	}
 }
@@ -107,18 +105,13 @@ void Snake::render()
 	GraphicsDriver::instance->drawText(ss.str(), _pos, _color);
 	
 	Vec2 sidev = getSide() * _radius / 2;
-	std::vector<Vec2> tri(4);
-	tri[0] = _pos + sidev;
-	tri[1] = _pos - sidev;
-	tri[2] = _pos + _heading * _radius * 2;
-	tri[3] = _pos + sidev;
+	std::vector<Vec2> tri { _pos + sidev, _pos - sidev, _pos + _heading * _radius * 2, _pos + sidev };
 	GraphicsDriver::instance->drawLines(tri, _color);
 
 	std::vector<Vec2> lines(_bodies.size());
 	for (int i = 0; i < _bodies.size(); ++i)
-	{
-		lines[i] = Vec2(_bodies[i]->GetPosition().x, _bodies[i]->GetPosition().y);
-	}
+		lines[i] = _bodies[i]->GetPosition();
+
 	GraphicsDriver::instance->drawLines(lines, _color);
 }
 

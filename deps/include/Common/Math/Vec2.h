@@ -27,6 +27,8 @@ This file was modified to fit the cocos2d-x project
 #include <math.h>
 #include "MathBase.h"
 
+#include <Box2D/Common/b2Math.h>
+
 /**
 * @addtogroup base
 * @{
@@ -97,6 +99,14 @@ public:
 	* @param copy The vector to copy.
 	*/
 	Vec2(const Vec2& copy);
+
+#ifdef B2_MATH_H
+	Vec2(const b2Vec2& copy)
+	{
+		this->x = copy.x;
+		this->y = copy.y;
+	}
+#endif
 
 	/**
 	* Destructor.

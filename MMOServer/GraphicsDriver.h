@@ -50,7 +50,7 @@ public:
 
 	void drawLine(Vec2 a, Vec2 b, SDL_Color color = red, bool on_ui = false);
 	void drawLines(const std::vector<Vec2>& lines, SDL_Color color = red, bool on_ui = false);
-	void drawLines(const b2Vec2* lines, int size, SDL_Color color = red, bool on_ui = false);
+	void drawLines(const b2Vec2* lines, int size, const Vec2& origin, SDL_Color color = red, bool on_ui = false);
 	void drawRect(Vec2 bot_left, Vec2 top_right, SDL_Color color = red, bool on_ui = false);
 	void drawRects(
 		const std::vector<std::pair<Vec2, Vec2> >& rects,

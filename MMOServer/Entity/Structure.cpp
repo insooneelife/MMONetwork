@@ -39,16 +39,13 @@ Structure* Structure::createPolygon(World& world, unsigned int id, const Vec2& p
 	bd.position.Set(pos.x, pos.y);
 	b2Body* body = physics->CreateBody(&bd);
 
-	//b2ChainShape chain;
-	//chain.CreateChain(points, 6);
-
 	b2PolygonShape poly;
 	poly.Set(points, 6);
 
 	b2FixtureDef groundFixture;
 	groundFixture.shape = &poly;
-	groundFixture.restitution = 0.1f;
-	groundFixture.friction = 0.0f;
+	groundFixture.restitution = 0.5f;
+	groundFixture.friction = 0.5f;
 
 	body->CreateFixture(&groundFixture);
 
@@ -132,8 +129,5 @@ void Structure::render()
 	GraphicsDriver::instance->drawText(ss.str(), _pos);
 
 	for (auto f = _body->GetFixtureList(); f; f = f->GetNext())
-	{
 		GraphicsDriver::instance->drawBox2DShape(_pos, f->GetShape());
-	}
-
 }

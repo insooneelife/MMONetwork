@@ -16,8 +16,8 @@
 #include "Server/Server.h"
 
 
-const double Engine::MsPerUpdate = 0.02;
-const double Engine::ReplicateTerm = 0.2;
+const double Engine::MsPerUpdate = 0.02f;
+const double Engine::ReplicateTerm = 0.2f;
 
 
 Engine::Engine()

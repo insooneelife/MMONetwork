@@ -230,3 +230,67 @@ void Vec2::setPoint(float xx, float yy)
 	this->y = yy;
 }
 
+
+
+#ifdef B2_MATH_H
+inline bool operator==(const Vec2& lhs, const b2Vec2& rhs) { return lhs.x == rhs.x && lhs.y == rhs.y; }
+inline bool operator==(const b2Vec2& lhs, const Vec2& rhs) { return lhs.x == rhs.x && lhs.y == rhs.y; }
+
+inline bool operator!=(const Vec2& lhs, const b2Vec2& rhs) { return !operator==(lhs, rhs); }
+inline bool operator!=(const b2Vec2& lhs, const Vec2& rhs) { return !operator==(lhs, rhs); }
+
+inline bool operator< (const Vec2& lhs, const b2Vec2& rhs) 
+{
+	if (lhs.x == rhs.x)
+		return lhs.y < rhs.y;
+	return lhs.x < rhs.x;
+}
+inline bool operator< (const b2Vec2& lhs, const Vec2& rhs) 
+{
+	if (lhs.x == rhs.x)
+		return lhs.y < rhs.y;
+	return lhs.x < rhs.x;
+}
+
+inline bool operator> (const Vec2& lhs, const b2Vec2& rhs) { return  operator< (rhs, lhs); }
+inline bool operator> (const b2Vec2& lhs, const Vec2& rhs) { return  operator< (rhs, lhs); }
+
+inline bool operator<=(const Vec2& lhs, const b2Vec2& rhs) { return !operator> (lhs, rhs); }
+inline bool operator<=(const b2Vec2& lhs, const Vec2& rhs) { return !operator> (lhs, rhs); }
+
+inline bool operator>=(const Vec2& lhs, const b2Vec2& rhs) { return !operator< (lhs, rhs); }
+inline bool operator>=(const b2Vec2& lhs, const Vec2& rhs) { return !operator< (lhs, rhs); }
+
+inline Vec2 operator+ (const Vec2& l, const b2Vec2& r) { return  Vec2(l.x + r.x, l.y + r.y); }
+inline Vec2 operator+ (const b2Vec2& l, const Vec2& r) { return  Vec2(l.x + r.x, l.y + r.y); }
+
+inline Vec2& operator+= (Vec2& l, const b2Vec2& r) 
+{
+	l.x += r.x;
+	l.y += r.y;
+	return l; 
+}
+inline b2Vec2& operator+= (b2Vec2& l, const Vec2& r) 
+{
+	l.x += r.x;
+	l.y += r.y;
+	return l;
+}
+
+inline Vec2 operator- (const Vec2& l, const b2Vec2& r) { return  Vec2(l.x - r.x, l.y - r.y); }
+inline Vec2 operator- (const b2Vec2& l, const Vec2& r) { return  Vec2(l.x - r.x, l.y - r.y); }
+
+inline Vec2& operator-= (Vec2& l, const b2Vec2& r)
+{
+	l.x -= r.x;
+	l.y -= r.y;
+	return l;
+}
+
+inline b2Vec2& operator-= (b2Vec2& l, const Vec2& r)
+{
+	l.x -= r.x;
+	l.y -= r.y;
+	return l;
+}
+#endif
