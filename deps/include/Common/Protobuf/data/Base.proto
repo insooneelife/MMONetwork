@@ -2,6 +2,8 @@ syntax = "proto2";
 
 package Data;
 
+
+
 enum PacketType 
 {
     RequestConnect = 0;
@@ -42,7 +44,45 @@ message Vec2
 	required float y = 2;
 }
 
+message Color
+{
+	required int32 a = 1;
+	required int32 r = 2;
+	required int32 g = 3;
+	required int32 b = 4;
+}
 
+enum PrimitiveDataType
+{
+	Bool = 0;
+	Char = 1;
+	Int32 = 2;
+	Int64 = 3;
+	UInt32 = 4;
+	UInt64 = 5;
+	Float = 6;
+	Double = 7;
+	String = 8;
+	Reference = 9;
+	TVec2 = 10;
+	TColor = 11;
+}
+
+message PrimitiveData
+{
+	optional bool bool = 1;
+	optional int32 char = 2;
+	optional int32 int32 = 3;
+	optional int64 int64 = 4;
+	optional uint32 uint32 = 5;
+	optional uint64 uint64 = 6;
+	optional float float = 7;
+	optional double double = 8;
+	optional string string = 9;
+	optional uint32 reference = 10;
+	optional Vec2 vec2 = 11;
+	optional Color color = 12;
+}
 
 
 

@@ -31,6 +31,12 @@
 #include <google/protobuf/unknown_field_set.h>
 // @@protoc_insertion_point(includes)
 namespace Data {
+class Color;
+class ColorDefaultTypeInternal;
+extern ColorDefaultTypeInternal _Color_default_instance_;
+class PrimitiveData;
+class PrimitiveDataDefaultTypeInternal;
+extern PrimitiveDataDefaultTypeInternal _PrimitiveData_default_instance_;
 class Vec2;
 class Vec2DefaultTypeInternal;
 extern Vec2DefaultTypeInternal _Vec2_default_instance_;
@@ -121,6 +127,35 @@ inline bool CommandType_Parse(
     const ::std::string& name, CommandType* value) {
   return ::google::protobuf::internal::ParseNamedEnum<CommandType>(
     CommandType_descriptor(), name, value);
+}
+enum PrimitiveDataType {
+  Bool = 0,
+  Char = 1,
+  Int32 = 2,
+  Int64 = 3,
+  UInt32 = 4,
+  UInt64 = 5,
+  Float = 6,
+  Double = 7,
+  String = 8,
+  Reference = 9,
+  TVec2 = 10,
+  TColor = 11
+};
+bool PrimitiveDataType_IsValid(int value);
+const PrimitiveDataType PrimitiveDataType_MIN = Bool;
+const PrimitiveDataType PrimitiveDataType_MAX = TColor;
+const int PrimitiveDataType_ARRAYSIZE = PrimitiveDataType_MAX + 1;
+
+const ::google::protobuf::EnumDescriptor* PrimitiveDataType_descriptor();
+inline const ::std::string& PrimitiveDataType_Name(PrimitiveDataType value) {
+  return ::google::protobuf::internal::NameOfEnum(
+    PrimitiveDataType_descriptor(), value);
+}
+inline bool PrimitiveDataType_Parse(
+    const ::std::string& name, PrimitiveDataType* value) {
+  return ::google::protobuf::internal::ParseNamedEnum<PrimitiveDataType>(
+    PrimitiveDataType_descriptor(), name, value);
 }
 // ===================================================================
 
@@ -230,6 +265,351 @@ class Vec2 : public ::google::protobuf::Message /* @@protoc_insertion_point(clas
   float y_;
   friend struct  protobuf_Base_2eproto::TableStruct;
 };
+// -------------------------------------------------------------------
+
+class Color : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:Data.Color) */ {
+ public:
+  Color();
+  virtual ~Color();
+
+  Color(const Color& from);
+
+  inline Color& operator=(const Color& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
+    return _internal_metadata_.unknown_fields();
+  }
+
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
+    return _internal_metadata_.mutable_unknown_fields();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const Color& default_instance();
+
+  static inline const Color* internal_default_instance() {
+    return reinterpret_cast<const Color*>(
+               &_Color_default_instance_);
+  }
+
+  void Swap(Color* other);
+
+  // implements Message ----------------------------------------------
+
+  inline Color* New() const PROTOBUF_FINAL { return New(NULL); }
+
+  Color* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
+  void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void CopyFrom(const Color& from);
+  void MergeFrom(const Color& from);
+  void Clear() PROTOBUF_FINAL;
+  bool IsInitialized() const PROTOBUF_FINAL;
+
+  size_t ByteSizeLong() const PROTOBUF_FINAL;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) PROTOBUF_FINAL;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const PROTOBUF_FINAL;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const PROTOBUF_FINAL;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output)
+      const PROTOBUF_FINAL {
+    return InternalSerializeWithCachedSizesToArray(
+        ::google::protobuf::io::CodedOutputStream::IsDefaultSerializationDeterministic(), output);
+  }
+  int GetCachedSize() const PROTOBUF_FINAL { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const PROTOBUF_FINAL;
+  void InternalSwap(Color* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const PROTOBUF_FINAL;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // required int32 a = 1;
+  bool has_a() const;
+  void clear_a();
+  static const int kAFieldNumber = 1;
+  ::google::protobuf::int32 a() const;
+  void set_a(::google::protobuf::int32 value);
+
+  // required int32 r = 2;
+  bool has_r() const;
+  void clear_r();
+  static const int kRFieldNumber = 2;
+  ::google::protobuf::int32 r() const;
+  void set_r(::google::protobuf::int32 value);
+
+  // required int32 g = 3;
+  bool has_g() const;
+  void clear_g();
+  static const int kGFieldNumber = 3;
+  ::google::protobuf::int32 g() const;
+  void set_g(::google::protobuf::int32 value);
+
+  // required int32 b = 4;
+  bool has_b() const;
+  void clear_b();
+  static const int kBFieldNumber = 4;
+  ::google::protobuf::int32 b() const;
+  void set_b(::google::protobuf::int32 value);
+
+  // @@protoc_insertion_point(class_scope:Data.Color)
+ private:
+  void set_has_a();
+  void clear_has_a();
+  void set_has_r();
+  void clear_has_r();
+  void set_has_g();
+  void clear_has_g();
+  void set_has_b();
+  void clear_has_b();
+
+  // helper for ByteSizeLong()
+  size_t RequiredFieldsByteSizeFallback() const;
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::HasBits<1> _has_bits_;
+  mutable int _cached_size_;
+  ::google::protobuf::int32 a_;
+  ::google::protobuf::int32 r_;
+  ::google::protobuf::int32 g_;
+  ::google::protobuf::int32 b_;
+  friend struct  protobuf_Base_2eproto::TableStruct;
+};
+// -------------------------------------------------------------------
+
+class PrimitiveData : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:Data.PrimitiveData) */ {
+ public:
+  PrimitiveData();
+  virtual ~PrimitiveData();
+
+  PrimitiveData(const PrimitiveData& from);
+
+  inline PrimitiveData& operator=(const PrimitiveData& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
+    return _internal_metadata_.unknown_fields();
+  }
+
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
+    return _internal_metadata_.mutable_unknown_fields();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const PrimitiveData& default_instance();
+
+  static inline const PrimitiveData* internal_default_instance() {
+    return reinterpret_cast<const PrimitiveData*>(
+               &_PrimitiveData_default_instance_);
+  }
+
+  void Swap(PrimitiveData* other);
+
+  // implements Message ----------------------------------------------
+
+  inline PrimitiveData* New() const PROTOBUF_FINAL { return New(NULL); }
+
+  PrimitiveData* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
+  void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void CopyFrom(const PrimitiveData& from);
+  void MergeFrom(const PrimitiveData& from);
+  void Clear() PROTOBUF_FINAL;
+  bool IsInitialized() const PROTOBUF_FINAL;
+
+  size_t ByteSizeLong() const PROTOBUF_FINAL;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) PROTOBUF_FINAL;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const PROTOBUF_FINAL;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const PROTOBUF_FINAL;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output)
+      const PROTOBUF_FINAL {
+    return InternalSerializeWithCachedSizesToArray(
+        ::google::protobuf::io::CodedOutputStream::IsDefaultSerializationDeterministic(), output);
+  }
+  int GetCachedSize() const PROTOBUF_FINAL { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const PROTOBUF_FINAL;
+  void InternalSwap(PrimitiveData* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const PROTOBUF_FINAL;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // optional string string = 9;
+  bool has_string() const;
+  void clear_string();
+  static const int kStringFieldNumber = 9;
+  const ::std::string& string() const;
+  void set_string(const ::std::string& value);
+  #if LANG_CXX11
+  void set_string(::std::string&& value);
+  #endif
+  void set_string(const char* value);
+  void set_string(const char* value, size_t size);
+  ::std::string* mutable_string();
+  ::std::string* release_string();
+  void set_allocated_string(::std::string* string);
+
+  // optional .Data.Vec2 vec2 = 11;
+  bool has_vec2() const;
+  void clear_vec2();
+  static const int kVec2FieldNumber = 11;
+  const ::Data::Vec2& vec2() const;
+  ::Data::Vec2* mutable_vec2();
+  ::Data::Vec2* release_vec2();
+  void set_allocated_vec2(::Data::Vec2* vec2);
+
+  // optional .Data.Color color = 12;
+  bool has_color() const;
+  void clear_color();
+  static const int kColorFieldNumber = 12;
+  const ::Data::Color& color() const;
+  ::Data::Color* mutable_color();
+  ::Data::Color* release_color();
+  void set_allocated_color(::Data::Color* color);
+
+  // optional bool bool = 1;
+  bool has_bool_() const;
+  void clear_bool_();
+  static const int kBoolFieldNumber = 1;
+  bool bool_() const;
+  void set_bool_(bool value);
+
+  // optional int32 char = 2;
+  bool has_char_() const;
+  void clear_char_();
+  static const int kCharFieldNumber = 2;
+  ::google::protobuf::int32 char_() const;
+  void set_char_(::google::protobuf::int32 value);
+
+  // optional int64 int64 = 4;
+  bool has_int64() const;
+  void clear_int64();
+  static const int kInt64FieldNumber = 4;
+  ::google::protobuf::int64 int64() const;
+  void set_int64(::google::protobuf::int64 value);
+
+  // optional int32 int32 = 3;
+  bool has_int32() const;
+  void clear_int32();
+  static const int kInt32FieldNumber = 3;
+  ::google::protobuf::int32 int32() const;
+  void set_int32(::google::protobuf::int32 value);
+
+  // optional uint32 uint32 = 5;
+  bool has_uint32() const;
+  void clear_uint32();
+  static const int kUint32FieldNumber = 5;
+  ::google::protobuf::uint32 uint32() const;
+  void set_uint32(::google::protobuf::uint32 value);
+
+  // optional uint64 uint64 = 6;
+  bool has_uint64() const;
+  void clear_uint64();
+  static const int kUint64FieldNumber = 6;
+  ::google::protobuf::uint64 uint64() const;
+  void set_uint64(::google::protobuf::uint64 value);
+
+  // optional double double = 8;
+  bool has_double_() const;
+  void clear_double_();
+  static const int kDoubleFieldNumber = 8;
+  double double_() const;
+  void set_double_(double value);
+
+  // optional float float = 7;
+  bool has_float_() const;
+  void clear_float_();
+  static const int kFloatFieldNumber = 7;
+  float float_() const;
+  void set_float_(float value);
+
+  // optional uint32 reference = 10;
+  bool has_reference() const;
+  void clear_reference();
+  static const int kReferenceFieldNumber = 10;
+  ::google::protobuf::uint32 reference() const;
+  void set_reference(::google::protobuf::uint32 value);
+
+  // @@protoc_insertion_point(class_scope:Data.PrimitiveData)
+ private:
+  void set_has_bool_();
+  void clear_has_bool_();
+  void set_has_char_();
+  void clear_has_char_();
+  void set_has_int32();
+  void clear_has_int32();
+  void set_has_int64();
+  void clear_has_int64();
+  void set_has_uint32();
+  void clear_has_uint32();
+  void set_has_uint64();
+  void clear_has_uint64();
+  void set_has_float_();
+  void clear_has_float_();
+  void set_has_double_();
+  void clear_has_double_();
+  void set_has_string();
+  void clear_has_string();
+  void set_has_reference();
+  void clear_has_reference();
+  void set_has_vec2();
+  void clear_has_vec2();
+  void set_has_color();
+  void clear_has_color();
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::HasBits<1> _has_bits_;
+  mutable int _cached_size_;
+  ::google::protobuf::internal::ArenaStringPtr string_;
+  ::Data::Vec2* vec2_;
+  ::Data::Color* color_;
+  bool bool__;
+  ::google::protobuf::int32 char__;
+  ::google::protobuf::int64 int64_;
+  ::google::protobuf::int32 int32_;
+  ::google::protobuf::uint32 uint32_;
+  ::google::protobuf::uint64 uint64_;
+  double double__;
+  float float__;
+  ::google::protobuf::uint32 reference_;
+  friend struct  protobuf_Base_2eproto::TableStruct;
+};
 // ===================================================================
 
 
@@ -286,7 +666,483 @@ inline void Vec2::set_y(float value) {
   // @@protoc_insertion_point(field_set:Data.Vec2.y)
 }
 
+// -------------------------------------------------------------------
+
+// Color
+
+// required int32 a = 1;
+inline bool Color::has_a() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void Color::set_has_a() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void Color::clear_has_a() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void Color::clear_a() {
+  a_ = 0;
+  clear_has_a();
+}
+inline ::google::protobuf::int32 Color::a() const {
+  // @@protoc_insertion_point(field_get:Data.Color.a)
+  return a_;
+}
+inline void Color::set_a(::google::protobuf::int32 value) {
+  set_has_a();
+  a_ = value;
+  // @@protoc_insertion_point(field_set:Data.Color.a)
+}
+
+// required int32 r = 2;
+inline bool Color::has_r() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+inline void Color::set_has_r() {
+  _has_bits_[0] |= 0x00000002u;
+}
+inline void Color::clear_has_r() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+inline void Color::clear_r() {
+  r_ = 0;
+  clear_has_r();
+}
+inline ::google::protobuf::int32 Color::r() const {
+  // @@protoc_insertion_point(field_get:Data.Color.r)
+  return r_;
+}
+inline void Color::set_r(::google::protobuf::int32 value) {
+  set_has_r();
+  r_ = value;
+  // @@protoc_insertion_point(field_set:Data.Color.r)
+}
+
+// required int32 g = 3;
+inline bool Color::has_g() const {
+  return (_has_bits_[0] & 0x00000004u) != 0;
+}
+inline void Color::set_has_g() {
+  _has_bits_[0] |= 0x00000004u;
+}
+inline void Color::clear_has_g() {
+  _has_bits_[0] &= ~0x00000004u;
+}
+inline void Color::clear_g() {
+  g_ = 0;
+  clear_has_g();
+}
+inline ::google::protobuf::int32 Color::g() const {
+  // @@protoc_insertion_point(field_get:Data.Color.g)
+  return g_;
+}
+inline void Color::set_g(::google::protobuf::int32 value) {
+  set_has_g();
+  g_ = value;
+  // @@protoc_insertion_point(field_set:Data.Color.g)
+}
+
+// required int32 b = 4;
+inline bool Color::has_b() const {
+  return (_has_bits_[0] & 0x00000008u) != 0;
+}
+inline void Color::set_has_b() {
+  _has_bits_[0] |= 0x00000008u;
+}
+inline void Color::clear_has_b() {
+  _has_bits_[0] &= ~0x00000008u;
+}
+inline void Color::clear_b() {
+  b_ = 0;
+  clear_has_b();
+}
+inline ::google::protobuf::int32 Color::b() const {
+  // @@protoc_insertion_point(field_get:Data.Color.b)
+  return b_;
+}
+inline void Color::set_b(::google::protobuf::int32 value) {
+  set_has_b();
+  b_ = value;
+  // @@protoc_insertion_point(field_set:Data.Color.b)
+}
+
+// -------------------------------------------------------------------
+
+// PrimitiveData
+
+// optional bool bool = 1;
+inline bool PrimitiveData::has_bool_() const {
+  return (_has_bits_[0] & 0x00000008u) != 0;
+}
+inline void PrimitiveData::set_has_bool_() {
+  _has_bits_[0] |= 0x00000008u;
+}
+inline void PrimitiveData::clear_has_bool_() {
+  _has_bits_[0] &= ~0x00000008u;
+}
+inline void PrimitiveData::clear_bool_() {
+  bool__ = false;
+  clear_has_bool_();
+}
+inline bool PrimitiveData::bool_() const {
+  // @@protoc_insertion_point(field_get:Data.PrimitiveData.bool)
+  return bool__;
+}
+inline void PrimitiveData::set_bool_(bool value) {
+  set_has_bool_();
+  bool__ = value;
+  // @@protoc_insertion_point(field_set:Data.PrimitiveData.bool)
+}
+
+// optional int32 char = 2;
+inline bool PrimitiveData::has_char_() const {
+  return (_has_bits_[0] & 0x00000010u) != 0;
+}
+inline void PrimitiveData::set_has_char_() {
+  _has_bits_[0] |= 0x00000010u;
+}
+inline void PrimitiveData::clear_has_char_() {
+  _has_bits_[0] &= ~0x00000010u;
+}
+inline void PrimitiveData::clear_char_() {
+  char__ = 0;
+  clear_has_char_();
+}
+inline ::google::protobuf::int32 PrimitiveData::char_() const {
+  // @@protoc_insertion_point(field_get:Data.PrimitiveData.char)
+  return char__;
+}
+inline void PrimitiveData::set_char_(::google::protobuf::int32 value) {
+  set_has_char_();
+  char__ = value;
+  // @@protoc_insertion_point(field_set:Data.PrimitiveData.char)
+}
+
+// optional int32 int32 = 3;
+inline bool PrimitiveData::has_int32() const {
+  return (_has_bits_[0] & 0x00000040u) != 0;
+}
+inline void PrimitiveData::set_has_int32() {
+  _has_bits_[0] |= 0x00000040u;
+}
+inline void PrimitiveData::clear_has_int32() {
+  _has_bits_[0] &= ~0x00000040u;
+}
+inline void PrimitiveData::clear_int32() {
+  int32_ = 0;
+  clear_has_int32();
+}
+inline ::google::protobuf::int32 PrimitiveData::int32() const {
+  // @@protoc_insertion_point(field_get:Data.PrimitiveData.int32)
+  return int32_;
+}
+inline void PrimitiveData::set_int32(::google::protobuf::int32 value) {
+  set_has_int32();
+  int32_ = value;
+  // @@protoc_insertion_point(field_set:Data.PrimitiveData.int32)
+}
+
+// optional int64 int64 = 4;
+inline bool PrimitiveData::has_int64() const {
+  return (_has_bits_[0] & 0x00000020u) != 0;
+}
+inline void PrimitiveData::set_has_int64() {
+  _has_bits_[0] |= 0x00000020u;
+}
+inline void PrimitiveData::clear_has_int64() {
+  _has_bits_[0] &= ~0x00000020u;
+}
+inline void PrimitiveData::clear_int64() {
+  int64_ = GOOGLE_LONGLONG(0);
+  clear_has_int64();
+}
+inline ::google::protobuf::int64 PrimitiveData::int64() const {
+  // @@protoc_insertion_point(field_get:Data.PrimitiveData.int64)
+  return int64_;
+}
+inline void PrimitiveData::set_int64(::google::protobuf::int64 value) {
+  set_has_int64();
+  int64_ = value;
+  // @@protoc_insertion_point(field_set:Data.PrimitiveData.int64)
+}
+
+// optional uint32 uint32 = 5;
+inline bool PrimitiveData::has_uint32() const {
+  return (_has_bits_[0] & 0x00000080u) != 0;
+}
+inline void PrimitiveData::set_has_uint32() {
+  _has_bits_[0] |= 0x00000080u;
+}
+inline void PrimitiveData::clear_has_uint32() {
+  _has_bits_[0] &= ~0x00000080u;
+}
+inline void PrimitiveData::clear_uint32() {
+  uint32_ = 0u;
+  clear_has_uint32();
+}
+inline ::google::protobuf::uint32 PrimitiveData::uint32() const {
+  // @@protoc_insertion_point(field_get:Data.PrimitiveData.uint32)
+  return uint32_;
+}
+inline void PrimitiveData::set_uint32(::google::protobuf::uint32 value) {
+  set_has_uint32();
+  uint32_ = value;
+  // @@protoc_insertion_point(field_set:Data.PrimitiveData.uint32)
+}
+
+// optional uint64 uint64 = 6;
+inline bool PrimitiveData::has_uint64() const {
+  return (_has_bits_[0] & 0x00000100u) != 0;
+}
+inline void PrimitiveData::set_has_uint64() {
+  _has_bits_[0] |= 0x00000100u;
+}
+inline void PrimitiveData::clear_has_uint64() {
+  _has_bits_[0] &= ~0x00000100u;
+}
+inline void PrimitiveData::clear_uint64() {
+  uint64_ = GOOGLE_ULONGLONG(0);
+  clear_has_uint64();
+}
+inline ::google::protobuf::uint64 PrimitiveData::uint64() const {
+  // @@protoc_insertion_point(field_get:Data.PrimitiveData.uint64)
+  return uint64_;
+}
+inline void PrimitiveData::set_uint64(::google::protobuf::uint64 value) {
+  set_has_uint64();
+  uint64_ = value;
+  // @@protoc_insertion_point(field_set:Data.PrimitiveData.uint64)
+}
+
+// optional float float = 7;
+inline bool PrimitiveData::has_float_() const {
+  return (_has_bits_[0] & 0x00000400u) != 0;
+}
+inline void PrimitiveData::set_has_float_() {
+  _has_bits_[0] |= 0x00000400u;
+}
+inline void PrimitiveData::clear_has_float_() {
+  _has_bits_[0] &= ~0x00000400u;
+}
+inline void PrimitiveData::clear_float_() {
+  float__ = 0;
+  clear_has_float_();
+}
+inline float PrimitiveData::float_() const {
+  // @@protoc_insertion_point(field_get:Data.PrimitiveData.float)
+  return float__;
+}
+inline void PrimitiveData::set_float_(float value) {
+  set_has_float_();
+  float__ = value;
+  // @@protoc_insertion_point(field_set:Data.PrimitiveData.float)
+}
+
+// optional double double = 8;
+inline bool PrimitiveData::has_double_() const {
+  return (_has_bits_[0] & 0x00000200u) != 0;
+}
+inline void PrimitiveData::set_has_double_() {
+  _has_bits_[0] |= 0x00000200u;
+}
+inline void PrimitiveData::clear_has_double_() {
+  _has_bits_[0] &= ~0x00000200u;
+}
+inline void PrimitiveData::clear_double_() {
+  double__ = 0;
+  clear_has_double_();
+}
+inline double PrimitiveData::double_() const {
+  // @@protoc_insertion_point(field_get:Data.PrimitiveData.double)
+  return double__;
+}
+inline void PrimitiveData::set_double_(double value) {
+  set_has_double_();
+  double__ = value;
+  // @@protoc_insertion_point(field_set:Data.PrimitiveData.double)
+}
+
+// optional string string = 9;
+inline bool PrimitiveData::has_string() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void PrimitiveData::set_has_string() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void PrimitiveData::clear_has_string() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void PrimitiveData::clear_string() {
+  string_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  clear_has_string();
+}
+inline const ::std::string& PrimitiveData::string() const {
+  // @@protoc_insertion_point(field_get:Data.PrimitiveData.string)
+  return string_.GetNoArena();
+}
+inline void PrimitiveData::set_string(const ::std::string& value) {
+  set_has_string();
+  string_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:Data.PrimitiveData.string)
+}
+#if LANG_CXX11
+inline void PrimitiveData::set_string(::std::string&& value) {
+  set_has_string();
+  string_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:Data.PrimitiveData.string)
+}
+#endif
+inline void PrimitiveData::set_string(const char* value) {
+  set_has_string();
+  string_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:Data.PrimitiveData.string)
+}
+inline void PrimitiveData::set_string(const char* value, size_t size) {
+  set_has_string();
+  string_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:Data.PrimitiveData.string)
+}
+inline ::std::string* PrimitiveData::mutable_string() {
+  set_has_string();
+  // @@protoc_insertion_point(field_mutable:Data.PrimitiveData.string)
+  return string_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* PrimitiveData::release_string() {
+  // @@protoc_insertion_point(field_release:Data.PrimitiveData.string)
+  clear_has_string();
+  return string_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void PrimitiveData::set_allocated_string(::std::string* string) {
+  if (string != NULL) {
+    set_has_string();
+  } else {
+    clear_has_string();
+  }
+  string_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), string);
+  // @@protoc_insertion_point(field_set_allocated:Data.PrimitiveData.string)
+}
+
+// optional uint32 reference = 10;
+inline bool PrimitiveData::has_reference() const {
+  return (_has_bits_[0] & 0x00000800u) != 0;
+}
+inline void PrimitiveData::set_has_reference() {
+  _has_bits_[0] |= 0x00000800u;
+}
+inline void PrimitiveData::clear_has_reference() {
+  _has_bits_[0] &= ~0x00000800u;
+}
+inline void PrimitiveData::clear_reference() {
+  reference_ = 0u;
+  clear_has_reference();
+}
+inline ::google::protobuf::uint32 PrimitiveData::reference() const {
+  // @@protoc_insertion_point(field_get:Data.PrimitiveData.reference)
+  return reference_;
+}
+inline void PrimitiveData::set_reference(::google::protobuf::uint32 value) {
+  set_has_reference();
+  reference_ = value;
+  // @@protoc_insertion_point(field_set:Data.PrimitiveData.reference)
+}
+
+// optional .Data.Vec2 vec2 = 11;
+inline bool PrimitiveData::has_vec2() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+inline void PrimitiveData::set_has_vec2() {
+  _has_bits_[0] |= 0x00000002u;
+}
+inline void PrimitiveData::clear_has_vec2() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+inline void PrimitiveData::clear_vec2() {
+  if (vec2_ != NULL) vec2_->::Data::Vec2::Clear();
+  clear_has_vec2();
+}
+inline const ::Data::Vec2& PrimitiveData::vec2() const {
+  // @@protoc_insertion_point(field_get:Data.PrimitiveData.vec2)
+  return vec2_ != NULL ? *vec2_
+                         : *::Data::Vec2::internal_default_instance();
+}
+inline ::Data::Vec2* PrimitiveData::mutable_vec2() {
+  set_has_vec2();
+  if (vec2_ == NULL) {
+    vec2_ = new ::Data::Vec2;
+  }
+  // @@protoc_insertion_point(field_mutable:Data.PrimitiveData.vec2)
+  return vec2_;
+}
+inline ::Data::Vec2* PrimitiveData::release_vec2() {
+  // @@protoc_insertion_point(field_release:Data.PrimitiveData.vec2)
+  clear_has_vec2();
+  ::Data::Vec2* temp = vec2_;
+  vec2_ = NULL;
+  return temp;
+}
+inline void PrimitiveData::set_allocated_vec2(::Data::Vec2* vec2) {
+  delete vec2_;
+  vec2_ = vec2;
+  if (vec2) {
+    set_has_vec2();
+  } else {
+    clear_has_vec2();
+  }
+  // @@protoc_insertion_point(field_set_allocated:Data.PrimitiveData.vec2)
+}
+
+// optional .Data.Color color = 12;
+inline bool PrimitiveData::has_color() const {
+  return (_has_bits_[0] & 0x00000004u) != 0;
+}
+inline void PrimitiveData::set_has_color() {
+  _has_bits_[0] |= 0x00000004u;
+}
+inline void PrimitiveData::clear_has_color() {
+  _has_bits_[0] &= ~0x00000004u;
+}
+inline void PrimitiveData::clear_color() {
+  if (color_ != NULL) color_->::Data::Color::Clear();
+  clear_has_color();
+}
+inline const ::Data::Color& PrimitiveData::color() const {
+  // @@protoc_insertion_point(field_get:Data.PrimitiveData.color)
+  return color_ != NULL ? *color_
+                         : *::Data::Color::internal_default_instance();
+}
+inline ::Data::Color* PrimitiveData::mutable_color() {
+  set_has_color();
+  if (color_ == NULL) {
+    color_ = new ::Data::Color;
+  }
+  // @@protoc_insertion_point(field_mutable:Data.PrimitiveData.color)
+  return color_;
+}
+inline ::Data::Color* PrimitiveData::release_color() {
+  // @@protoc_insertion_point(field_release:Data.PrimitiveData.color)
+  clear_has_color();
+  ::Data::Color* temp = color_;
+  color_ = NULL;
+  return temp;
+}
+inline void PrimitiveData::set_allocated_color(::Data::Color* color) {
+  delete color_;
+  color_ = color;
+  if (color) {
+    set_has_color();
+  } else {
+    clear_has_color();
+  }
+  // @@protoc_insertion_point(field_set_allocated:Data.PrimitiveData.color)
+}
+
 #endif  // !PROTOBUF_INLINE_NOT_IN_HEADERS
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
 
 // @@protoc_insertion_point(namespace_scope)
 
@@ -311,6 +1167,11 @@ template <> struct is_proto_enum< ::Data::CommandType> : ::google::protobuf::int
 template <>
 inline const EnumDescriptor* GetEnumDescriptor< ::Data::CommandType>() {
   return ::Data::CommandType_descriptor();
+}
+template <> struct is_proto_enum< ::Data::PrimitiveDataType> : ::google::protobuf::internal::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::Data::PrimitiveDataType>() {
+  return ::Data::PrimitiveDataType_descriptor();
 }
 
 }  // namespace protobuf

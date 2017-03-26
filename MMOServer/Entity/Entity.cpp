@@ -13,7 +13,7 @@ Entity::Entity(
 	Type type,
 	const SDL_Color& color)
 	:
-	_world(world),
+	_world(&world),
 	_id(id),
 	_pos(pos),
 	_radius(radius),
@@ -22,10 +22,24 @@ Entity::Entity(
 	_heading(1, 0),
 	_is_garbage(false)
 {
-	_world.getEntityMgr().registerEntity(this);
+	_world->getEntityMgr().registerEntity(this);
+}
+
+Entity::Entity(Entity::Args* args)
+	:
+	_world(args->world),
+	_id(args->id),
+	_pos(args->pos),
+	_radius(args->radius),
+	_type(args->type),
+	_color(args->color),
+	_heading(1, 0),
+	_is_garbage(false)
+{
+	_world->getEntityMgr().registerEntity(this);
 }
 
 Entity::~Entity()
 {
-	_world.getEntityMgr().unregisterEntity(this);	
+	_world->getEntityMgr().unregisterEntity(this);
 }

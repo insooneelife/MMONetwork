@@ -6,7 +6,7 @@
 #include "../PhysicsManager.h"
 
 
-Structure* Structure::createCircle(World& world, unsigned int id, const Vec2& pos, float radius)
+b2Body* Structure::createCircle(World& world, const Vec2& pos, float radius)
 {
 	auto physics = world.getPhysicsMgr()->GetPhysicsWorld();
 
@@ -18,10 +18,10 @@ Structure* Structure::createCircle(World& world, unsigned int id, const Vec2& po
 	shape.m_radius = radius;
 	body->CreateFixture(&shape, 0.0f);
 
-	return new Structure(world, id, pos, StructureType::kCircle, body);
+	return body;
 }
 
-Structure* Structure::createPolygon(World& world, unsigned int id, const Vec2& pos)
+b2Body* Structure::createPolygon(World& world, const Vec2& pos)
 {
 	b2Vec2 points[] =
 	{
@@ -49,11 +49,11 @@ Structure* Structure::createPolygon(World& world, unsigned int id, const Vec2& p
 
 	body->CreateFixture(&groundFixture);
 
-	return new Structure(world, id, pos, StructureType::kPolygon, body);
+	return body;
 }
 
 
-Structure* Structure::createChain(World& world, unsigned int id, const std::vector<b2Vec2>& points)
+b2Body* Structure::createChain(World& world, const std::vector<b2Vec2>& points)
 {
 	Vec2 pos = Vec2();
 	auto physics = world.getPhysicsMgr()->GetPhysicsWorld();
@@ -66,16 +66,17 @@ Structure* Structure::createChain(World& world, unsigned int id, const std::vect
 
 	b2FixtureDef groundFixture;
 	groundFixture.shape = &chain;
+	groundFixture.density = 20.0f;
 	groundFixture.restitution = 0.1f;
 	groundFixture.friction = 0.0f;
 
 	body->CreateFixture(&groundFixture);
 
-	return new Structure(world, id, pos, StructureType::kPolygon, body);
+	return body;
 }
 
 
-Structure* Structure::createAnchor(World& world, unsigned int id, const Vec2& begin, const Vec2& end)
+b2Body* Structure::createAnchor(World& world, const Vec2& begin, const Vec2& end)
 {
 	auto physics = world.getPhysicsMgr()->GetPhysicsWorld();
 	b2Body* prevBody = world.getPhysicsMgr()->GetGround();
@@ -97,7 +98,7 @@ Structure* Structure::createAnchor(World& world, unsigned int id, const Vec2& be
 	rjd.enableMotor = false;
 	physics->CreateJoint(&rjd);
 
-	return new Structure(world, id, pos, StructureType::kAnchor, body);
+	return body;
 }
 
 
@@ -112,6 +113,14 @@ Structure::Structure(
 	_structure_type(type)
 {
 	_body = body;
+	_body->SetUserData(this);
+}
+
+Structure::Structure(Args* args)
+	:
+	Entity(args),
+	_body(args->body)
+{
 	_body->SetUserData(this);
 }
 
@@ -130,4 +139,12 @@ void Structure::render()
 
 	for (auto f = _body->GetFixtureList(); f; f = f->GetNext())
 		GraphicsDriver::instance->drawBox2DShape(_pos, f->GetShape());
+}
+
+Structure::Args::Args()
+{
+	class_id = typeid(Structure).hash_code();
+	radius = 0.0f;
+	type = Entity::Type::kStructure;
+	color = GraphicsDriver::black;
 }

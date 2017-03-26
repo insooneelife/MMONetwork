@@ -16,7 +16,6 @@
 #include <Common/Protobuf/generated/Base.pb.h>
 #include <Common/Protobuf/generated/UserData.pb.h>
 
-class RigidBody;
 class Snake : public Entity
 {
 public:
@@ -26,6 +25,16 @@ public:
 		kMoving
 	};
 
+	struct Args : public Entity::Args
+	{
+		Args();
+		Data::ControlType ctype;
+	};
+
+	CREATE_METHOD(typeid(Snake).hash_code(), Snake)
+
+	
+
 	inline int getExp() const			{ return _experience; }
 	inline void setExp(int exp)			{ _experience = exp; }
 	inline bool isPlayer() const		{ return _is_player; }
@@ -34,6 +43,8 @@ public:
 	inline const std::vector<b2Body*>& getBodies() const { return _bodies; }
 
 	Snake(World& world, unsigned int id, const Vec2& pos, Data::ControlType ctype);
+
+	Snake(Args* args);
 
 	virtual ~Snake();
 
@@ -56,3 +67,4 @@ private:
 
 	Data::ControlType _control_type;
 };
+

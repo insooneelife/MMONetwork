@@ -15,7 +15,6 @@
 class Structure : public Entity
 {
 public:
-
 	enum StructureType
 	{
 		kCircle,
@@ -24,12 +23,23 @@ public:
 		kAnchor
 	};
 
-	static Structure* createCircle(World& world, unsigned int id, const Vec2& pos, float radius);
-	static Structure* createPolygon(World& world, unsigned int id, const Vec2& pos);
-	static Structure* createChain(World& world, unsigned int id, const std::vector<b2Vec2>& points);
-	static Structure* createAnchor(World& world, unsigned int id, const Vec2& begin, const Vec2& end);
+	struct Args : public Entity::Args
+	{
+		Args();
+		StructureType structure_type;
+		b2Body* body;
+	};
+
+	CREATE_METHOD(typeid(Structure).hash_code(), Structure)
+
+	static b2Body* createCircle(World& world, const Vec2& pos, float radius);
+	static b2Body* createPolygon(World& world, const Vec2& pos);
+	static b2Body* createChain(World& world, const std::vector<b2Vec2>& points);
+	static b2Body* createAnchor(World& world, const Vec2& begin, const Vec2& end);
 
 	inline StructureType getStructureType() const { return _structure_type; }
+
+	Structure(Args* args);
 
 	virtual ~Structure();
 	virtual void update();
@@ -44,6 +54,10 @@ private:
 		StructureType type,
 		b2Body* body);
 
+	
+
 	StructureType _structure_type;
 	b2Body* _body;
 };
+
+

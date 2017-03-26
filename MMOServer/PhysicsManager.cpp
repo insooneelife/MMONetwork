@@ -427,8 +427,8 @@ b2Body* PhysicsManager::CreateBody(
 
 	b2FixtureDef fd;
 	fd.shape = shape;
-	fd.density = 0.0f;
-	fd.friction = 0.5f;
+	fd.density = 20.0f;
+	fd.friction = 0.0f;
 	fd.restitution = resti;
 	fd.isSensor = sensor;
 	body->CreateFixture(&fd);

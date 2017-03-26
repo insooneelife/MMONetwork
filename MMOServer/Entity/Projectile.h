@@ -13,10 +13,19 @@
 #include <memory>
 #include "Entity.h"
 
-class RigidBody;
 class Projectile : public Entity
 {
 public:
+
+	struct Args : public Entity::Args
+	{
+		Args();
+		Vec2 heading;
+	};
+
+	CREATE_METHOD(typeid(Projectile).hash_code(), Projectile)
+
+
 	inline b2Body* getBody() const { return _body; }
 
 	Projectile(
@@ -25,6 +34,7 @@ public:
 		const Vec2& pos,
 		const Vec2& heading);
 
+	Projectile(Args* args);
 
 	virtual ~Projectile();
 	virtual void update();
@@ -37,3 +47,4 @@ private:
 
 	b2Body* _body;
 };
+

@@ -85,6 +85,7 @@
     <ClInclude Include="Entity\Projectile.h" />
     <ClInclude Include="Entity\Snake.h" />
     <ClInclude Include="Entity\Structure.h" />
+    <ClInclude Include="GenericFactory.h" />
     <ClInclude Include="GraphicsDriver.h" />
     <ClInclude Include="PhysicsManager.h" />
     <ClInclude Include="Server\NetworkManagerServer.h" />

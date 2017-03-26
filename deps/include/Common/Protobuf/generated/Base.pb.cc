@@ -20,14 +20,18 @@
 namespace Data {
 class Vec2DefaultTypeInternal : public ::google::protobuf::internal::ExplicitlyConstructed<Vec2> {
 } _Vec2_default_instance_;
+class ColorDefaultTypeInternal : public ::google::protobuf::internal::ExplicitlyConstructed<Color> {
+} _Color_default_instance_;
+class PrimitiveDataDefaultTypeInternal : public ::google::protobuf::internal::ExplicitlyConstructed<PrimitiveData> {
+} _PrimitiveData_default_instance_;
 
 namespace protobuf_Base_2eproto {
 
 
 namespace {
 
-::google::protobuf::Metadata file_level_metadata[1];
-const ::google::protobuf::EnumDescriptor* file_level_enum_descriptors[3];
+::google::protobuf::Metadata file_level_metadata[3];
+const ::google::protobuf::EnumDescriptor* file_level_enum_descriptors[4];
 
 }  // namespace
 
@@ -40,14 +44,58 @@ const ::google::protobuf::uint32 TableStruct::offsets[] = {
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Vec2, y_),
   0,
   1,
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Color, _has_bits_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Color, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Color, a_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Color, r_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Color, g_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Color, b_),
+  0,
+  1,
+  2,
+  3,
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PrimitiveData, _has_bits_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PrimitiveData, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PrimitiveData, bool__),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PrimitiveData, char__),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PrimitiveData, int32_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PrimitiveData, int64_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PrimitiveData, uint32_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PrimitiveData, uint64_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PrimitiveData, float__),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PrimitiveData, double__),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PrimitiveData, string_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PrimitiveData, reference_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PrimitiveData, vec2_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PrimitiveData, color_),
+  3,
+  4,
+  6,
+  5,
+  7,
+  8,
+  10,
+  9,
+  0,
+  11,
+  1,
+  2,
 };
 
 static const ::google::protobuf::internal::MigrationSchema schemas[] = {
   { 0, 6, sizeof(Vec2)},
+  { 8, 16, sizeof(Color)},
+  { 20, 36, sizeof(PrimitiveData)},
 };
 
 static ::google::protobuf::Message const * const file_default_instances[] = {
   reinterpret_cast<const ::google::protobuf::Message*>(&_Vec2_default_instance_),
+  reinterpret_cast<const ::google::protobuf::Message*>(&_Color_default_instance_),
+  reinterpret_cast<const ::google::protobuf::Message*>(&_PrimitiveData_default_instance_),
 };
 
 namespace {
@@ -68,7 +116,7 @@ void protobuf_AssignDescriptorsOnce() {
 void protobuf_RegisterTypes(const ::std::string&) GOOGLE_ATTRIBUTE_COLD;
 void protobuf_RegisterTypes(const ::std::string&) {
   protobuf_AssignDescriptorsOnce();
-  ::google::protobuf::internal::RegisterAllTypes(file_level_metadata, 1);
+  ::google::protobuf::internal::RegisterAllTypes(file_level_metadata, 3);
 }
 
 }  // namespace
@@ -76,6 +124,10 @@ void protobuf_RegisterTypes(const ::std::string&) {
 void TableStruct::Shutdown() {
   _Vec2_default_instance_.Shutdown();
   delete file_level_metadata[0].reflection;
+  _Color_default_instance_.Shutdown();
+  delete file_level_metadata[1].reflection;
+  _PrimitiveData_default_instance_.Shutdown();
+  delete file_level_metadata[2].reflection;
 }
 
 void TableStruct::InitDefaultsImpl() {
@@ -83,6 +135,12 @@ void TableStruct::InitDefaultsImpl() {
 
   ::google::protobuf::internal::InitProtobufDefaults();
   _Vec2_default_instance_.DefaultConstruct();
+  _Color_default_instance_.DefaultConstruct();
+  _PrimitiveData_default_instance_.DefaultConstruct();
+  _PrimitiveData_default_instance_.get_mutable()->vec2_ = const_cast< ::Data::Vec2*>(
+      ::Data::Vec2::internal_default_instance());
+  _PrimitiveData_default_instance_.get_mutable()->color_ = const_cast< ::Data::Color*>(
+      ::Data::Color::internal_default_instance());
 }
 
 void InitDefaults() {
@@ -93,19 +151,30 @@ void AddDescriptorsImpl() {
   InitDefaults();
   static const char descriptor[] = {
       "\n\nBase.proto\022\004Data\"\034\n\004Vec2\022\t\n\001x\030\001 \002(\002\022\t\n"
-      "\001y\030\002 \002(\002*\373\001\n\nPacketType\022\022\n\016RequestConnec"
-      "t\020\000\022\014\n\010Accepted\020\001\022\t\n\005Hello\020\002\022\010\n\004Full\020\003\022\014"
-      "\n\010InitGame\020\004\022\017\n\013ReadyToJoin\020\005\022\t\n\005Intro\020\006"
-      "\022\n\n\006Joined\020\007\022\020\n\014Disconnected\020\010\022\026\n\022Notify"
-      "Disconnected\020\t\022\017\n\013ChangeLevel\020\n\022\021\n\rReady"
-      "ToChange\020\013\022\020\n\014EnterPlaying\020\014\022\r\n\tReplicat"
-      "e\020\r\022\021\n\rClientCommand\020\016**\n\013ControlType\022\007\n"
-      "\003NPC\020\000\022\006\n\002AI\020\001\022\n\n\006Player\020\002*D\n\013CommandTyp"
-      "e\022\014\n\010MoveLeft\020\000\022\r\n\tMoveRight\020\001\022\n\n\006MoveUp"
-      "\020\002\022\014\n\010MoveDown\020\003"
+      "\001y\030\002 \002(\002\"3\n\005Color\022\t\n\001a\030\001 \002(\005\022\t\n\001r\030\002 \002(\005\022"
+      "\t\n\001g\030\003 \002(\005\022\t\n\001b\030\004 \002(\005\"\341\001\n\rPrimitiveData\022"
+      "\014\n\004bool\030\001 \001(\010\022\014\n\004char\030\002 \001(\005\022\r\n\005int32\030\003 \001"
+      "(\005\022\r\n\005int64\030\004 \001(\003\022\016\n\006uint32\030\005 \001(\r\022\016\n\006uin"
+      "t64\030\006 \001(\004\022\r\n\005float\030\007 \001(\002\022\016\n\006double\030\010 \001(\001"
+      "\022\016\n\006string\030\t \001(\t\022\021\n\treference\030\n \001(\r\022\030\n\004v"
+      "ec2\030\013 \001(\0132\n.Data.Vec2\022\032\n\005color\030\014 \001(\0132\013.D"
+      "ata.Color*\373\001\n\nPacketType\022\022\n\016RequestConne"
+      "ct\020\000\022\014\n\010Accepted\020\001\022\t\n\005Hello\020\002\022\010\n\004Full\020\003\022"
+      "\014\n\010InitGame\020\004\022\017\n\013ReadyToJoin\020\005\022\t\n\005Intro\020"
+      "\006\022\n\n\006Joined\020\007\022\020\n\014Disconnected\020\010\022\026\n\022Notif"
+      "yDisconnected\020\t\022\017\n\013ChangeLevel\020\n\022\021\n\rRead"
+      "yToChange\020\013\022\020\n\014EnterPlaying\020\014\022\r\n\tReplica"
+      "te\020\r\022\021\n\rClientCommand\020\016**\n\013ControlType\022\007"
+      "\n\003NPC\020\000\022\006\n\002AI\020\001\022\n\n\006Player\020\002*D\n\013CommandTy"
+      "pe\022\014\n\010MoveLeft\020\000\022\r\n\tMoveRight\020\001\022\n\n\006MoveU"
+      "p\020\002\022\014\n\010MoveDown\020\003*\236\001\n\021PrimitiveDataType\022"
+      "\010\n\004Bool\020\000\022\010\n\004Char\020\001\022\t\n\005Int32\020\002\022\t\n\005Int64\020"
+      "\003\022\n\n\006UInt32\020\004\022\n\n\006UInt64\020\005\022\t\n\005Float\020\006\022\n\n\006"
+      "Double\020\007\022\n\n\006String\020\010\022\r\n\tReference\020\t\022\t\n\005T"
+      "Vec2\020\n\022\n\n\006TColor\020\013"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 416);
+      descriptor, 858);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "Base.proto", &protobuf_RegisterTypes);
   ::google::protobuf::internal::OnShutdown(&TableStruct::Shutdown);
@@ -176,6 +245,30 @@ bool CommandType_IsValid(int value) {
     case 1:
     case 2:
     case 3:
+      return true;
+    default:
+      return false;
+  }
+}
+
+const ::google::protobuf::EnumDescriptor* PrimitiveDataType_descriptor() {
+  protobuf_Base_2eproto::protobuf_AssignDescriptorsOnce();
+  return protobuf_Base_2eproto::file_level_enum_descriptors[3];
+}
+bool PrimitiveDataType_IsValid(int value) {
+  switch (value) {
+    case 0:
+    case 1:
+    case 2:
+    case 3:
+    case 4:
+    case 5:
+    case 6:
+    case 7:
+    case 8:
+    case 9:
+    case 10:
+    case 11:
       return true;
     default:
       return false;
@@ -513,6 +606,1529 @@ void Vec2::set_y(float value) {
   set_has_y();
   y_ = value;
   // @@protoc_insertion_point(field_set:Data.Vec2.y)
+}
+
+#endif  // PROTOBUF_INLINE_NOT_IN_HEADERS
+
+// ===================================================================
+
+#if !defined(_MSC_VER) || _MSC_VER >= 1900
+const int Color::kAFieldNumber;
+const int Color::kRFieldNumber;
+const int Color::kGFieldNumber;
+const int Color::kBFieldNumber;
+#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
+
+Color::Color()
+  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
+  if (GOOGLE_PREDICT_TRUE(this != internal_default_instance())) {
+    protobuf_Base_2eproto::InitDefaults();
+  }
+  SharedCtor();
+  // @@protoc_insertion_point(constructor:Data.Color)
+}
+Color::Color(const Color& from)
+  : ::google::protobuf::Message(),
+      _internal_metadata_(NULL),
+      _has_bits_(from._has_bits_),
+      _cached_size_(0) {
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::memcpy(&a_, &from.a_,
+    reinterpret_cast<char*>(&b_) -
+    reinterpret_cast<char*>(&a_) + sizeof(b_));
+  // @@protoc_insertion_point(copy_constructor:Data.Color)
+}
+
+void Color::SharedCtor() {
+  _cached_size_ = 0;
+  ::memset(&a_, 0, reinterpret_cast<char*>(&b_) -
+    reinterpret_cast<char*>(&a_) + sizeof(b_));
+}
+
+Color::~Color() {
+  // @@protoc_insertion_point(destructor:Data.Color)
+  SharedDtor();
+}
+
+void Color::SharedDtor() {
+}
+
+void Color::SetCachedSize(int size) const {
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+}
+const ::google::protobuf::Descriptor* Color::descriptor() {
+  protobuf_Base_2eproto::protobuf_AssignDescriptorsOnce();
+  return protobuf_Base_2eproto::file_level_metadata[1].descriptor;
+}
+
+const Color& Color::default_instance() {
+  protobuf_Base_2eproto::InitDefaults();
+  return *internal_default_instance();
+}
+
+Color* Color::New(::google::protobuf::Arena* arena) const {
+  Color* n = new Color;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
+
+void Color::Clear() {
+// @@protoc_insertion_point(message_clear_start:Data.Color)
+  if (_has_bits_[0 / 32] & 15u) {
+    ::memset(&a_, 0, reinterpret_cast<char*>(&b_) -
+      reinterpret_cast<char*>(&a_) + sizeof(b_));
+  }
+  _has_bits_.Clear();
+  _internal_metadata_.Clear();
+}
+
+bool Color::MergePartialFromCodedStream(
+    ::google::protobuf::io::CodedInputStream* input) {
+#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
+  ::google::protobuf::uint32 tag;
+  // @@protoc_insertion_point(parse_start:Data.Color)
+  for (;;) {
+    ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
+    tag = p.first;
+    if (!p.second) goto handle_unusual;
+    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
+      // required int32 a = 1;
+      case 1: {
+        if (tag == 8u) {
+          set_has_a();
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                 input, &a_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // required int32 r = 2;
+      case 2: {
+        if (tag == 16u) {
+          set_has_r();
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                 input, &r_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // required int32 g = 3;
+      case 3: {
+        if (tag == 24u) {
+          set_has_g();
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                 input, &g_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // required int32 b = 4;
+      case 4: {
+        if (tag == 32u) {
+          set_has_b();
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                 input, &b_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      default: {
+      handle_unusual:
+        if (tag == 0 ||
+            ::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
+          goto success;
+        }
+        DO_(::google::protobuf::internal::WireFormat::SkipField(
+              input, tag, mutable_unknown_fields()));
+        break;
+      }
+    }
+  }
+success:
+  // @@protoc_insertion_point(parse_success:Data.Color)
+  return true;
+failure:
+  // @@protoc_insertion_point(parse_failure:Data.Color)
+  return false;
+#undef DO_
+}
+
+void Color::SerializeWithCachedSizes(
+    ::google::protobuf::io::CodedOutputStream* output) const {
+  // @@protoc_insertion_point(serialize_start:Data.Color)
+  // required int32 a = 1;
+  if (has_a()) {
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(1, this->a(), output);
+  }
+
+  // required int32 r = 2;
+  if (has_r()) {
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(2, this->r(), output);
+  }
+
+  // required int32 g = 3;
+  if (has_g()) {
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(3, this->g(), output);
+  }
+
+  // required int32 b = 4;
+  if (has_b()) {
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(4, this->b(), output);
+  }
+
+  if (_internal_metadata_.have_unknown_fields()) {
+    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
+        unknown_fields(), output);
+  }
+  // @@protoc_insertion_point(serialize_end:Data.Color)
+}
+
+::google::protobuf::uint8* Color::InternalSerializeWithCachedSizesToArray(
+    bool deterministic, ::google::protobuf::uint8* target) const {
+  (void)deterministic;  // Unused
+  // @@protoc_insertion_point(serialize_to_array_start:Data.Color)
+  // required int32 a = 1;
+  if (has_a()) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(1, this->a(), target);
+  }
+
+  // required int32 r = 2;
+  if (has_r()) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(2, this->r(), target);
+  }
+
+  // required int32 g = 3;
+  if (has_g()) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(3, this->g(), target);
+  }
+
+  // required int32 b = 4;
+  if (has_b()) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(4, this->b(), target);
+  }
+
+  if (_internal_metadata_.have_unknown_fields()) {
+    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
+        unknown_fields(), target);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:Data.Color)
+  return target;
+}
+
+size_t Color::RequiredFieldsByteSizeFallback() const {
+// @@protoc_insertion_point(required_fields_byte_size_fallback_start:Data.Color)
+  size_t total_size = 0;
+
+  if (has_a()) {
+    // required int32 a = 1;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::Int32Size(
+        this->a());
+  }
+
+  if (has_r()) {
+    // required int32 r = 2;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::Int32Size(
+        this->r());
+  }
+
+  if (has_g()) {
+    // required int32 g = 3;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::Int32Size(
+        this->g());
+  }
+
+  if (has_b()) {
+    // required int32 b = 4;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::Int32Size(
+        this->b());
+  }
+
+  return total_size;
+}
+size_t Color::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:Data.Color)
+  size_t total_size = 0;
+
+  if (_internal_metadata_.have_unknown_fields()) {
+    total_size +=
+      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
+        unknown_fields());
+  }
+  if (((_has_bits_[0] & 0x0000000f) ^ 0x0000000f) == 0) {  // All required fields are present.
+    // required int32 a = 1;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::Int32Size(
+        this->a());
+
+    // required int32 r = 2;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::Int32Size(
+        this->r());
+
+    // required int32 g = 3;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::Int32Size(
+        this->g());
+
+    // required int32 b = 4;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::Int32Size(
+        this->b());
+
+  } else {
+    total_size += RequiredFieldsByteSizeFallback();
+  }
+  int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = cached_size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+  return total_size;
+}
+
+void Color::MergeFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:Data.Color)
+  GOOGLE_DCHECK_NE(&from, this);
+  const Color* source =
+      ::google::protobuf::internal::DynamicCastToGenerated<const Color>(
+          &from);
+  if (source == NULL) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:Data.Color)
+    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:Data.Color)
+    MergeFrom(*source);
+  }
+}
+
+void Color::MergeFrom(const Color& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:Data.Color)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  if (from._has_bits_[0 / 32] & 15u) {
+    if (from.has_a()) {
+      set_a(from.a());
+    }
+    if (from.has_r()) {
+      set_r(from.r());
+    }
+    if (from.has_g()) {
+      set_g(from.g());
+    }
+    if (from.has_b()) {
+      set_b(from.b());
+    }
+  }
+}
+
+void Color::CopyFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:Data.Color)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void Color::CopyFrom(const Color& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:Data.Color)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool Color::IsInitialized() const {
+  if ((_has_bits_[0] & 0x0000000f) != 0x0000000f) return false;
+  return true;
+}
+
+void Color::Swap(Color* other) {
+  if (other == this) return;
+  InternalSwap(other);
+}
+void Color::InternalSwap(Color* other) {
+  std::swap(a_, other->a_);
+  std::swap(r_, other->r_);
+  std::swap(g_, other->g_);
+  std::swap(b_, other->b_);
+  std::swap(_has_bits_[0], other->_has_bits_[0]);
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+  std::swap(_cached_size_, other->_cached_size_);
+}
+
+::google::protobuf::Metadata Color::GetMetadata() const {
+  protobuf_Base_2eproto::protobuf_AssignDescriptorsOnce();
+  return protobuf_Base_2eproto::file_level_metadata[1];
+}
+
+#if PROTOBUF_INLINE_NOT_IN_HEADERS
+// Color
+
+// required int32 a = 1;
+bool Color::has_a() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+void Color::set_has_a() {
+  _has_bits_[0] |= 0x00000001u;
+}
+void Color::clear_has_a() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+void Color::clear_a() {
+  a_ = 0;
+  clear_has_a();
+}
+::google::protobuf::int32 Color::a() const {
+  // @@protoc_insertion_point(field_get:Data.Color.a)
+  return a_;
+}
+void Color::set_a(::google::protobuf::int32 value) {
+  set_has_a();
+  a_ = value;
+  // @@protoc_insertion_point(field_set:Data.Color.a)
+}
+
+// required int32 r = 2;
+bool Color::has_r() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+void Color::set_has_r() {
+  _has_bits_[0] |= 0x00000002u;
+}
+void Color::clear_has_r() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+void Color::clear_r() {
+  r_ = 0;
+  clear_has_r();
+}
+::google::protobuf::int32 Color::r() const {
+  // @@protoc_insertion_point(field_get:Data.Color.r)
+  return r_;
+}
+void Color::set_r(::google::protobuf::int32 value) {
+  set_has_r();
+  r_ = value;
+  // @@protoc_insertion_point(field_set:Data.Color.r)
+}
+
+// required int32 g = 3;
+bool Color::has_g() const {
+  return (_has_bits_[0] & 0x00000004u) != 0;
+}
+void Color::set_has_g() {
+  _has_bits_[0] |= 0x00000004u;
+}
+void Color::clear_has_g() {
+  _has_bits_[0] &= ~0x00000004u;
+}
+void Color::clear_g() {
+  g_ = 0;
+  clear_has_g();
+}
+::google::protobuf::int32 Color::g() const {
+  // @@protoc_insertion_point(field_get:Data.Color.g)
+  return g_;
+}
+void Color::set_g(::google::protobuf::int32 value) {
+  set_has_g();
+  g_ = value;
+  // @@protoc_insertion_point(field_set:Data.Color.g)
+}
+
+// required int32 b = 4;
+bool Color::has_b() const {
+  return (_has_bits_[0] & 0x00000008u) != 0;
+}
+void Color::set_has_b() {
+  _has_bits_[0] |= 0x00000008u;
+}
+void Color::clear_has_b() {
+  _has_bits_[0] &= ~0x00000008u;
+}
+void Color::clear_b() {
+  b_ = 0;
+  clear_has_b();
+}
+::google::protobuf::int32 Color::b() const {
+  // @@protoc_insertion_point(field_get:Data.Color.b)
+  return b_;
+}
+void Color::set_b(::google::protobuf::int32 value) {
+  set_has_b();
+  b_ = value;
+  // @@protoc_insertion_point(field_set:Data.Color.b)
+}
+
+#endif  // PROTOBUF_INLINE_NOT_IN_HEADERS
+
+// ===================================================================
+
+#if !defined(_MSC_VER) || _MSC_VER >= 1900
+const int PrimitiveData::kBoolFieldNumber;
+const int PrimitiveData::kCharFieldNumber;
+const int PrimitiveData::kInt32FieldNumber;
+const int PrimitiveData::kInt64FieldNumber;
+const int PrimitiveData::kUint32FieldNumber;
+const int PrimitiveData::kUint64FieldNumber;
+const int PrimitiveData::kFloatFieldNumber;
+const int PrimitiveData::kDoubleFieldNumber;
+const int PrimitiveData::kStringFieldNumber;
+const int PrimitiveData::kReferenceFieldNumber;
+const int PrimitiveData::kVec2FieldNumber;
+const int PrimitiveData::kColorFieldNumber;
+#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
+
+PrimitiveData::PrimitiveData()
+  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
+  if (GOOGLE_PREDICT_TRUE(this != internal_default_instance())) {
+    protobuf_Base_2eproto::InitDefaults();
+  }
+  SharedCtor();
+  // @@protoc_insertion_point(constructor:Data.PrimitiveData)
+}
+PrimitiveData::PrimitiveData(const PrimitiveData& from)
+  : ::google::protobuf::Message(),
+      _internal_metadata_(NULL),
+      _has_bits_(from._has_bits_),
+      _cached_size_(0) {
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  string_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (from.has_string()) {
+    string_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.string_);
+  }
+  if (from.has_vec2()) {
+    vec2_ = new ::Data::Vec2(*from.vec2_);
+  } else {
+    vec2_ = NULL;
+  }
+  if (from.has_color()) {
+    color_ = new ::Data::Color(*from.color_);
+  } else {
+    color_ = NULL;
+  }
+  ::memcpy(&bool__, &from.bool__,
+    reinterpret_cast<char*>(&reference_) -
+    reinterpret_cast<char*>(&bool__) + sizeof(reference_));
+  // @@protoc_insertion_point(copy_constructor:Data.PrimitiveData)
+}
+
+void PrimitiveData::SharedCtor() {
+  _cached_size_ = 0;
+  string_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  ::memset(&vec2_, 0, reinterpret_cast<char*>(&reference_) -
+    reinterpret_cast<char*>(&vec2_) + sizeof(reference_));
+}
+
+PrimitiveData::~PrimitiveData() {
+  // @@protoc_insertion_point(destructor:Data.PrimitiveData)
+  SharedDtor();
+}
+
+void PrimitiveData::SharedDtor() {
+  string_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (this != internal_default_instance()) {
+    delete vec2_;
+  }
+  if (this != internal_default_instance()) {
+    delete color_;
+  }
+}
+
+void PrimitiveData::SetCachedSize(int size) const {
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+}
+const ::google::protobuf::Descriptor* PrimitiveData::descriptor() {
+  protobuf_Base_2eproto::protobuf_AssignDescriptorsOnce();
+  return protobuf_Base_2eproto::file_level_metadata[2].descriptor;
+}
+
+const PrimitiveData& PrimitiveData::default_instance() {
+  protobuf_Base_2eproto::InitDefaults();
+  return *internal_default_instance();
+}
+
+PrimitiveData* PrimitiveData::New(::google::protobuf::Arena* arena) const {
+  PrimitiveData* n = new PrimitiveData;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
+
+void PrimitiveData::Clear() {
+// @@protoc_insertion_point(message_clear_start:Data.PrimitiveData)
+  if (_has_bits_[0 / 32] & 7u) {
+    if (has_string()) {
+      GOOGLE_DCHECK(!string_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
+      (*string_.UnsafeRawStringPointer())->clear();
+    }
+    if (has_vec2()) {
+      GOOGLE_DCHECK(vec2_ != NULL);
+      vec2_->::Data::Vec2::Clear();
+    }
+    if (has_color()) {
+      GOOGLE_DCHECK(color_ != NULL);
+      color_->::Data::Color::Clear();
+    }
+  }
+  if (_has_bits_[0 / 32] & 248u) {
+    ::memset(&bool__, 0, reinterpret_cast<char*>(&uint32_) -
+      reinterpret_cast<char*>(&bool__) + sizeof(uint32_));
+  }
+  if (_has_bits_[8 / 32] & 3840u) {
+    ::memset(&uint64_, 0, reinterpret_cast<char*>(&reference_) -
+      reinterpret_cast<char*>(&uint64_) + sizeof(reference_));
+  }
+  _has_bits_.Clear();
+  _internal_metadata_.Clear();
+}
+
+bool PrimitiveData::MergePartialFromCodedStream(
+    ::google::protobuf::io::CodedInputStream* input) {
+#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
+  ::google::protobuf::uint32 tag;
+  // @@protoc_insertion_point(parse_start:Data.PrimitiveData)
+  for (;;) {
+    ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
+    tag = p.first;
+    if (!p.second) goto handle_unusual;
+    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
+      // optional bool bool = 1;
+      case 1: {
+        if (tag == 8u) {
+          set_has_bool_();
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   bool, ::google::protobuf::internal::WireFormatLite::TYPE_BOOL>(
+                 input, &bool__)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // optional int32 char = 2;
+      case 2: {
+        if (tag == 16u) {
+          set_has_char_();
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                 input, &char__)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // optional int32 int32 = 3;
+      case 3: {
+        if (tag == 24u) {
+          set_has_int32();
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                 input, &int32_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // optional int64 int64 = 4;
+      case 4: {
+        if (tag == 32u) {
+          set_has_int64();
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::int64, ::google::protobuf::internal::WireFormatLite::TYPE_INT64>(
+                 input, &int64_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // optional uint32 uint32 = 5;
+      case 5: {
+        if (tag == 40u) {
+          set_has_uint32();
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
+                 input, &uint32_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // optional uint64 uint64 = 6;
+      case 6: {
+        if (tag == 48u) {
+          set_has_uint64();
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::uint64, ::google::protobuf::internal::WireFormatLite::TYPE_UINT64>(
+                 input, &uint64_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // optional float float = 7;
+      case 7: {
+        if (tag == 61u) {
+          set_has_float_();
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   float, ::google::protobuf::internal::WireFormatLite::TYPE_FLOAT>(
+                 input, &float__)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // optional double double = 8;
+      case 8: {
+        if (tag == 65u) {
+          set_has_double_();
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   double, ::google::protobuf::internal::WireFormatLite::TYPE_DOUBLE>(
+                 input, &double__)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // optional string string = 9;
+      case 9: {
+        if (tag == 74u) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_string()));
+          ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+            this->string().data(), this->string().length(),
+            ::google::protobuf::internal::WireFormat::PARSE,
+            "Data.PrimitiveData.string");
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // optional uint32 reference = 10;
+      case 10: {
+        if (tag == 80u) {
+          set_has_reference();
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
+                 input, &reference_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // optional .Data.Vec2 vec2 = 11;
+      case 11: {
+        if (tag == 90u) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
+               input, mutable_vec2()));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // optional .Data.Color color = 12;
+      case 12: {
+        if (tag == 98u) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
+               input, mutable_color()));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      default: {
+      handle_unusual:
+        if (tag == 0 ||
+            ::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
+          goto success;
+        }
+        DO_(::google::protobuf::internal::WireFormat::SkipField(
+              input, tag, mutable_unknown_fields()));
+        break;
+      }
+    }
+  }
+success:
+  // @@protoc_insertion_point(parse_success:Data.PrimitiveData)
+  return true;
+failure:
+  // @@protoc_insertion_point(parse_failure:Data.PrimitiveData)
+  return false;
+#undef DO_
+}
+
+void PrimitiveData::SerializeWithCachedSizes(
+    ::google::protobuf::io::CodedOutputStream* output) const {
+  // @@protoc_insertion_point(serialize_start:Data.PrimitiveData)
+  // optional bool bool = 1;
+  if (has_bool_()) {
+    ::google::protobuf::internal::WireFormatLite::WriteBool(1, this->bool_(), output);
+  }
+
+  // optional int32 char = 2;
+  if (has_char_()) {
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(2, this->char_(), output);
+  }
+
+  // optional int32 int32 = 3;
+  if (has_int32()) {
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(3, this->int32(), output);
+  }
+
+  // optional int64 int64 = 4;
+  if (has_int64()) {
+    ::google::protobuf::internal::WireFormatLite::WriteInt64(4, this->int64(), output);
+  }
+
+  // optional uint32 uint32 = 5;
+  if (has_uint32()) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(5, this->uint32(), output);
+  }
+
+  // optional uint64 uint64 = 6;
+  if (has_uint64()) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt64(6, this->uint64(), output);
+  }
+
+  // optional float float = 7;
+  if (has_float_()) {
+    ::google::protobuf::internal::WireFormatLite::WriteFloat(7, this->float_(), output);
+  }
+
+  // optional double double = 8;
+  if (has_double_()) {
+    ::google::protobuf::internal::WireFormatLite::WriteDouble(8, this->double_(), output);
+  }
+
+  // optional string string = 9;
+  if (has_string()) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->string().data(), this->string().length(),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "Data.PrimitiveData.string");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
+      9, this->string(), output);
+  }
+
+  // optional uint32 reference = 10;
+  if (has_reference()) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(10, this->reference(), output);
+  }
+
+  // optional .Data.Vec2 vec2 = 11;
+  if (has_vec2()) {
+    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
+      11, *this->vec2_, output);
+  }
+
+  // optional .Data.Color color = 12;
+  if (has_color()) {
+    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
+      12, *this->color_, output);
+  }
+
+  if (_internal_metadata_.have_unknown_fields()) {
+    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
+        unknown_fields(), output);
+  }
+  // @@protoc_insertion_point(serialize_end:Data.PrimitiveData)
+}
+
+::google::protobuf::uint8* PrimitiveData::InternalSerializeWithCachedSizesToArray(
+    bool deterministic, ::google::protobuf::uint8* target) const {
+  (void)deterministic;  // Unused
+  // @@protoc_insertion_point(serialize_to_array_start:Data.PrimitiveData)
+  // optional bool bool = 1;
+  if (has_bool_()) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteBoolToArray(1, this->bool_(), target);
+  }
+
+  // optional int32 char = 2;
+  if (has_char_()) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(2, this->char_(), target);
+  }
+
+  // optional int32 int32 = 3;
+  if (has_int32()) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(3, this->int32(), target);
+  }
+
+  // optional int64 int64 = 4;
+  if (has_int64()) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteInt64ToArray(4, this->int64(), target);
+  }
+
+  // optional uint32 uint32 = 5;
+  if (has_uint32()) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(5, this->uint32(), target);
+  }
+
+  // optional uint64 uint64 = 6;
+  if (has_uint64()) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteUInt64ToArray(6, this->uint64(), target);
+  }
+
+  // optional float float = 7;
+  if (has_float_()) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteFloatToArray(7, this->float_(), target);
+  }
+
+  // optional double double = 8;
+  if (has_double_()) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteDoubleToArray(8, this->double_(), target);
+  }
+
+  // optional string string = 9;
+  if (has_string()) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->string().data(), this->string().length(),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "Data.PrimitiveData.string");
+    target =
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
+        9, this->string(), target);
+  }
+
+  // optional uint32 reference = 10;
+  if (has_reference()) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(10, this->reference(), target);
+  }
+
+  // optional .Data.Vec2 vec2 = 11;
+  if (has_vec2()) {
+    target = ::google::protobuf::internal::WireFormatLite::
+      InternalWriteMessageNoVirtualToArray(
+        11, *this->vec2_, false, target);
+  }
+
+  // optional .Data.Color color = 12;
+  if (has_color()) {
+    target = ::google::protobuf::internal::WireFormatLite::
+      InternalWriteMessageNoVirtualToArray(
+        12, *this->color_, false, target);
+  }
+
+  if (_internal_metadata_.have_unknown_fields()) {
+    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
+        unknown_fields(), target);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:Data.PrimitiveData)
+  return target;
+}
+
+size_t PrimitiveData::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:Data.PrimitiveData)
+  size_t total_size = 0;
+
+  if (_internal_metadata_.have_unknown_fields()) {
+    total_size +=
+      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
+        unknown_fields());
+  }
+  if (_has_bits_[0 / 32] & 255u) {
+    // optional string string = 9;
+    if (has_string()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::StringSize(
+          this->string());
+    }
+
+    // optional .Data.Vec2 vec2 = 11;
+    if (has_vec2()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
+          *this->vec2_);
+    }
+
+    // optional .Data.Color color = 12;
+    if (has_color()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
+          *this->color_);
+    }
+
+    // optional bool bool = 1;
+    if (has_bool_()) {
+      total_size += 1 + 1;
+    }
+
+    // optional int32 char = 2;
+    if (has_char_()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::Int32Size(
+          this->char_());
+    }
+
+    // optional int64 int64 = 4;
+    if (has_int64()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::Int64Size(
+          this->int64());
+    }
+
+    // optional int32 int32 = 3;
+    if (has_int32()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::Int32Size(
+          this->int32());
+    }
+
+    // optional uint32 uint32 = 5;
+    if (has_uint32()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::UInt32Size(
+          this->uint32());
+    }
+
+  }
+  if (_has_bits_[8 / 32] & 3840u) {
+    // optional uint64 uint64 = 6;
+    if (has_uint64()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::UInt64Size(
+          this->uint64());
+    }
+
+    // optional double double = 8;
+    if (has_double_()) {
+      total_size += 1 + 8;
+    }
+
+    // optional float float = 7;
+    if (has_float_()) {
+      total_size += 1 + 4;
+    }
+
+    // optional uint32 reference = 10;
+    if (has_reference()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::UInt32Size(
+          this->reference());
+    }
+
+  }
+  int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = cached_size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+  return total_size;
+}
+
+void PrimitiveData::MergeFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:Data.PrimitiveData)
+  GOOGLE_DCHECK_NE(&from, this);
+  const PrimitiveData* source =
+      ::google::protobuf::internal::DynamicCastToGenerated<const PrimitiveData>(
+          &from);
+  if (source == NULL) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:Data.PrimitiveData)
+    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:Data.PrimitiveData)
+    MergeFrom(*source);
+  }
+}
+
+void PrimitiveData::MergeFrom(const PrimitiveData& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:Data.PrimitiveData)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  if (from._has_bits_[0 / 32] & 255u) {
+    if (from.has_string()) {
+      set_has_string();
+      string_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.string_);
+    }
+    if (from.has_vec2()) {
+      mutable_vec2()->::Data::Vec2::MergeFrom(from.vec2());
+    }
+    if (from.has_color()) {
+      mutable_color()->::Data::Color::MergeFrom(from.color());
+    }
+    if (from.has_bool_()) {
+      set_bool_(from.bool_());
+    }
+    if (from.has_char_()) {
+      set_char_(from.char_());
+    }
+    if (from.has_int64()) {
+      set_int64(from.int64());
+    }
+    if (from.has_int32()) {
+      set_int32(from.int32());
+    }
+    if (from.has_uint32()) {
+      set_uint32(from.uint32());
+    }
+  }
+  if (from._has_bits_[8 / 32] & 3840u) {
+    if (from.has_uint64()) {
+      set_uint64(from.uint64());
+    }
+    if (from.has_double_()) {
+      set_double_(from.double_());
+    }
+    if (from.has_float_()) {
+      set_float_(from.float_());
+    }
+    if (from.has_reference()) {
+      set_reference(from.reference());
+    }
+  }
+}
+
+void PrimitiveData::CopyFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:Data.PrimitiveData)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void PrimitiveData::CopyFrom(const PrimitiveData& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:Data.PrimitiveData)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool PrimitiveData::IsInitialized() const {
+  if (has_vec2()) {
+    if (!this->vec2_->IsInitialized()) return false;
+  }
+  if (has_color()) {
+    if (!this->color_->IsInitialized()) return false;
+  }
+  return true;
+}
+
+void PrimitiveData::Swap(PrimitiveData* other) {
+  if (other == this) return;
+  InternalSwap(other);
+}
+void PrimitiveData::InternalSwap(PrimitiveData* other) {
+  string_.Swap(&other->string_);
+  std::swap(vec2_, other->vec2_);
+  std::swap(color_, other->color_);
+  std::swap(bool__, other->bool__);
+  std::swap(char__, other->char__);
+  std::swap(int64_, other->int64_);
+  std::swap(int32_, other->int32_);
+  std::swap(uint32_, other->uint32_);
+  std::swap(uint64_, other->uint64_);
+  std::swap(double__, other->double__);
+  std::swap(float__, other->float__);
+  std::swap(reference_, other->reference_);
+  std::swap(_has_bits_[0], other->_has_bits_[0]);
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+  std::swap(_cached_size_, other->_cached_size_);
+}
+
+::google::protobuf::Metadata PrimitiveData::GetMetadata() const {
+  protobuf_Base_2eproto::protobuf_AssignDescriptorsOnce();
+  return protobuf_Base_2eproto::file_level_metadata[2];
+}
+
+#if PROTOBUF_INLINE_NOT_IN_HEADERS
+// PrimitiveData
+
+// optional bool bool = 1;
+bool PrimitiveData::has_bool_() const {
+  return (_has_bits_[0] & 0x00000008u) != 0;
+}
+void PrimitiveData::set_has_bool_() {
+  _has_bits_[0] |= 0x00000008u;
+}
+void PrimitiveData::clear_has_bool_() {
+  _has_bits_[0] &= ~0x00000008u;
+}
+void PrimitiveData::clear_bool_() {
+  bool__ = false;
+  clear_has_bool_();
+}
+bool PrimitiveData::bool_() const {
+  // @@protoc_insertion_point(field_get:Data.PrimitiveData.bool)
+  return bool__;
+}
+void PrimitiveData::set_bool_(bool value) {
+  set_has_bool_();
+  bool__ = value;
+  // @@protoc_insertion_point(field_set:Data.PrimitiveData.bool)
+}
+
+// optional int32 char = 2;
+bool PrimitiveData::has_char_() const {
+  return (_has_bits_[0] & 0x00000010u) != 0;
+}
+void PrimitiveData::set_has_char_() {
+  _has_bits_[0] |= 0x00000010u;
+}
+void PrimitiveData::clear_has_char_() {
+  _has_bits_[0] &= ~0x00000010u;
+}
+void PrimitiveData::clear_char_() {
+  char__ = 0;
+  clear_has_char_();
+}
+::google::protobuf::int32 PrimitiveData::char_() const {
+  // @@protoc_insertion_point(field_get:Data.PrimitiveData.char)
+  return char__;
+}
+void PrimitiveData::set_char_(::google::protobuf::int32 value) {
+  set_has_char_();
+  char__ = value;
+  // @@protoc_insertion_point(field_set:Data.PrimitiveData.char)
+}
+
+// optional int32 int32 = 3;
+bool PrimitiveData::has_int32() const {
+  return (_has_bits_[0] & 0x00000040u) != 0;
+}
+void PrimitiveData::set_has_int32() {
+  _has_bits_[0] |= 0x00000040u;
+}
+void PrimitiveData::clear_has_int32() {
+  _has_bits_[0] &= ~0x00000040u;
+}
+void PrimitiveData::clear_int32() {
+  int32_ = 0;
+  clear_has_int32();
+}
+::google::protobuf::int32 PrimitiveData::int32() const {
+  // @@protoc_insertion_point(field_get:Data.PrimitiveData.int32)
+  return int32_;
+}
+void PrimitiveData::set_int32(::google::protobuf::int32 value) {
+  set_has_int32();
+  int32_ = value;
+  // @@protoc_insertion_point(field_set:Data.PrimitiveData.int32)
+}
+
+// optional int64 int64 = 4;
+bool PrimitiveData::has_int64() const {
+  return (_has_bits_[0] & 0x00000020u) != 0;
+}
+void PrimitiveData::set_has_int64() {
+  _has_bits_[0] |= 0x00000020u;
+}
+void PrimitiveData::clear_has_int64() {
+  _has_bits_[0] &= ~0x00000020u;
+}
+void PrimitiveData::clear_int64() {
+  int64_ = GOOGLE_LONGLONG(0);
+  clear_has_int64();
+}
+::google::protobuf::int64 PrimitiveData::int64() const {
+  // @@protoc_insertion_point(field_get:Data.PrimitiveData.int64)
+  return int64_;
+}
+void PrimitiveData::set_int64(::google::protobuf::int64 value) {
+  set_has_int64();
+  int64_ = value;
+  // @@protoc_insertion_point(field_set:Data.PrimitiveData.int64)
+}
+
+// optional uint32 uint32 = 5;
+bool PrimitiveData::has_uint32() const {
+  return (_has_bits_[0] & 0x00000080u) != 0;
+}
+void PrimitiveData::set_has_uint32() {
+  _has_bits_[0] |= 0x00000080u;
+}
+void PrimitiveData::clear_has_uint32() {
+  _has_bits_[0] &= ~0x00000080u;
+}
+void PrimitiveData::clear_uint32() {
+  uint32_ = 0u;
+  clear_has_uint32();
+}
+::google::protobuf::uint32 PrimitiveData::uint32() const {
+  // @@protoc_insertion_point(field_get:Data.PrimitiveData.uint32)
+  return uint32_;
+}
+void PrimitiveData::set_uint32(::google::protobuf::uint32 value) {
+  set_has_uint32();
+  uint32_ = value;
+  // @@protoc_insertion_point(field_set:Data.PrimitiveData.uint32)
+}
+
+// optional uint64 uint64 = 6;
+bool PrimitiveData::has_uint64() const {
+  return (_has_bits_[0] & 0x00000100u) != 0;
+}
+void PrimitiveData::set_has_uint64() {
+  _has_bits_[0] |= 0x00000100u;
+}
+void PrimitiveData::clear_has_uint64() {
+  _has_bits_[0] &= ~0x00000100u;
+}
+void PrimitiveData::clear_uint64() {
+  uint64_ = GOOGLE_ULONGLONG(0);
+  clear_has_uint64();
+}
+::google::protobuf::uint64 PrimitiveData::uint64() const {
+  // @@protoc_insertion_point(field_get:Data.PrimitiveData.uint64)
+  return uint64_;
+}
+void PrimitiveData::set_uint64(::google::protobuf::uint64 value) {
+  set_has_uint64();
+  uint64_ = value;
+  // @@protoc_insertion_point(field_set:Data.PrimitiveData.uint64)
+}
+
+// optional float float = 7;
+bool PrimitiveData::has_float_() const {
+  return (_has_bits_[0] & 0x00000400u) != 0;
+}
+void PrimitiveData::set_has_float_() {
+  _has_bits_[0] |= 0x00000400u;
+}
+void PrimitiveData::clear_has_float_() {
+  _has_bits_[0] &= ~0x00000400u;
+}
+void PrimitiveData::clear_float_() {
+  float__ = 0;
+  clear_has_float_();
+}
+float PrimitiveData::float_() const {
+  // @@protoc_insertion_point(field_get:Data.PrimitiveData.float)
+  return float__;
+}
+void PrimitiveData::set_float_(float value) {
+  set_has_float_();
+  float__ = value;
+  // @@protoc_insertion_point(field_set:Data.PrimitiveData.float)
+}
+
+// optional double double = 8;
+bool PrimitiveData::has_double_() const {
+  return (_has_bits_[0] & 0x00000200u) != 0;
+}
+void PrimitiveData::set_has_double_() {
+  _has_bits_[0] |= 0x00000200u;
+}
+void PrimitiveData::clear_has_double_() {
+  _has_bits_[0] &= ~0x00000200u;
+}
+void PrimitiveData::clear_double_() {
+  double__ = 0;
+  clear_has_double_();
+}
+double PrimitiveData::double_() const {
+  // @@protoc_insertion_point(field_get:Data.PrimitiveData.double)
+  return double__;
+}
+void PrimitiveData::set_double_(double value) {
+  set_has_double_();
+  double__ = value;
+  // @@protoc_insertion_point(field_set:Data.PrimitiveData.double)
+}
+
+// optional string string = 9;
+bool PrimitiveData::has_string() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+void PrimitiveData::set_has_string() {
+  _has_bits_[0] |= 0x00000001u;
+}
+void PrimitiveData::clear_has_string() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+void PrimitiveData::clear_string() {
+  string_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  clear_has_string();
+}
+const ::std::string& PrimitiveData::string() const {
+  // @@protoc_insertion_point(field_get:Data.PrimitiveData.string)
+  return string_.GetNoArena();
+}
+void PrimitiveData::set_string(const ::std::string& value) {
+  set_has_string();
+  string_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:Data.PrimitiveData.string)
+}
+#if LANG_CXX11
+void PrimitiveData::set_string(::std::string&& value) {
+  set_has_string();
+  string_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:Data.PrimitiveData.string)
+}
+#endif
+void PrimitiveData::set_string(const char* value) {
+  set_has_string();
+  string_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:Data.PrimitiveData.string)
+}
+void PrimitiveData::set_string(const char* value, size_t size) {
+  set_has_string();
+  string_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:Data.PrimitiveData.string)
+}
+::std::string* PrimitiveData::mutable_string() {
+  set_has_string();
+  // @@protoc_insertion_point(field_mutable:Data.PrimitiveData.string)
+  return string_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+::std::string* PrimitiveData::release_string() {
+  // @@protoc_insertion_point(field_release:Data.PrimitiveData.string)
+  clear_has_string();
+  return string_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+void PrimitiveData::set_allocated_string(::std::string* string) {
+  if (string != NULL) {
+    set_has_string();
+  } else {
+    clear_has_string();
+  }
+  string_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), string);
+  // @@protoc_insertion_point(field_set_allocated:Data.PrimitiveData.string)
+}
+
+// optional uint32 reference = 10;
+bool PrimitiveData::has_reference() const {
+  return (_has_bits_[0] & 0x00000800u) != 0;
+}
+void PrimitiveData::set_has_reference() {
+  _has_bits_[0] |= 0x00000800u;
+}
+void PrimitiveData::clear_has_reference() {
+  _has_bits_[0] &= ~0x00000800u;
+}
+void PrimitiveData::clear_reference() {
+  reference_ = 0u;
+  clear_has_reference();
+}
+::google::protobuf::uint32 PrimitiveData::reference() const {
+  // @@protoc_insertion_point(field_get:Data.PrimitiveData.reference)
+  return reference_;
+}
+void PrimitiveData::set_reference(::google::protobuf::uint32 value) {
+  set_has_reference();
+  reference_ = value;
+  // @@protoc_insertion_point(field_set:Data.PrimitiveData.reference)
+}
+
+// optional .Data.Vec2 vec2 = 11;
+bool PrimitiveData::has_vec2() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+void PrimitiveData::set_has_vec2() {
+  _has_bits_[0] |= 0x00000002u;
+}
+void PrimitiveData::clear_has_vec2() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+void PrimitiveData::clear_vec2() {
+  if (vec2_ != NULL) vec2_->::Data::Vec2::Clear();
+  clear_has_vec2();
+}
+const ::Data::Vec2& PrimitiveData::vec2() const {
+  // @@protoc_insertion_point(field_get:Data.PrimitiveData.vec2)
+  return vec2_ != NULL ? *vec2_
+                         : *::Data::Vec2::internal_default_instance();
+}
+::Data::Vec2* PrimitiveData::mutable_vec2() {
+  set_has_vec2();
+  if (vec2_ == NULL) {
+    vec2_ = new ::Data::Vec2;
+  }
+  // @@protoc_insertion_point(field_mutable:Data.PrimitiveData.vec2)
+  return vec2_;
+}
+::Data::Vec2* PrimitiveData::release_vec2() {
+  // @@protoc_insertion_point(field_release:Data.PrimitiveData.vec2)
+  clear_has_vec2();
+  ::Data::Vec2* temp = vec2_;
+  vec2_ = NULL;
+  return temp;
+}
+void PrimitiveData::set_allocated_vec2(::Data::Vec2* vec2) {
+  delete vec2_;
+  vec2_ = vec2;
+  if (vec2) {
+    set_has_vec2();
+  } else {
+    clear_has_vec2();
+  }
+  // @@protoc_insertion_point(field_set_allocated:Data.PrimitiveData.vec2)
+}
+
+// optional .Data.Color color = 12;
+bool PrimitiveData::has_color() const {
+  return (_has_bits_[0] & 0x00000004u) != 0;
+}
+void PrimitiveData::set_has_color() {
+  _has_bits_[0] |= 0x00000004u;
+}
+void PrimitiveData::clear_has_color() {
+  _has_bits_[0] &= ~0x00000004u;
+}
+void PrimitiveData::clear_color() {
+  if (color_ != NULL) color_->::Data::Color::Clear();
+  clear_has_color();
+}
+const ::Data::Color& PrimitiveData::color() const {
+  // @@protoc_insertion_point(field_get:Data.PrimitiveData.color)
+  return color_ != NULL ? *color_
+                         : *::Data::Color::internal_default_instance();
+}
+::Data::Color* PrimitiveData::mutable_color() {
+  set_has_color();
+  if (color_ == NULL) {
+    color_ = new ::Data::Color;
+  }
+  // @@protoc_insertion_point(field_mutable:Data.PrimitiveData.color)
+  return color_;
+}
+::Data::Color* PrimitiveData::release_color() {
+  // @@protoc_insertion_point(field_release:Data.PrimitiveData.color)
+  clear_has_color();
+  ::Data::Color* temp = color_;
+  color_ = NULL;
+  return temp;
+}
+void PrimitiveData::set_allocated_color(::Data::Color* color) {
+  delete color_;
+  color_ = color;
+  if (color) {
+    set_has_color();
+  } else {
+    clear_has_color();
+  }
+  // @@protoc_insertion_point(field_set_allocated:Data.PrimitiveData.color)
 }
 
 #endif  // PROTOBUF_INLINE_NOT_IN_HEADERS

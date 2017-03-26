@@ -15,6 +15,7 @@
 #include "Entity/Structure.h"
 
 #include "Server/NetworkManagerServer.h"
+#include "GenericFactory.h"
 
 using namespace std;
 
@@ -180,12 +181,47 @@ World::World(Room& room, float width)
 	Vec2 tl(-fwidth, fwidth);
 	Vec2 tr(fwidth, fwidth );
 
+	Snake::Args sargs;
+	sargs.world = this;
+	sargs.ctype = Data::ControlType::AI;
+	sargs.id = genID();
+	sargs.pos = genRandomPos();
+	_created_entities.emplace(GenericFactory::getInstance().create<Snake>(&sargs));
+	_created_entities.emplace(GenericFactory::getInstance().create(sargs.class_id, &sargs));
+
+
+	float headingX = random(-1, 1);
+	float headingY = 1 - sqrt(headingX * headingX);
+	Projectile::Args pargs;
+	pargs.world = this;
+	pargs.id = genID();
+	pargs.heading = Vec2(headingX, headingY);
+	_created_entities.emplace(new Projectile(&pargs));
+
+
+	Prey::Args prargs;
+	prargs.world = this;
+	prargs.id = genID();
+	prargs.pos = genRandomPos();
+	_created_entities.emplace(new Prey(&prargs));
+
+	Vec2 spos = genRandomPos();
+	Structure::Args stargs;
+	stargs.world = this;
+	stargs.id = genID();
+	stargs.pos = spos;
+	stargs.structure_type = Structure::StructureType::kAnchor;
+	stargs.body = Structure::createPolygon(*this, spos);
+	_created_entities.emplace(new Structure(&stargs));
+
+
+	/*
 	// Create hunters
 	for (int i = 0; i < SnakeNum; ++i)
 		createHunter(Vec2(random(-fwidth, fwidth), random(-fwidth, fwidth)));
 
 	// Create Structures
-	for (int i = 0; i < 10; i++)
+	for (int i = 0; i < 50; i++)
 	{
 		int type = random(0, 4);
 		
@@ -220,6 +256,8 @@ World::World(Room& room, float width)
 
 	_created_entities.emplace(Structure::createChain(*this, genID(), walls));
 
+	*/
+
 	// Set camera
 	Vec2 heading = _player_entity->getHeading();
 	Vec2 side = _player_entity->getSide();
@@ -233,6 +271,7 @@ World::~World()
 
 void World::update()
 {
+
 	// If some entities are created, then we first have to push them into queue,
 	// and move them to vector after iteration has finished.
 	// If entities are inserted into vector when iterating,
@@ -261,7 +300,7 @@ void World::update()
 	// Update entities and delete them if set garbage.
 	updateEntity();
 
-	regenEntity();
+	//regenEntity();
 
 	// Camera position setting
 	if (_player_entity) 
@@ -313,12 +352,12 @@ void World::createPrey(const Vec2& pos)
 
 void World::createStructure(const Vec2& pos, float radius, int type)
 {
-	if (type == Structure::StructureType::kCircle)
-		_created_entities.emplace(Structure::createCircle(*this, genID(), pos, radius));
+	//if (type == Structure::StructureType::kCircle)
+	//	_created_entities.emplace(Structure::createCircle(*this, genID(), pos, radius));
 
-	else if (type == Structure::StructureType::kPolygon)
-		_created_entities.emplace(Structure::createPolygon(*this, genID(), pos));
+	//else if (type == Structure::StructureType::kPolygon)
+	//	_created_entities.emplace(Structure::createPolygon(*this, genID(), pos));
 
-	else if (type == Structure::StructureType::kAnchor)
-		_created_entities.emplace(Structure::createAnchor(*this, genID(), pos, pos + Vec2(2.0f, 0)));
+	//else if (type == Structure::StructureType::kAnchor)
+	//	_created_entities.emplace(Structure::createAnchor(*this, genID(), pos, pos + Vec2(2.0f, 0)));
 }

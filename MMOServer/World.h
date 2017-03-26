@@ -13,6 +13,7 @@
 #include <memory>
 #include <queue>
 #include <Common/Math/Vec2.h>
+#include <Common/Utils.h>
 #include "Server/ProtobufServerUtils.h"
 
 
@@ -73,6 +74,11 @@ public:
 	inline int getLevel() const										{ return level_; }
 	inline float getWidth() const									{ return _width; }
 
+	inline Vec2 genRandomPos() const 
+	{
+		float r = (_width - Dummy) / 2;
+		return Vec2(random(-r, r), random(-r, r));
+	}
 	
 
 	World(Room& room, float width);
@@ -93,7 +99,7 @@ public:
 	void render();
 
 private:
-	
+
 	// entities
 	std::vector<Snake*> _snakes;
 	std::vector<Projectile*> _projectiles;

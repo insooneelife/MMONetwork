@@ -263,6 +263,9 @@
     <ClInclude Include="Entity\Structure.h">
       <Filter>Entity</Filter>
     </ClInclude>
+    <ClInclude Include="GenericFactory.h">
+      <Filter>Header</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\deps\include\Common\Math\Vec2.inl">

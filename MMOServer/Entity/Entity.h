@@ -12,11 +12,17 @@
 #include <Common/Math/Vec2.h>
 #include "../Engine.h"
 
+#define CREATE_METHOD(classID, classType)\
+virtual size_t getClassID() const { return classID; }\
+static Entity* create(Entity::Args* args) { return new classType(static_cast<classType::Args*>(args)); }
+
+
 class Message;
 class World;
 class Entity
 {
 public:
+
 	enum Type
 	{
 		kSnake,
@@ -25,7 +31,20 @@ public:
 		kStructure
 	};
 
-	inline World& getWorld() const					{ return _world; }
+	struct Args
+	{
+	public:
+		size_t class_id;
+		World* world;
+		unsigned int id;
+		Vec2 pos;
+		float radius;
+		Entity::Type type;
+		SDL_Color color;
+	};
+
+
+	inline World& getWorld() const					{ return *_world; }
 	inline unsigned int getID() const				{ return _id; }
 	inline Vec2 getPos() const						{ return _pos; }
 	inline Vec2 getHeading() const					{ return _heading; }
@@ -39,7 +58,6 @@ public:
 	inline SDL_Color getColor() const				{ return _color; }
 	inline void setColor(const SDL_Color& color)	{ _color = color; }
 
-
 	Entity(
 		World& world,
 		unsigned int id,
@@ -48,13 +66,15 @@ public:
 		Type type,
 		const SDL_Color& color);
 
+	Entity(Args* args);
+
 	virtual ~Entity();
 	virtual void update() = 0;
 	virtual void render() = 0;
 	virtual bool handleMessage(const Message& msg) { return false; }
 
 protected:
-	World& _world;
+	World* _world;
 	unsigned int _id;
 	Vec2 _pos;
 	Vec2 _heading;
@@ -65,3 +85,4 @@ protected:
 
 	
 };
+

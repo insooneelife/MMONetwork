@@ -21,21 +21,41 @@ Snake::Snake(World& world, unsigned int id, const Vec2& pos, Data::ControlType c
 		b2CircleShape shape;
 		shape.m_radius = World::SnakeRadius;
 
-		auto body = _world.getPhysicsMgr()->CreateBody(pos.x, pos.y, b2BodyType::b2_kinematicBody, &shape, true);
+		auto body = _world->getPhysicsMgr()->CreateBody(pos.x, pos.y, b2BodyType::b2_kinematicBody, &shape, true);
 		body->SetLinearDamping(2.0f);
 		body->SetUserData(this);
 		_bodies.emplace_back(body);
 
 		_destinations.push_back(pos);
 	}
+}
 
-	
+Snake::Snake(Args* args)
+	:
+	Entity(args),
+	_control_type(args->ctype),
+	_state(kIdle),
+	_experience(8),
+	_is_player(true)
+{
+	for (int i = 0; i < _experience; ++i)
+	{
+		b2CircleShape shape;
+		shape.m_radius = _radius;
+
+		auto body = _world->getPhysicsMgr()->CreateBody(_pos.x, _pos.y, b2BodyType::b2_kinematicBody, &shape, true);
+		body->SetLinearDamping(2.0f);
+		body->SetUserData(this);
+		_bodies.emplace_back(body);
+
+		_destinations.push_back(_pos);
+	}
 }
 
 Snake::~Snake()
 {
 	for (auto e : _bodies)
-		_world.getPhysicsMgr()->RemoveBody(e);
+		_world->getPhysicsMgr()->RemoveBody(e);
 }
 
 void Snake::setPos(Vec2 pos)
@@ -93,7 +113,7 @@ void Snake::render()
 	if (_control_type == Data::ControlType::Player)
 	{
 		Data::UserData user_data;
-		_world.getNetworkMgr().queryUserDataByEID(_id, user_data);
+		_world->getNetworkMgr().queryUserDataByEID(_id, user_data);
 		ss << user_data.name() << " " << _id;
 		_color = GraphicsDriver::red;
 	}
@@ -162,4 +182,13 @@ bool Snake::handleMessage(const Message& msg)
 		break;
 	}
 	return false; 
+}
+
+
+Snake::Args::Args()
+{
+	class_id = typeid(Snake).hash_code();
+	radius = World::SnakeRadius;
+	type = Entity::Type::kSnake;
+	color = GraphicsDriver::black;
 }

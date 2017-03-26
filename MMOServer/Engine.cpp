@@ -9,12 +9,15 @@
 #include "Camera2D.h"
 #include <Common/Utils.h>
 
+#include "GenericFactory.h"
 #include "Entity/Snake.h"
+#include "Entity/Prey.h"
+#include "Entity/Projectile.h"
+#include "Entity/Structure.h"
 
 #include <Common/Network/GamePacket.hpp>
 #include "Server/ProtobufServerUtils.h"
 #include "Server/Server.h"
-
 
 const double Engine::MsPerUpdate = 0.02f;
 const double Engine::ReplicateTerm = 0.2f;
@@ -106,6 +109,10 @@ void Engine::handleEvent(SDL_Event* inEvent)
 
 bool Engine::init()
 {
+	GenericFactory::addCreateMethods
+		<Snake, Structure, Projectile, Prey>
+		(nullptr, nullptr, nullptr, nullptr);
+
 	prev_ = std::chrono::system_clock::now().time_since_epoch();
 
 	SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO);
@@ -127,7 +134,7 @@ bool Engine::init()
 	_world.reset(new World(server_->getRoom(), World::WorldSize));
 
 	
-
+	
 	return true;
 }
 

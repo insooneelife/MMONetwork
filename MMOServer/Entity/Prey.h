@@ -15,7 +15,16 @@ class Prey : public Entity
 {
 public:
 	
+	struct Args : Entity::Args
+	{
+		Args();
+	};
+	
+	CREATE_METHOD(typeid(Prey).hash_code(), Prey)
+
+
 	Prey(World& world, unsigned int id, const Vec2& pos);
+	Prey(Args* args);
 
 	virtual ~Prey() {}
 	virtual void update() {}
@@ -24,3 +33,4 @@ public:
 private:
 	b2Body* _body;
 };
+
